@@ -1,0 +1,82 @@
+<div class="wrap">
+  <nm-date-picker
+    [nmMarkWeekends]="true"
+    [nmWeekendDisplayMethod]="'end'"
+    [nmLanguage]="'ru'"
+    [(ngModel)]="date"
+    [pickerMode]="'date'"
+    [nmDisabled]="true"
+    [nmSelectorDateFormat]="'dd/MM/YYYY'"
+    [nmDisplayMethod]="'dropdown'"
+    (ngModelChange)="log($event)"
+  ></nm-date-picker>
+
+  <div class="test">
+    <nm-date-picker
+      [nmMarkWeekends]="true"
+      [nmWeekendDisplayMethod]="'end'"
+      [nmLanguage]="'fr'"
+      [nmSelectorCustomLabel]="'Testing for a very long name that is longer'"
+      [(ngModel)]="date2"
+      [pickerMode]="'date'"
+      [nmDisplayMethod]="'dropdown'"
+      [nmCustomLocalization]="LOCALIZATION_FRENCH"
+      (ngModelChange)="log($event)"
+    ></nm-date-picker>
+    <input type="text" name="" id="" />
+  </div>
+  <nm-date-picker
+    [nmMarkWeekends]="true"
+    [nmWeekendDisplayMethod]="'end'"
+    [nmLanguage]="'ru'"
+    [(ngModel)]="date"
+    [pickerMode]="'date'"
+    [nmDisplayMethod]="'inline'"
+    (ngModelChange)="log($event)"
+  ></nm-date-picker>
+
+  <nm-date-picker
+    [nmMarkWeekends]="true"
+    [nmWeekendDisplayMethod]="'end'"
+    [nmTheme]="'dark'"
+    [nmDisabled]="true"
+    [nmLanguage]="'en'"
+    [(ngModel)]="date"
+    [pickerMode]="'date'"
+    [nmDisplayMethod]="'inline'"
+    (ngModelChange)="log($event)"
+  ></nm-date-picker>
+
+  <nm-date-picker
+    [nmMarkWeekends]="true"
+    [nmWeekendDisplayMethod]="'end'"
+    [nmLanguage]="'am'"
+    [nmTheme]="'dark'"
+    [(ngModel)]="date"
+    [pickerMode]="'month'"
+    [nmDisplayMethod]="'inline'"
+    (ngModelChange)="log($event)"
+  ></nm-date-picker>
+
+  <nm-date-picker
+    [nmMarkWeekends]="true"
+    [nmWeekendDisplayMethod]="'end'"
+    [nmLanguage]="'ru'"
+    [nmTheme]="'dark'"
+    [(ngModel)]="date"
+    [disabledDates]="disabledDates"
+    [nmDisplayMethod]="'inline'"
+    [pickerMode]="'year'"
+    (ngModelChange)="log($event)"
+  ></nm-date-picker>
+</div>
+
+<!-- <img #imgTest [src]="image" id="imageForTest" nmImageBlur /> -->
+
+<!-- <div
+[nmImageBlur]="image"
+style="width: 350px; height: 350px"
+>
+
+</div>
+ -->

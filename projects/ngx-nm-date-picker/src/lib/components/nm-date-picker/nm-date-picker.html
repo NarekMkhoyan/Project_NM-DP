@@ -1,0 +1,43 @@
+<div class="nm_date-picker" [class.nm_date-picker__disabled]="nmDisabled">
+  <div class="nm_date-picker__wrapper">
+    <ng-container [ngSwitch]="nmDisplayMethod">
+      <ng-container *ngSwitchCase="'inline'">
+        <ng-container *ngTemplateOutlet="nmDatePickerTpl"></ng-container>
+      </ng-container>
+      <ng-container *ngSwitchCase="'dropdown'">
+        <div class="dropdown-picker-wrapper">
+          <div class="selector" nmDatePickerSelectorState [dropdownPicker]="dropDownPicker">
+            <ng-container *ngIf="nmCustomSelectorTpl; else defaultSelectorTpl">
+              <ng-container *ngTemplateOutlet="nmCustomSelectorTpl"></ng-container>
+            </ng-container>
+            <ng-template #defaultSelectorTpl>
+              <nm-date-picker-dropdown-selector
+                [selectorCustomLabel]="nmSelectorCustomLabel"
+                [selectorDateFormat]="nmSelectorDateFormat"
+              ></nm-date-picker-dropdown-selector>
+            </ng-template>
+          </div>
+          <div #dropDownPicker class="dropdown">
+            <div
+              [@fadeInDownwards]
+              [@fadeInUpwards]
+              [@boxShadowDrop]
+              *ngIf="(selectorState$ | async) === SELECTOR_STATES.ACTIVE"
+            >
+              <ng-container *ngTemplateOutlet="nmDatePickerTpl"></ng-container>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+
+    <ng-template #nmDatePickerTpl>
+      <nm-date-picker-header></nm-date-picker-header>
+      <nm-date-picker-body
+        [markWeekends]="nmMarkWeekends"
+        [weekendDisplayMethod]="nmWeekendDisplayMethod"
+      ></nm-date-picker-body>
+      <div class="nm_date-picker-footer"></div>
+    </ng-template>
+  </div>
+</div>

@@ -1,0 +1,44 @@
+<div class="date-mode">
+  <div class="date-mode-weekdays">
+    <div class="date-mode-weekdays_row">
+      <ng-container *ngFor="let weekday of weekdays">
+        <div class="date-mode-weekdays_item">
+          <ng-container *ngTemplateOutlet="defaultWekdayCellTpl; context: { $implicit: weekday }"></ng-container>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <div class="date-mode-days">
+    <ng-container *ngFor="let row of dates">
+      <div class="date-mode-days_row">
+        <ng-container *ngFor="let day of row">
+          <div class="date-mode-days_item" nmTrigger (click)="!day.disabled && setDate(day)">
+            <ng-container *ngTemplateOutlet="defaultDayCellTpl; context: { $implicit: day }"></ng-container>
+          </div>
+        </ng-container>
+      </div>
+    </ng-container>
+  </div>
+
+  <ng-template #defaultDayCellTpl let-day>
+    <div
+      class="date-mode-day"
+      [class.other-month]="day.isNextMarker || day.isPrevMarker"
+      [class.weekend]="markWeekends && day.isWeekend"
+      [class.disabled]="day.disabled"
+      [class.pointer]="!day.disabled"
+      [class.selected]="day.isSelected"
+      [class.today]="day.isToday"
+    >
+      <div class="date-mode-day__inner">
+        <span>
+          {{ day.date | date : "d" }}
+        </span>
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template #defaultWekdayCellTpl let-weekday>
+    <div class="date-mode-weekday" [class.weekend]="markWeekends && weekday.isWeekend">{{ weekday.name }}</div>
+  </ng-template>
+</div>

@@ -1,0 +1,60 @@
+* {
+  box-sizing: border-box;
+}
+
+.month-mode {
+  padding: 7px 12px;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--nm-datepicker-background-color);
+
+  &_row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    .month-mode_row__item-wrapper {
+      .month-mode_row__item {
+        font-family: "Lato";
+        font-size: 14px;
+        width: 70px;
+        margin: 14px 0px;
+        color: var(--nm-datepicker-text-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &:not(.disabled, .selected) {
+          &:hover > .month-mode_row__item__inner {
+            background-color: var(--nm-datepicker-hover-background-color);
+          }
+        }
+
+        &__inner {
+          width: 60px;
+          display: block;
+          padding: 4px 0px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+
+      .pointer {
+        cursor: pointer;
+      }
+
+      .selected {
+        .month-mode_row__item__inner {
+          background-color: var(--nm-datepicker-primary-color);
+          color: var(--nm-datepicker-white);
+        }
+      }
+
+      .disabled {
+        background-color: var(--nm-datepicker-hover-background-color);
+        color: var(--nm-datepicker-text-color-secondary);
+      }
+    }
+  }
+}

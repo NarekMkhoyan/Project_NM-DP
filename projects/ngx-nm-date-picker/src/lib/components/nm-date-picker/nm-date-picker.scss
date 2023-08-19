@@ -1,0 +1,29 @@
+@import "./../../assets/fonts/fonts";
+@import "./../../assets/styles/variables";
+
+.nm_date-picker {
+  display: inline-block;
+  &__disabled {
+    cursor: not-allowed;
+    .nm_date-picker__wrapper {
+      filter: var(--nm-datepicker-disabled);
+      pointer-events: none;
+    }
+  }
+}
+
+nm-date-picker {
+  display: inline-block;
+}
+
+.dropdown-picker-wrapper {
+  position: relative;
+  .dropdown {
+    position: absolute;
+  }
+}
+
+* {
+  box-sizing: border-box;
+  user-select: none;
+}

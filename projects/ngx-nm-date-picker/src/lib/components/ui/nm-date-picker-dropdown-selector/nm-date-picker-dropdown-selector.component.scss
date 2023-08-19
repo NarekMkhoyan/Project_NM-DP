@@ -1,0 +1,86 @@
+@import "./../../../assets/styles/animations";
+@import "./../../../assets/styles/variables";
+
+.selector-wrapper {
+  padding-top: 12px;
+  .selector {
+    font-family: "Lato";
+    width: 235px;
+    // TODO: set min-width
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin: 8px 0;
+    cursor: pointer;
+    &__label {
+      font-size: 16px;
+      font-weight: 600;
+      font-size: 16px;
+      pointer-events: none;
+      position: absolute;
+      color: var(--nm-datepicker-text-color);
+    }
+    &__value {
+      padding: 0 2px;
+      margin-bottom: 3px;
+      height: 18px;
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--nm-datepicker-text-color);
+      &_extra {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 8px;
+        span {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        &:last-child {
+          svg {
+            height: 14px;
+            width: 16px;
+          }
+        }
+      }
+    }
+    &__border {
+      height: 2px;
+      border-radius: 1px;
+      width: 100%;
+      overflow: hidden;
+      &_inner {
+        width: 400%;
+        height: 100%;
+        transform: translateX(0);
+        background: linear-gradient(
+          90deg,
+          var(--nm-datepicker-text-color-secondary) 45%,
+          var(--nm-datepicker-primary-color) 100%
+        );
+      }
+      &_inner-activated {
+        -webkit-animation: border-activation 0.2s ease-in both;
+        animation: border-activation 0.2s ease-in both;
+      }
+      &_inner-deactivated {
+        -webkit-animation: border-deactivation 0.2s ease-in both;
+        animation: border-deactivation 0.2s ease-in both;
+      }
+    }
+  }
+}
+
+.flip-horizontal-bottom {
+  -webkit-animation: flip-horizontal-bottom 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955) both;
+  animation: flip-horizontal-bottom 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955) both;
+}
+
+.flip-horizontal-reverse {
+  -webkit-animation: flip-horizontal-bottom-reverse 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955) both;
+  animation: flip-horizontal-bottom-reverse 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955) both;
+}

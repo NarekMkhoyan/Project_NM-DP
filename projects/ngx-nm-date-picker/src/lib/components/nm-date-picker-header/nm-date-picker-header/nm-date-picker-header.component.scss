@@ -1,0 +1,110 @@
+@import "./../../../assets/styles/variables";
+
+.nm_date-picker-header {
+  background-color: var(--nm-datepicker-background-color);
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 8px 12px 0;
+  &__info {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 90px;
+    gap: 8px;
+    &_month,
+    &_year {
+      color: var(--nm-datepicker-primary-color);
+      font-size: 18px;
+      font-family: "Lato";
+      cursor: pointer;
+      transition: all 0.1s;
+      &:hover {
+        filter: opacity(0.9);
+      }
+    }
+  }
+  &_controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &__item {
+      border: none;
+      outline: none;
+      background-color: transparent;
+      cursor: pointer;
+      padding: 5px;
+      svg {
+        stroke: var(--nm-datepicker-primary-color);
+      }
+    }
+  }
+}
+
+.nm_date-picker-header {
+  .nm_month-picker__container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    &__control {
+      border: none;
+      outline: none;
+      background-color: transparent;
+      cursor: pointer;
+      padding: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      svg {
+        stroke: var(--nm-datepicker-primary-color);
+      }
+    }
+    &__year-value {
+      color: var(--nm-datepicker-primary-color);
+      font-size: 18px;
+      font-family: "Lato";
+      cursor: pointer;
+      transition: all 0.1s;
+      &:hover {
+        filter: opacity(0.9);
+      }
+    }
+  }
+}
+
+.nm_date-picker-header {
+  .nm_year-picker__container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    &__control {
+      border: none;
+      outline: none;
+      background-color: transparent;
+      cursor: pointer;
+      padding: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      svg {
+        stroke: var(--nm-datepicker-primary-color);
+      }
+    }
+    &__year-value {
+      color: var(--nm-datepicker-primary-color);
+      font-size: 18px;
+      font-family: "Lato";
+      cursor: pointer;
+      transition: all 0.1s;
+      &:hover {
+        filter: opacity(0.9);
+      }
+    }
+  }
+}

@@ -1,0 +1,92 @@
+.date-mode {
+  user-select: none;
+  width: fit-content;
+  padding: 8px 12px;
+  background-color: var(--nm-datepicker-background-color);
+  font-family: "Lato";
+  &-weekdays {
+    margin-bottom: 12px;
+    &_row {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      gap: 6px;
+      .date-mode-weekday {
+        height: 24px;
+        width: 24px;
+        color: var(--nm-datepicker-text-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+      }
+
+      .weekend {
+        color: var(--nm-datepicker-color-danger);
+      }
+    }
+  }
+  &-days {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    &_row {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      .date-mode-day {
+        height: 24px;
+        width: 30px;
+        color: var(--nm-datepicker-text-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        &:not(.disabled, .selected) {
+          &:hover > .date-mode-day__inner {
+            background-color: var(--nm-datepicker-hover-background-color);
+          }
+        }
+
+        &__inner {
+          height: 22px;
+          width: 22px;
+          line-height: 16px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+      }
+
+      .pointer {
+        cursor: pointer;
+      }
+
+      .today {
+        .date-mode-day__inner {
+          border: 1px solid var(--nm-datepicker-primary-color);
+        }
+      }
+
+      .weekend {
+        color: var(--nm-datepicker-color-danger);
+      }
+
+      .selected {
+        .date-mode-day__inner {
+          background-color: var(--nm-datepicker-primary-color);
+          color: var(--nm-datepicker-white);
+        }
+      }
+
+      .other-month {
+        color: var(--nm-datepicker-text-color-secondary);
+      }
+
+      .disabled {
+        background-color: var(--nm-datepicker-hover-background-color);
+        color: var(--nm-datepicker-text-color-secondary);
+      }
+    }
+  }
+}

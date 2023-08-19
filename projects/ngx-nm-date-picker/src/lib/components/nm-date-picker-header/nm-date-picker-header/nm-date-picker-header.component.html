@@ -1,0 +1,81 @@
+<div class="nm_date-picker-header" nmTrigger [style.width.px]="pickerBodyWidth">
+  <ng-container [ngSwitch]="currentPickerMode$ | async">
+    <ng-container *ngSwitchCase="'date'">
+      <ng-container *ngTemplateOutlet="dateModeHeader"></ng-container>
+    </ng-container>
+    <ng-container *ngSwitchCase="'month'">
+      <ng-container *ngTemplateOutlet="monthModeHeader"></ng-container>
+    </ng-container>
+    <ng-container *ngSwitchCase="'year'">
+      <ng-container *ngTemplateOutlet="yearModeHeader"></ng-container>
+    </ng-container>
+  </ng-container>
+
+  <ng-template #dateModeHeader>
+    <div class="nm_date-picker-header__info" nmTrigger>
+      <div class="nm_date-picker-header__info_month" [@click]="animationMonth" (click)="setPickerMode('month')">
+        {{ selectedMonth }}
+      </div>
+      <div class="nm_date-picker-header__info_year" [@click]="animationYear" (click)="setPickerMode('year')">
+        {{ selectedDate.getFullYear() }}
+      </div>
+    </div>
+    <div class="nm_date-picker-header__controls">
+      <button [@click]="animationPrev" class="nm_date-picker-header_controls__item" (click)="prevBtnHandler('date')">
+        <ng-container *ngTemplateOutlet="arrowLeft"></ng-container>
+      </button>
+      <button [@click]="animationNext" class="nm_date-picker-header_controls__item" (click)="nextBtnHandler('date')">
+        <ng-container *ngTemplateOutlet="arrowRight"></ng-container>
+      </button>
+    </div>
+  </ng-template>
+
+  <ng-template #monthModeHeader>
+    <div class="nm_month-picker__container" nmTrigger>
+      <button [@click]="animationPrev" class="nm_month-picker__container__control" (click)="prevBtnHandler('month')">
+        <ng-container *ngTemplateOutlet="arrowLeft"></ng-container>
+      </button>
+      <div class="nm_month-picker__container__year-value" (click)="setPickerMode('year')">
+        {{ selectedDate.getFullYear() }}
+      </div>
+      <button [@click]="animationNext" class="nm_month-picker__container__control" (click)="nextBtnHandler('month')">
+        <ng-container *ngTemplateOutlet="arrowRight"></ng-container>
+      </button>
+    </div>
+  </ng-template>
+
+  <ng-template #yearModeHeader>
+    <div class="nm_year-picker__container" nmTrigger>
+      <button [@click]="animationPrev" class="nm_year-picker__container__control" (click)="prevBtnHandler('year')">
+        <ng-container *ngTemplateOutlet="arrowLeft"></ng-container>
+      </button>
+      <div class="nm_year-picker__container__year-value">
+        {{ yearRangeHeader }}
+      </div>
+      <button [@click]="animationNext" class="nm_year-picker__container__control" (click)="nextBtnHandler('year')">
+        <ng-container *ngTemplateOutlet="arrowRight"></ng-container>
+      </button>
+    </div>
+  </ng-template>
+
+  <ng-template #arrowLeft>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M15.75 19.5L8.25 12L15.75 4.5"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  </ng-template>
+  <ng-template #arrowRight>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M8.25 4.5L15.75 12L8.25 19.5"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  </ng-template>
+</div>
