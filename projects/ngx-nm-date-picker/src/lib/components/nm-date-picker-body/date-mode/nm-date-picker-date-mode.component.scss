@@ -72,7 +72,7 @@
         color: var(--nm-datepicker-color-danger);
       }
 
-      .selected {
+      .selected:not(.disabled) {
         .date-mode-day__inner {
           background-color: var(--nm-datepicker-primary-color);
           color: var(--nm-datepicker-white);

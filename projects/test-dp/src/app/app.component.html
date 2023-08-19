@@ -5,13 +5,12 @@
     [nmLanguage]="'ru'"
     [(ngModel)]="date"
     [pickerMode]="'date'"
-    [nmDisabled]="true"
     [nmSelectorDateFormat]="'dd/MM/YYYY'"
     [nmDisplayMethod]="'dropdown'"
     (ngModelChange)="log($event)"
   ></nm-date-picker>
 
-  <div class="test">
+  <div class="test" style="width: 100%">
     <nm-date-picker
       [nmMarkWeekends]="true"
       [nmWeekendDisplayMethod]="'end'"
@@ -66,7 +65,7 @@
     [(ngModel)]="date"
     [disabledDates]="disabledDates"
     [nmDisplayMethod]="'inline'"
-    [pickerMode]="'year'"
+    [pickerMode]="'date'"
     (ngModelChange)="log($event)"
   ></nm-date-picker>
 </div>

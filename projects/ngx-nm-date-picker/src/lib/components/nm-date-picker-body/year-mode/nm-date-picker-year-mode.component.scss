@@ -45,7 +45,7 @@
         cursor: pointer;
       }
 
-      .selected {
+      .selected:not(.disabled) {
         .year-mode_row__item_inner {
           background-color: var(--nm-datepicker-primary-color);
           color: var(--nm-datepicker-white);

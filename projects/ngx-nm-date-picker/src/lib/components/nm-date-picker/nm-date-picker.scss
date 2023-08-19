@@ -3,6 +3,7 @@
 
 .nm_date-picker {
   display: inline-block;
+  width: 100%;
   &__disabled {
     cursor: not-allowed;
     .nm_date-picker__wrapper {

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, TemplateRef, ViewEncapsulation } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
-import { Observable } from "rxjs";
+import { Observable, takeUntil } from "rxjs";
 import { boxShadowDropAnimation, fadeInDownwardsAnimation, fadeInUpwardsAnimation } from "../../utils/animations";
 import { NmDatePickerHeaderService } from "../../services/header/nm-date-picker-header.service";
 import { NmDatePickerStateService } from "../../services/state/nm-date-picker-state.service";
@@ -127,7 +127,7 @@ export class NmDatePickerComponent extends Unsubscribe implements ControlValueAc
   }
 
   public ngOnInit(): void {
-    this.stateService.emitSelectedDate$.pipe().subscribe(() => {
+    this.stateService.emitSelectedDate$.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
       this.onChange(this.stateService.selectedDate);
     });
   }
