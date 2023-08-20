@@ -2,8 +2,8 @@
 @import "./../../assets/styles/variables";
 
 .nm_date-picker {
-  display: inline-block;
   width: 100%;
+  display: inline-block;
   &__disabled {
     cursor: not-allowed;
     .nm_date-picker__wrapper {
@@ -11,6 +11,11 @@
       pointer-events: none;
     }
   }
+}
+
+.nm_date-picker__body_wrapper {
+  background-color: var(--nm-datepicker-background-color);
+  -webkit-perspective: 100px;
 }
 
 nm-date-picker {
@@ -21,6 +26,7 @@ nm-date-picker {
   position: relative;
   .dropdown {
     position: absolute;
+    z-index: 1;
   }
 }
 

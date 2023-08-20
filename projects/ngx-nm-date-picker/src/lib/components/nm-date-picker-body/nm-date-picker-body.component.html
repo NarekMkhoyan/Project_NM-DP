@@ -1,4 +1,9 @@
-<div #datePickerBody [ngSwitch]="currentPickerMode$ | async">
+<div
+  #datePickerBody
+  [ngSwitch]="currentPickerMode$ | async"
+  [@swipeLeft]="swipeLeftTrigger$ | async"
+  [@swipeRight]="swipeRightTrigger$ | async"
+>
   <ng-container *ngSwitchCase="'date'">
     <nm-date-picker-date-mode
       [markWeekends]="markWeekends"
