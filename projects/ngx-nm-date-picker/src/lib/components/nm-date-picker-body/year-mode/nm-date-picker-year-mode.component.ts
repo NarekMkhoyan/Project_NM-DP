@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from "@angular/core";
+import { takeUntil } from "rxjs";
 import { NmDatePickerStateService } from "../../../services/state/nm-date-picker-state.service";
 import { YearModeService } from "../../../services/year-mode/year-mode.service";
+import { NM_SELECTOR_STATES } from "../../../constants/selector-states.enum";
 import { Unsubscribe } from "../../unsubscribe/unsubscribe.component";
 import { NmDate } from "../../../interfaces/date.interface";
-import { NM_SELECTOR_STATES } from "../../../constants/selector-states.enum";
 
 @Component({
   selector: "nm-date-picker-year-mode",
@@ -24,7 +25,7 @@ export class NmDatePickerYearModeComponent extends Unsubscribe implements OnInit
   }
 
   ngOnInit(): void {
-    this.stateService.updatePicker$.subscribe(() => {
+    this.stateService.updatePicker$.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
       this.years = this.yearModeService.generateYears();
       this.cdr.detectChanges();
     });

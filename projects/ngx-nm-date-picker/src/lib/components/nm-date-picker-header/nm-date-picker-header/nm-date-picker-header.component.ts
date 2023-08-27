@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { Observable, takeUntil } from "rxjs";
 import { NmDatePickerHeaderService } from "../../../services/header/nm-date-picker-header.service";
 import { NmDatePickerStateService } from "../../../services/state/nm-date-picker-state.service";
@@ -61,11 +61,13 @@ export class NmDatePickerHeaderComponent extends Unsubscribe implements OnInit {
   public prevBtnHandler(mode: NmDatePickerModeType): void {
     this.headerService.prevActionHandler(mode);
     this.animationPrev = !this.animationPrev;
+    this.stateService.swipeRightTrigger$.next(this.animationPrev);
   }
 
   public nextBtnHandler(mode: NmDatePickerModeType): void {
     this.headerService.nextActionHandler(mode);
     this.animationNext = !this.animationNext;
+    this.stateService.swipeLeftTrigger$.next(this.animationNext);
   }
 
   public setPickerMode(pickerMode: NmDatePickerModeType): void {

@@ -37,6 +37,9 @@ export class NmDatePickerStateService {
 
   public currentLanguage$: BehaviorSubject<NmLanguageType> = new BehaviorSubject<NmLanguageType>(NM_FALLBACK_LANGUAGE);
 
+  public swipeLeftTrigger$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public swipeRightTrigger$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
   public disabledDateFunctionAvailable: boolean = false;
   public disabledDateFunction!: (date: Date) => boolean;
 }

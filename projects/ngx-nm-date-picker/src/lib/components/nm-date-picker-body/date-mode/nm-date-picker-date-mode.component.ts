@@ -43,9 +43,6 @@ export class NmDatePickerDateModeComponent extends Unsubscribe implements OnInit
       this.dates = divideIntoChunks<NmDate>(this.dateModeService.updateSelected(this.datesBackup), 6, 7);
     }
     this.stateService.updatePicker$.next();
-    // FIXME: updatePicker$ triggered twice??
-    // FIXME: test out the update on dateSelection.
-    // Right now need to be unconditional for dropdown picker selector value to update
     this.stateService.emitSelectedDate$.next();
     this.stateService.dropdownSelectorState$.next(this.SELECTOR_STATES.INACTIVE);
     this.cdr.markForCheck();

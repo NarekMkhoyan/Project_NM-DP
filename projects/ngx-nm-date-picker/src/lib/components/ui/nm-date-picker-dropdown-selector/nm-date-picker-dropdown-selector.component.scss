@@ -5,8 +5,7 @@
   padding-top: 12px;
   .selector {
     font-family: "Lato";
-    width: 235px;
-    // TODO: set min-width
+    min-width: 235px;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -19,6 +18,11 @@
       pointer-events: none;
       position: absolute;
       color: var(--nm-datepicker-text-color);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: calc(100% - 30px);
+      transform-origin: left;
     }
     &__value {
       padding: 0 2px;

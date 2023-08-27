@@ -6,7 +6,6 @@
   padding: 7px 12px;
   display: flex;
   flex-direction: column;
-  background-color: var(--nm-datepicker-background-color);
 
   &_row {
     display: flex;
@@ -44,7 +43,7 @@
         cursor: pointer;
       }
 
-      .selected {
+      .selected:not(.disabled) {
         .month-mode_row__item__inner {
           background-color: var(--nm-datepicker-primary-color);
           color: var(--nm-datepicker-white);

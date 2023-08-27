@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, TemplateRef, ViewEncapsulation } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
-import { Observable } from "rxjs";
-import { boxShadowDropAnimation, fadeInDownwardsAnimation, fadeInUpwardsAnimation } from "../../utils/animations";
+import { Observable, takeUntil } from "rxjs";
+import { boxShadowDropAnimation, fadeInDownwardsAnimation, fadeInUpwardsAnimation, modeChangeAnimation } from "../../utils/animations";
 import { NmDatePickerHeaderService } from "../../services/header/nm-date-picker-header.service";
 import { NmDatePickerStateService } from "../../services/state/nm-date-picker-state.service";
 import { NmDatePickerMonthModeService } from "../../services/month-mode/month-mode.service";
@@ -22,7 +22,7 @@ import { NmLanguageType } from "../../interfaces/language.type";
   styleUrls: ["./nm-date-picker.scss"],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [fadeInDownwardsAnimation, fadeInUpwardsAnimation, boxShadowDropAnimation],
+  animations: [fadeInDownwardsAnimation, fadeInUpwardsAnimation, boxShadowDropAnimation, modeChangeAnimation],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -119,6 +119,10 @@ export class NmDatePickerComponent extends Unsubscribe implements ControlValueAc
     return this.stateService.dropdownSelectorState$;
   }
 
+  public get nmPickerMode$(): Observable<NmDatePickerModeType> {
+    return this.stateService.pickerMode$;
+  }
+
   constructor(
     private readonly yearModeService: YearModeService,
     private readonly stateService: NmDatePickerStateService
@@ -127,7 +131,7 @@ export class NmDatePickerComponent extends Unsubscribe implements ControlValueAc
   }
 
   public ngOnInit(): void {
-    this.stateService.emitSelectedDate$.pipe().subscribe(() => {
+    this.stateService.emitSelectedDate$.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
       this.onChange(this.stateService.selectedDate);
     });
   }

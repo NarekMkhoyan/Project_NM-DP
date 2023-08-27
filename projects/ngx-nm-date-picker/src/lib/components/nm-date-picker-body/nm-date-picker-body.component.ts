@@ -9,6 +9,7 @@ import {
 } from "@angular/core";
 import { Observable } from "rxjs";
 import { NmDatePickerStateService } from "../../services/state/nm-date-picker-state.service";
+import { swipeLeftAnimation, swipeRightAnimation } from "../../utils/animations";
 import { NmHolidaysDisplayType } from "../../interfaces/holiday-display.type";
 import { NmDatePickerModeType } from "../../interfaces/picker-mode.type";
 
@@ -16,6 +17,7 @@ import { NmDatePickerModeType } from "../../interfaces/picker-mode.type";
   selector: "nm-date-picker-body",
   templateUrl: "./nm-date-picker-body.component.html",
   styleUrls: ["./nm-date-picker-body.component.scss"],
+  animations: [swipeLeftAnimation, swipeRightAnimation],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NmDatePickerBodyComponent implements AfterViewInit, OnDestroy {
@@ -27,6 +29,14 @@ export class NmDatePickerBodyComponent implements AfterViewInit, OnDestroy {
 
   get currentPickerMode$(): Observable<NmDatePickerModeType> {
     return this.stateService.pickerMode$;
+  }
+
+  get swipeLeftTrigger$(): Observable<boolean> {
+    return this.stateService.swipeLeftTrigger$;
+  }
+
+  get swipeRightTrigger$(): Observable<boolean> {
+    return this.stateService.swipeRightTrigger$;
   }
 
   constructor(private readonly stateService: NmDatePickerStateService) {}

@@ -1,33 +1,21 @@
 # Project DP
-## To Do list
-3. Layout with custom templates
-10. highlight days (holidays)
 
-12. select a week
-13. range selection mode
+## To Do list / Brainstorming
 
-7. Limited date range (min, max)
+1. Layout with custom templates
+2. highlight days (holidays)
+3. select a week
+4. range selection mode
+5. Limited date range (min, max)
 
-16. time select
+6. time select
 
-## V1
-1. modes ✔
-2. date, month, year ✔
-3. polish/refactor/test ✔
-  
-## V2 
-1. custom month and weekday names ✔
-3. light/dark mode ✔
-4. Customizable themes ✔
-5. operation  mode (inline, dropdown) ✔
-2. date formats ✔
-11. Disabled state ✔
-10. animations
-4. localization ✔
-6. Disabled dates ✔
+## In Development
 
-## Bug
-1. disabled date selected
-2. TODOs + FIXMEs
-3. check subscriptions
-4. selector custom label too long
+1. animations ✔
+
+## Bugs
+
+1. clear icon doesn't work ✔
+2. picker doesn't update when selecting a date from prev or next month (datemode.service line 27 currentMonth invalid array length)
+2-1. is random. main problem the currentMonth is being created (new Array) with negative(-) value
