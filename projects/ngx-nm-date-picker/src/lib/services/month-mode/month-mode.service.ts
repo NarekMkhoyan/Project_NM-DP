@@ -12,10 +12,9 @@ export class NmDatePickerMonthModeService {
   public generateMonths(language: NmLanguageType): NmDate[][] {
     const copy = new Date(this.stateService.displayDate);
     const months = this.stateService.localization[language].MONTH_NAMES_SHORT.map((month, index) => {
-      const dateObject = new NmDate(new Date(copy.setMonth(index))).setDisplayName(month);
-      if (this.stateService.disabledDateFunctionAvailable) {
-        dateObject.setDisabledMonth(this.stateService.disabledDateFunction);
-      }
+      const dateObject = new NmDate(new Date(copy.setMonth(index)))
+        .setDisplayName(month)
+        .setDisabledMonth(this.stateService.disabledDateFunction);
       return dateObject;
     });
     return divideIntoChunks<NmDate>(this.updateSelectedMonth(months), 4, 3);

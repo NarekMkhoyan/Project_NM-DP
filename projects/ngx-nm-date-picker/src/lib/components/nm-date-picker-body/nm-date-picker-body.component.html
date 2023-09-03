@@ -1,8 +1,8 @@
 <div
   #datePickerBody
   [ngSwitch]="currentPickerMode$ | async"
-  [@swipeLeft]="swipeLeftTrigger$ | async"
-  [@swipeRight]="swipeRightTrigger$ | async"
+  [@swipeLeft]="prevBtn && prevBtn.clickObserver$ | async"
+  [@swipeRight]="nextBtn && nextBtn.clickObserver$ | async"
 >
   <ng-container *ngSwitchCase="'date'">
     <nm-date-picker-date-mode
