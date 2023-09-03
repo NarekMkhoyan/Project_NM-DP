@@ -29,6 +29,8 @@ const LOCALIZATION_FRENCH: NmLocalizationType = {
 })
 export class AppComponent {
   public LOCALIZATION_FRENCH = LOCALIZATION_FRENCH;
+  public now = new Date("2019");
+  public max = new Date("2043");
   public date: Date = new Date();
   public date2: Date | null = null;
   private minDateValue = 1692475200000;

@@ -21,10 +21,24 @@
       </div>
     </div>
     <div class="nm_date-picker-header__controls">
-      <button [@click]="animationPrev" class="nm_date-picker-header_controls__item" (click)="prevBtnHandler('date')">
+      <button
+        *ngIf="prevBtn"
+        [disabled]="prevBtn.disabled"
+        [@click]="prevBtn.clickObserver$ | async"
+        [class.disabled_btn]="prevBtn.disabled"
+        class="nm_date-picker-header_controls__item"
+        (click)="prevBtn.onClick()"
+      >
         <ng-container *ngTemplateOutlet="arrowLeft"></ng-container>
       </button>
-      <button [@click]="animationNext" class="nm_date-picker-header_controls__item" (click)="nextBtnHandler('date')">
+      <button
+        *ngIf="nextBtn"
+        [disabled]="nextBtn.disabled"
+        [class.disabled_btn]="nextBtn.disabled"
+        [@click]="nextBtn.clickObserver$ | async"
+        class="nm_date-picker-header_controls__item"
+        (click)="nextBtn.onClick()"
+      >
         <ng-container *ngTemplateOutlet="arrowRight"></ng-container>
       </button>
     </div>
@@ -32,13 +46,27 @@
 
   <ng-template #monthModeHeader>
     <div class="nm_month-picker__container" nmTrigger>
-      <button [@click]="animationPrev" class="nm_month-picker__container__control" (click)="prevBtnHandler('month')">
+      <button
+        *ngIf="prevBtn"
+        [disabled]="prevBtn.disabled"
+        [@click]="prevBtn.clickObserver$ | async"
+        [class.disabled_btn]="prevBtn.disabled"
+        class="nm_month-picker__container__control"
+        (click)="prevBtn.onClick()"
+      >
         <ng-container *ngTemplateOutlet="arrowLeft"></ng-container>
       </button>
       <div class="nm_month-picker__container__year-value" (click)="setPickerMode('year')">
         {{ selectedDate.getFullYear() }}
       </div>
-      <button [@click]="animationNext" class="nm_month-picker__container__control" (click)="nextBtnHandler('month')">
+      <button
+        *ngIf="nextBtn"
+        [disabled]="nextBtn.disabled"
+        [@click]="nextBtn.clickObserver$ | async"
+        [class.disabled_btn]="nextBtn.disabled"
+        class="nm_month-picker__container__control"
+        (click)="nextBtn.onClick()"
+      >
         <ng-container *ngTemplateOutlet="arrowRight"></ng-container>
       </button>
     </div>
@@ -46,13 +74,27 @@
 
   <ng-template #yearModeHeader>
     <div class="nm_year-picker__container" nmTrigger>
-      <button [@click]="animationPrev" class="nm_year-picker__container__control" (click)="prevBtnHandler('year')">
+      <button
+        *ngIf="prevBtn"
+        [disabled]="prevBtn.disabled"
+        [@click]="prevBtn.clickObserver$ | async"
+        [class.disabled_btn]="prevBtn.disabled"
+        class="nm_year-picker__container__control"
+        (click)="prevBtn.onClick()"
+      >
         <ng-container *ngTemplateOutlet="arrowLeft"></ng-container>
       </button>
       <div class="nm_year-picker__container__year-value">
         {{ yearRangeHeader }}
       </div>
-      <button [@click]="animationNext" class="nm_year-picker__container__control" (click)="nextBtnHandler('year')">
+      <button
+        *ngIf="nextBtn"
+        [disabled]="nextBtn.disabled"
+        [@click]="nextBtn.clickObserver$ | async"
+        [class.disabled_btn]="nextBtn.disabled"
+        class="nm_year-picker__container__control"
+        (click)="nextBtn.onClick()"
+      >
         <ng-container *ngTemplateOutlet="arrowRight"></ng-container>
       </button>
     </div>
@@ -60,22 +102,12 @@
 
   <ng-template #arrowLeft>
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path
-        d="M15.75 19.5L8.25 12L15.75 4.5"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
+      <path d="M15.75 19.5L8.25 12L15.75 4.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
     </svg>
   </ng-template>
   <ng-template #arrowRight>
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path
-        d="M8.25 4.5L15.75 12L8.25 19.5"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      />
+      <path d="M8.25 4.5L15.75 12L8.25 19.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
     </svg>
   </ng-template>
 </div>

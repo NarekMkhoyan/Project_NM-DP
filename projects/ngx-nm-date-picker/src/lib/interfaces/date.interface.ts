@@ -59,18 +59,24 @@ export class NmDate implements NmDateInterface {
     return this;
   }
 
-  setDisabledState(checker: (date: Date) => boolean): this {
-    this.disabled = checker(this.date);
+  setDisabledState(checker: null | ((date: Date) => boolean)): this {
+    if (checker) {
+      this.disabled = checker(this.date);
+    }
     return this;
   }
 
-  setDisabledYear(checker: (date: Date) => boolean): this {
-    this.disabled = checkForDisabledYear(checker, this.date.getFullYear());
+  setDisabledYear(checker: null | ((date: Date) => boolean)): this {
+    if (checker) {
+      this.disabled = checkForDisabledYear(checker, this.date.getFullYear());
+    }
     return this;
   }
 
-  setDisabledMonth(checker: (date: Date) => boolean): this {
-    this.disabled = checkForDisabledMonth(checker, this.date.getMonth(), this.date.getFullYear());
+  setDisabledMonth(checker: null | ((date: Date) => boolean)): this {
+    if (checker) {
+      this.disabled = checkForDisabledMonth(checker, this.date.getMonth(), this.date.getFullYear());
+    }
     return this;
   }
 }

@@ -107,3 +107,9 @@
     }
   }
 }
+
+.disabled_btn {
+  svg {
+    stroke: var(--nm-datepicker-disabled-color) !important;
+  }
+}

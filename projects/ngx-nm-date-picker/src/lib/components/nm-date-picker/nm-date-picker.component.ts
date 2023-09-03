@@ -1,7 +1,12 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, TemplateRef, ViewEncapsulation } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { Observable, takeUntil } from "rxjs";
-import { boxShadowDropAnimation, fadeInDownwardsAnimation, fadeInUpwardsAnimation, modeChangeAnimation } from "../../utils/animations";
+import {
+  boxShadowDropAnimation,
+  fadeInDownwardsAnimation,
+  fadeInUpwardsAnimation,
+  modeChangeAnimation,
+} from "../../utils/animations";
 import { NmDatePickerHeaderService } from "../../services/header/nm-date-picker-header.service";
 import { NmDatePickerStateService } from "../../services/state/nm-date-picker-state.service";
 import { NmDatePickerMonthModeService } from "../../services/month-mode/month-mode.service";
@@ -99,7 +104,6 @@ export class NmDatePickerComponent extends Unsubscribe implements ControlValueAc
   }
 
   @Input() set disabledDates(value: (date: Date) => boolean) {
-    this.stateService.disabledDateFunctionAvailable = true;
     this.stateService.disabledDateFunction = value;
   }
 
@@ -110,6 +114,29 @@ export class NmDatePickerComponent extends Unsubscribe implements ControlValueAc
   @Input() nmDisabled: boolean = false;
 
   @Input() nmSelectorCustomLabel: string | null = null;
+
+  // min and max dates
+  @Input() set nmMinDate(value: Date | null) {
+    this.stateService.nmMinDate = value;
+    if (value) {
+      const oldFn = this.stateService.disabledDateFunction;
+      const newCheckerFn = (date: Date) => {
+        return (!!oldFn && oldFn(date)) || value.getTime() > date.getTime();
+      };
+      this.stateService.disabledDateFunction = newCheckerFn;
+    }
+  }
+
+  @Input() set nmMaxDate(value: Date | null) {
+    this.stateService.nmMaxDate = value;
+    if (value) {
+      const oldFn = this.stateService.disabledDateFunction;
+      const newCheckerFn = (date: Date) => {
+        return (!!oldFn && oldFn(date)) || value.getTime() < date.getTime();
+      };
+      this.stateService.disabledDateFunction = newCheckerFn;
+    }
+  }
 
   public get nmDisplayMethod(): NmDatePickerDisplayMethodType {
     return this.stateService.pickerDisplayMethod;

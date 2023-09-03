@@ -28,12 +28,9 @@ export class DateModeService {
       .fill(startOfTheMonth)
       .map((date, index) => {
         const calculatedDate = new Date(date + index * dayInMs);
-        const dateObject = new NmDate(calculatedDate);
+        const dateObject = new NmDate(calculatedDate).setDisabledState(this.stateService.disabledDateFunction);
         if (isSameDay(new Date(), calculatedDate)) {
           dateObject.setAsToday();
-        }
-        if (this.stateService.disabledDateFunctionAvailable) {
-          dateObject.setDisabledState(this.stateService.disabledDateFunction);
         }
         return dateObject;
       });
@@ -61,10 +58,9 @@ export class DateModeService {
       .map((date, index) => {
         const dateObject = new NmDate(
           new Date(new Date(startOfTheMonth).setDate(new Date(startOfTheMonth).getDate() - (index + 1)))
-        ).setAsPrevMarker();
-        if (this.stateService.disabledDateFunctionAvailable) {
-          dateObject.setDisabledState(this.stateService.disabledDateFunction);
-        }
+        )
+          .setAsPrevMarker()
+          .setDisabledState(this.stateService.disabledDateFunction);
         return dateObject;
       })
       .reverse();
@@ -74,10 +70,9 @@ export class DateModeService {
     const nextMonth = new Array(roundedOffset).fill(new Date()).map((date, index) => {
       const dateObject = new NmDate(
         new Date(new Date(endOfTheMonth).setDate(new Date(endOfTheMonth).getDate() + (index + 1)))
-      ).setAsNextMarker();
-      if (this.stateService.disabledDateFunctionAvailable) {
-        dateObject.setDisabledState(this.stateService.disabledDateFunction);
-      }
+      )
+        .setAsNextMarker()
+        .setDisabledState(this.stateService.disabledDateFunction);
       return dateObject;
     });
 

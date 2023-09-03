@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from "@angular/core";
-import { Observable, takeUntil } from "rxjs";
+import { Observable, combineLatest, takeUntil } from "rxjs";
 import { NmDatePickerHeaderService } from "../../../services/header/nm-date-picker-header.service";
 import { NmDatePickerStateService } from "../../../services/state/nm-date-picker-state.service";
 import { NM_FALLBACK_LANGUAGE } from "../../../constants/localization.constant";
 import { NmDatePickerModeType } from "../../../interfaces/picker-mode.type";
+import { HeaderAction } from "../../../interfaces/header-action.interface";
 import { Unsubscribe } from "../../unsubscribe/unsubscribe.component";
 import { NmLanguageType } from "../../../interfaces/language.type";
 import { btnClickAnimation } from "../../../utils/animations";
@@ -16,10 +17,9 @@ import { btnClickAnimation } from "../../../utils/animations";
   animations: [btnClickAnimation],
 })
 export class NmDatePickerHeaderComponent extends Unsubscribe implements OnInit {
-  public animationPrev = false;
-  public animationNext = false;
   public animationMonth = false;
   public animationYear = false;
+  // FIXME: refactor the variables above out by correct animations
   public pickerBodyWidth: number = 0;
   public selectedMonth: string = this.setMonthName(NM_FALLBACK_LANGUAGE);
   public selectedDate: Date = new Date();
@@ -33,6 +33,14 @@ export class NmDatePickerHeaderComponent extends Unsubscribe implements OnInit {
     return `${this.stateService.decadeMarkingYear - 11} - ${this.stateService.decadeMarkingYear}`;
   }
 
+  get prevBtn(): HeaderAction | null {
+    return this.stateService.headerActions[0] || null;
+  }
+
+  get nextBtn(): HeaderAction | null {
+    return this.stateService.headerActions[1] || null;
+  }
+
   constructor(
     private readonly headerService: NmDatePickerHeaderService,
     private readonly stateService: NmDatePickerStateService,
@@ -42,6 +50,7 @@ export class NmDatePickerHeaderComponent extends Unsubscribe implements OnInit {
   }
 
   ngOnInit(): void {
+    this.generateHeaderActions();
     this.stateService.pickerBodyWidth$.pipe(takeUntil(this.unsubscribe$)).subscribe((res) => {
       this.pickerBodyWidth = res;
       this.cdr.detectChanges();
@@ -56,18 +65,6 @@ export class NmDatePickerHeaderComponent extends Unsubscribe implements OnInit {
       this.language = currentLanguage;
       this.cdr.markForCheck();
     });
-  }
-
-  public prevBtnHandler(mode: NmDatePickerModeType): void {
-    this.headerService.prevActionHandler(mode);
-    this.animationPrev = !this.animationPrev;
-    this.stateService.swipeRightTrigger$.next(this.animationPrev);
-  }
-
-  public nextBtnHandler(mode: NmDatePickerModeType): void {
-    this.headerService.nextActionHandler(mode);
-    this.animationNext = !this.animationNext;
-    this.stateService.swipeLeftTrigger$.next(this.animationNext);
   }
 
   public setPickerMode(pickerMode: NmDatePickerModeType): void {
@@ -91,5 +88,14 @@ export class NmDatePickerHeaderComponent extends Unsubscribe implements OnInit {
       monthName = this.stateService.localization[language].MONTH_NAMES_SHORT[selectedMonthIndex];
     }
     return monthName;
+  }
+
+  private generateHeaderActions(): void {
+    combineLatest([this.stateService.updatePicker$, this.stateService.pickerMode$])
+      .pipe(takeUntil(this.unsubscribe$))
+      .subscribe(([, pickerMode]) => {
+        this.headerService.generateHeaderActionButtons(pickerMode);
+        this.cdr.markForCheck();
+      });
   }
 }

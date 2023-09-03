@@ -14,15 +14,14 @@ export class YearModeService {
     const copy = new Date(new Date(this.stateService.displayDate).setHours(0, 0, 0, 0));
     years = years
       .map((year, index, arr) => {
-        const dateObject = new NmDate(new Date(copy.setFullYear(this.stateService.decadeMarkingYear - index)));
-        if (this.stateService.disabledDateFunctionAvailable) {
-          dateObject.setDisabledYear(this.stateService.disabledDateFunction);
-        }
+        const dateObject = new NmDate(
+          new Date(copy.setFullYear(this.stateService.decadeMarkingYear - index))
+        ).setDisabledYear(this.stateService.disabledDateFunction);
         if (index === 0) {
-          dateObject.setAsNextMarker()
+          dateObject.setAsNextMarker();
         }
         if (index === arr.length - 1) {
-          dateObject.setAsPrevMarker()
+          dateObject.setAsPrevMarker();
         }
         return dateObject;
       })

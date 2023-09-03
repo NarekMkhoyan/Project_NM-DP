@@ -31,6 +31,8 @@
     [(ngModel)]="date"
     [pickerMode]="'date'"
     [nmDisplayMethod]="'inline'"
+    [nmMinDate]="now"
+    [nmMaxDate]="max"
     (ngModelChange)="log($event)"
   ></nm-date-picker>
 
@@ -38,7 +40,6 @@
     [nmMarkWeekends]="true"
     [nmWeekendDisplayMethod]="'end'"
     [nmTheme]="'dark'"
-    [nmDisabled]="true"
     [nmLanguage]="'en'"
     [(ngModel)]="date"
     [pickerMode]="'date'"
