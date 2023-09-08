@@ -33,6 +33,7 @@
     [nmDisplayMethod]="'inline'"
     [nmMinDate]="now"
     [nmMaxDate]="max"
+    [highlightedDates]="datesHighlightFn"
     (ngModelChange)="log($event)"
   ></nm-date-picker>
 

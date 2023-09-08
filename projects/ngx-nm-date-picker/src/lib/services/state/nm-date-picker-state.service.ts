@@ -33,7 +33,8 @@ export class NmDatePickerStateService {
     new BehaviorSubject<NmDatePickerSelectorStateType>(NM_SELECTOR_STATES.INITIAL);
   /** The function that checks, if a day is disabled. Passed in by the user. Defaults to null */
   public disabledDateFunction: null | ((date: Date) => boolean) = null;
-
+  /** Callback function that accepts a date and return whether it should be highlighted or not as a return argument*/
+  public highlightedDatesFunction: null | ((date: Date) => boolean) = null;
   /** The localization object that holds the default 3 languages and any additional translations */
   public localization: NmLocalizationType = NM_LOCALIZATION;
   /** The current language subject. */
