@@ -3,15 +3,14 @@
 ## To Do list / Brainstorming
 
 1. select a week
-2. range selection mode
 3. Layout with custom templates
-4. market research for usefull functionality
+4. market research for useful functionality
 
 5. time select
 
 ## In Development
 
-1. highlight days (holidays)
+1. range selection mode
 
 ## Bugs
 

@@ -71,6 +71,10 @@
         color: var(--nm-datepicker-color-danger);
       }
 
+      .highlighted {
+        color: var(--nm-datepicker-holiday-color);
+      }
+
       .selected:not(.disabled) {
         .date-mode-day__inner {
           background-color: var(--nm-datepicker-primary-color);

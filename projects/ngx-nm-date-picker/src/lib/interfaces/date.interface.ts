@@ -8,6 +8,7 @@ export interface NmDateInterface {
   isToday: boolean;
   isSelected: boolean;
   isWeekend: boolean;
+  isHighlighted: boolean;
   displayName?: string;
 }
 
@@ -19,6 +20,7 @@ export class NmDate implements NmDateInterface {
   isToday = false;
   isSelected = false;
   isWeekend = false;
+  isHighlighted = false;
   displayName?: string;
 
   constructor(value: Date) {
@@ -76,6 +78,13 @@ export class NmDate implements NmDateInterface {
   setDisabledMonth(checker: null | ((date: Date) => boolean)): this {
     if (checker) {
       this.disabled = checkForDisabledMonth(checker, this.date.getMonth(), this.date.getFullYear());
+    }
+    return this;
+  }
+
+  setHighlightedDay(highlighterFn: null | ((date: Date) => boolean)): this {
+    if (highlighterFn) {
+      this.isHighlighted = highlighterFn(this.date);
     }
     return this;
   }

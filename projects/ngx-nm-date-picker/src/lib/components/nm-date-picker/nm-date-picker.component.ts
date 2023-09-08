@@ -107,6 +107,10 @@ export class NmDatePickerComponent extends Unsubscribe implements ControlValueAc
     this.stateService.disabledDateFunction = value;
   }
 
+  @Input() set highlightedDates(value: (date: Date) => boolean) {
+    this.stateService.highlightedDatesFunction = value;
+  }
+
   @Input() set nmDisplayMethod(value: NmDatePickerDisplayMethodType) {
     this.stateService.pickerDisplayMethod = value;
   }
