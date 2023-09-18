@@ -57,4 +57,12 @@ export class NmDatePickerStateService {
   public get headerActions(): HeaderAction[] {
     return this._headerActions;
   }
+
+  /** Shows whether the range selection is active */
+  public rangeSelectionActive: boolean = false;
+  /** The currently selected date range */
+  public selectedDateRange: [Date | null, Date | null] = [null, null];
+
+  public possibleRangeEnd$: BehaviorSubject<Date | null> = new BehaviorSubject<Date | null>(null);
+  // TODO: if the user selects the same day as start and end, set the time from 00 to 23
 }

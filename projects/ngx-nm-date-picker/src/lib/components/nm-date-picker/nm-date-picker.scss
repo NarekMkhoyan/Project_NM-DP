@@ -30,6 +30,10 @@ nm-date-picker {
   }
 }
 
+.inRange-cell {
+  background-color: var(--nm-datepicker-inrange-cell);
+}
+
 * {
   box-sizing: border-box;
   user-select: none;

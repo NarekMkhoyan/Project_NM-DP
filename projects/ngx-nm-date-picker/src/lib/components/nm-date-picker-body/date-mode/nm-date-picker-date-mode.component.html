@@ -12,7 +12,7 @@
     <ng-container *ngFor="let row of dates">
       <div class="date-mode-days_row">
         <ng-container *ngFor="let day of row">
-          <div class="date-mode-days_item" nmTrigger (click)="!day.disabled && setDate(day)">
+          <div class="date-mode-days_item" [class.date-mode-days_item__disabled]="day.disabled"  [nmHighlighter]="day" nmTrigger (click)="!day.disabled && setDate(day)">
             <ng-container *ngTemplateOutlet="defaultDayCellTpl; context: { $implicit: day }"></ng-container>
           </div>
         </ng-container>

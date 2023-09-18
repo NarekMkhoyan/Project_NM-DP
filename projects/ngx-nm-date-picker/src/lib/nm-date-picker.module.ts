@@ -13,6 +13,7 @@ import { NmDatePickerThemeDirective } from "./directives/theme-change/nm-date-pi
 import { NmDatePickerComponent } from "./components/nm-date-picker/nm-date-picker.component";
 import { NmTriggerDirective } from "./directives/nmTrigger/nm-trigger.directive";
 import { Unsubscribe } from "./components/unsubscribe/unsubscribe.component";
+import { NmDatePickerHighlighterDirective } from "./directives/highlighter/nm-date-picker-highlighter.directive";
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { Unsubscribe } from "./components/unsubscribe/unsubscribe.component";
     NmDatePickerMonthModeComponent,
     NmDatePickerSelectorStateDirective,
     NmDatePickerDropdownSelectorComponent,
+    NmDatePickerHighlighterDirective,
   ],
   imports: [CommonModule, BrowserAnimationsModule],
   exports: [NmDatePickerComponent, NmDatePickerThemeDirective],

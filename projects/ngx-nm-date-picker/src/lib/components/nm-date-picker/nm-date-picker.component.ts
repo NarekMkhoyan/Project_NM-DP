@@ -142,6 +142,10 @@ export class NmDatePickerComponent extends Unsubscribe implements ControlValueAc
     }
   }
 
+  @Input() set nmRangeSelection(activeState: boolean) {
+    this.stateService.rangeSelectionActive = activeState;
+  }
+
   public get nmDisplayMethod(): NmDatePickerDisplayMethodType {
     return this.stateService.pickerDisplayMethod;
   }
@@ -168,7 +172,15 @@ export class NmDatePickerComponent extends Unsubscribe implements ControlValueAc
   }
 
   // ControlValueAccessor functions
-  public writeValue(date: Date | null): void {
+  public writeValue(dateValue: Date | [Date, Date] | null): void {
+    let date: Date = new Date();
+    if (Array.isArray(dateValue)) {
+      date = dateValue[0] ? new Date(dateValue[0]) : new Date();
+    } else if (dateValue) {
+      date = new Date(dateValue);
+    } else {
+      date = new Date();
+    }
     this.stateService.selectedDate = date ? new Date(date) : date;
     this.stateService.displayDate = date ? new Date(date) : new Date();
     this.yearModeService.setDecadeMarker();
