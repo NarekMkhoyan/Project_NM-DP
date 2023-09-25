@@ -6,6 +6,7 @@
   padding: 7px 12px;
   display: flex;
   flex-direction: column;
+  gap: 3px;
 
   &_row {
     display: flex;
@@ -55,5 +56,18 @@
         color: var(--nm-datepicker-text-color-secondary);
       }
     }
+  }
+}
+
+.month-mode_row__item-wrapper {
+  &:first-child {
+    border: 0.5px solid transparent;
+  }
+}
+
+.month-mode_row__item-wrapper__disabled {
+  &:first-child {
+    border-left: 1px solid var(--nm-datepicker-hover-background-color);
+    border-right: 1px solid var(--nm-datepicker-hover-background-color);
   }
 }

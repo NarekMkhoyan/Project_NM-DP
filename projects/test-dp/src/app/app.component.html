@@ -7,6 +7,7 @@
     [pickerMode]="'date'"
     [nmSelectorDateFormat]="'dd/MM/YYYY'"
     [nmDisplayMethod]="'dropdown'"
+    [nmRangeSelection]="true"
     (ngModelChange)="log($event)"
   ></nm-date-picker>
 
@@ -19,6 +20,7 @@
       [(ngModel)]="date2"
       [pickerMode]="'date'"
       [nmDisplayMethod]="'dropdown'"
+      [nmRangeSelection]="true"
       [nmCustomLocalization]="LOCALIZATION_FRENCH"
       (ngModelChange)="log($event)"
     ></nm-date-picker>
@@ -34,6 +36,7 @@
     [nmMinDate]="now"
     [nmMaxDate]="max"
     [highlightedDates]="datesHighlightFn"
+    [nmRangeSelection]="true"
     (ngModelChange)="log($event)"
   ></nm-date-picker>
 

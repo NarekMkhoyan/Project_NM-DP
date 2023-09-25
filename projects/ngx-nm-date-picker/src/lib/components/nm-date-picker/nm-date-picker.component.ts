@@ -142,6 +142,10 @@ export class NmDatePickerComponent extends Unsubscribe implements ControlValueAc
     }
   }
 
+  @Input() set nmRangeSelection(activeState: boolean) {
+    this.stateService.rangeSelectionActive = activeState;
+  }
+
   public get nmDisplayMethod(): NmDatePickerDisplayMethodType {
     return this.stateService.pickerDisplayMethod;
   }
@@ -163,12 +167,29 @@ export class NmDatePickerComponent extends Unsubscribe implements ControlValueAc
 
   public ngOnInit(): void {
     this.stateService.emitSelectedDate$.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
-      this.onChange(this.stateService.selectedDate);
+      if (
+        this.stateService.rangeSelectionActive &&
+        (!this.stateService.selectedDateRange[0] || !this.stateService.selectedDateRange[1])
+      ) {
+        return;
+      }
+      const emitValue = this.stateService.rangeSelectionActive
+        ? this.stateService.selectedDateRange
+        : this.stateService.selectedDate;
+      this.onChange(emitValue);
     });
   }
 
   // ControlValueAccessor functions
-  public writeValue(date: Date | null): void {
+  public writeValue(dateValue: Date | [Date, Date] | null): void {
+    let date: Date = new Date();
+    if (Array.isArray(dateValue)) {
+      date = dateValue[0] ? new Date(dateValue[0]) : new Date();
+    } else if (dateValue) {
+      date = new Date(dateValue);
+    } else {
+      date = new Date();
+    }
     this.stateService.selectedDate = date ? new Date(date) : date;
     this.stateService.displayDate = date ? new Date(date) : new Date();
     this.yearModeService.setDecadeMarker();
@@ -185,7 +206,9 @@ export class NmDatePickerComponent extends Unsubscribe implements ControlValueAc
 
   public setDisabledState?(isDisabled: boolean): void {}
 
-  private onChange: any = (value: any) => {};
+  private onChange: (value: Date | [Date | null, Date | null] | null) => void = (
+    value: Date | [Date | null, Date | null] | null
+  ) => {};
 
   private onTouch: any = () => {};
 }

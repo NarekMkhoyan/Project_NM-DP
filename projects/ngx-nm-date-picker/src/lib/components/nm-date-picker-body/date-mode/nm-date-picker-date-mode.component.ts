@@ -8,6 +8,7 @@ import { Unsubscribe } from "../../unsubscribe/unsubscribe.component";
 import { NmWeekday } from "../../../interfaces/weekdays.interface";
 import { divideIntoChunks } from "../../../utils/chunkDivider";
 import { NmDate } from "../../../interfaces/date.interface";
+import { dateRangeSetter } from "../../../utils/dateRangeSetter";
 
 @Component({
   selector: "nm-date-picker-date-mode",
@@ -39,12 +40,20 @@ export class NmDatePickerDateModeComponent extends Unsubscribe implements OnInit
   public setDate(day: NmDate): void {
     this.stateService.selectedDate = new Date(day.date);
     this.stateService.displayDate = new Date(day.date);
-    if (!day.isNextMarker && !day.isPrevMarker) {
+    if (this.stateService.rangeSelectionActive || (!day.isNextMarker && !day.isPrevMarker)) {
       this.dates = divideIntoChunks<NmDate>(this.dateModeService.updateSelected(this.datesBackup), 6, 7);
     }
-    this.stateService.updatePicker$.next();
+    if (this.stateService.rangeSelectionActive) {
+      this.stateService.selectedDateRange = dateRangeSetter(this.stateService.selectedDateRange, day.date);
+      const [start, end] = this.stateService.selectedDateRange;
+      this.stateService.updatePicker$.next();
+      if (start && end) this.stateService.dropdownSelectorState$.next(this.SELECTOR_STATES.INACTIVE);
+    } else {
+      this.stateService.updatePicker$.next();
+      this.stateService.dropdownSelectorState$.next(this.SELECTOR_STATES.INACTIVE);
+    }
+
     this.stateService.emitSelectedDate$.next();
-    this.stateService.dropdownSelectorState$.next(this.SELECTOR_STATES.INACTIVE);
     this.cdr.markForCheck();
   }
 

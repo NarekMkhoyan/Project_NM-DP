@@ -6,25 +6,47 @@
     <div class="selector__value">
       <div class="selector__value_main">
         <ng-container *ngIf="selectorDateFormat; else defaultSelectorValueTpl">
-          <span class="selector__value_text">
-            {{ selectedDate | date : selectorDateFormat }}
-          </span>
+          <ng-container *ngIf="rangeModeActive; else singleDateTpl">
+            <div class="selector__value_text" *ngIf="dateRange[0] && dateRange[1]">
+              <ng-container
+                *ngTemplateOutlet="
+                  formatedSelectorDateValue;
+                  context: { $implicit: dateRange[0], format: selectorDateFormat }
+                "
+              ></ng-container>
+              <span>—</span>
+              <ng-container
+                *ngTemplateOutlet="
+                  formatedSelectorDateValue;
+                  context: { $implicit: dateRange[1], format: selectorDateFormat }
+                "
+              ></ng-container>
+            </div>
+          </ng-container>
+          <ng-template #singleDateTpl>
+            <span class="selector__value_text" *ngIf="selectedDate">
+              <ng-container
+                *ngTemplateOutlet="
+                  formatedSelectorDateValue;
+                  context: { $implicit: selectedDate, format: selectorDateFormat }
+                "
+              ></ng-container>
+            </span>
+          </ng-template>
         </ng-container>
         <ng-template #defaultSelectorValueTpl>
-          <span class="selector__value_text" *ngIf="selectedDate">
-            <div [ngSwitch]="language">
-              <div *ngSwitchCase="'en'">
-                <span *ngIf="pickerModeLimitedBy === 'date'">{{ monthName }}&nbsp;</span>
-                <span *ngIf="pickerModeLimitedBy !== 'year'">{{ selectedDate | date : "dd" }},&nbsp;</span>
-                <span>{{ selectedDate | date : "YYYY" }}</span>
-              </div>
-              <div *ngSwitchDefault>
-                <span *ngIf="pickerModeLimitedBy === 'date'">{{ selectedDate | date : "dd" }}&nbsp;</span>
-                <span *ngIf="pickerModeLimitedBy !== 'year'">{{ monthName }},&nbsp;</span>
-                <span>{{ selectedDate | date : "YYYY" }}</span>
-              </div>
+          <ng-container *ngIf="rangeModeActive; else singleDateTpl">
+            <div class="selector__value_text" *ngIf="dateRange[0] && dateRange[1]">
+              <ng-container *ngTemplateOutlet="selectorDateValue; context: { $implicit: dateRange[0] }"></ng-container>
+              <span>—</span>
+              <ng-container *ngTemplateOutlet="selectorDateValue; context: { $implicit: dateRange[1] }"></ng-container>
             </div>
-          </span>
+          </ng-container>
+          <ng-template #singleDateTpl>
+            <div class="selector__value_text" *ngIf="selectedDate">
+              <ng-container *ngTemplateOutlet="selectorDateValue; context: { $implicit: selectedDate }"></ng-container>
+            </div>
+          </ng-template>
         </ng-template>
       </div>
       <div class="selector__value_extra">
@@ -70,4 +92,25 @@
       stroke-linejoin="round"
     />
   </svg>
+</ng-template>
+
+<ng-template #selectorDateValue let-date>
+  <div *ngIf="date" [ngSwitch]="language">
+    <div *ngSwitchCase="'en'">
+      <span *ngIf="pickerModeLimitedBy === 'date'">{{ getMonthName(date) }}&nbsp;</span>
+      <span *ngIf="pickerModeLimitedBy !== 'year'">{{ date | date : "dd" }},&nbsp;</span>
+      <span>{{ date | date : "YYYY" }}</span>
+    </div>
+    <div *ngSwitchDefault>
+      <span *ngIf="pickerModeLimitedBy === 'date'">{{ date | date : "dd" }}&nbsp;</span>
+      <span *ngIf="pickerModeLimitedBy !== 'year'">{{ getMonthName(date) }},&nbsp;</span>
+      <span>{{ date | date : "YYYY" }}</span>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #formatedSelectorDateValue let-date let-format="format">
+  <span>
+    {{ date | date : format }}
+  </span>
 </ng-template>
