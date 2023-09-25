@@ -107,7 +107,16 @@ export class DateModeService {
 
   public updateSelected(dates: NmDate[]): NmDate[] {
     const updatedDates = dates.map((date) => {
-      if (this.stateService.selectedDate && date.date) {
+      if (this.stateService.rangeSelectionActive && date.date) {
+        if (
+          (this.stateService.selectedDateRange[0] && isSameDay(this.stateService.selectedDateRange[0], date.date)) ||
+          (this.stateService.selectedDateRange[1] && isSameDay(this.stateService.selectedDateRange[1], date.date))
+        ) {
+          date.setSelected(true);
+        } else {
+          date.setSelected(false);
+        }
+      } else if (this.stateService.selectedDate && date.date) {
         if (isSameDay(this.stateService.selectedDate, date.date)) {
           date.setSelected(true);
         } else {

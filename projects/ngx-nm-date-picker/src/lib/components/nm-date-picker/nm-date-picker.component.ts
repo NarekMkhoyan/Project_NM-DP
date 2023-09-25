@@ -167,7 +167,16 @@ export class NmDatePickerComponent extends Unsubscribe implements ControlValueAc
 
   public ngOnInit(): void {
     this.stateService.emitSelectedDate$.pipe(takeUntil(this.unsubscribe$)).subscribe(() => {
-      this.onChange(this.stateService.selectedDate);
+      if (
+        this.stateService.rangeSelectionActive &&
+        (!this.stateService.selectedDateRange[0] || !this.stateService.selectedDateRange[1])
+      ) {
+        return;
+      }
+      const emitValue = this.stateService.rangeSelectionActive
+        ? this.stateService.selectedDateRange
+        : this.stateService.selectedDate;
+      this.onChange(emitValue);
     });
   }
 
@@ -197,7 +206,9 @@ export class NmDatePickerComponent extends Unsubscribe implements ControlValueAc
 
   public setDisabledState?(isDisabled: boolean): void {}
 
-  private onChange: any = (value: any) => {};
+  private onChange: (value: Date | [Date | null, Date | null] | null) => void = (
+    value: Date | [Date | null, Date | null] | null
+  ) => {};
 
   private onTouch: any = () => {};
 }

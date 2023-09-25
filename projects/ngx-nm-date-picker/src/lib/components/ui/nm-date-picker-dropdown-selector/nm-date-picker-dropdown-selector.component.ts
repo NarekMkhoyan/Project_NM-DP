@@ -30,12 +30,16 @@ export class NmDatePickerDropdownSelectorComponent extends Unsubscribe implement
     return this.stateService.dropdownSelectorState$;
   }
 
-  public get monthName(): string {
-    return this.selectedDate ? this.monthNames[this.selectedDate?.getMonth()] : "";
-  }
-
   public get pickerModeLimitedBy(): NmDatePickerModeType {
     return this.stateService.pickerModeLimitedBy;
+  }
+
+  public get rangeModeActive(): boolean {
+    return this.stateService.rangeSelectionActive;
+  }
+
+  public get dateRange(): [Date | null, Date | null] {
+    return this.stateService.selectedDateRange;
   }
 
   constructor(private readonly stateService: NmDatePickerStateService, private readonly cdr: ChangeDetectorRef) {
@@ -71,5 +75,9 @@ export class NmDatePickerDropdownSelectorComponent extends Unsubscribe implement
     this.stateService.selectedDate = null;
     this.stateService.updatePicker$.next();
     this.stateService.emitSelectedDate$.next();
+  }
+
+  public getMonthName(date: Date | null): string {
+    return date ? this.monthNames[date.getMonth()] : "";
   }
 }

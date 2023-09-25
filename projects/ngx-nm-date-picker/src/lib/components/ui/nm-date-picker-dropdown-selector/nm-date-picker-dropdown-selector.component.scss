@@ -34,6 +34,13 @@
       justify-content: space-between;
       align-items: center;
       color: var(--nm-datepicker-text-color);
+      &_text {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 8px;
+      }
       &_extra {
         display: flex;
         align-items: center;

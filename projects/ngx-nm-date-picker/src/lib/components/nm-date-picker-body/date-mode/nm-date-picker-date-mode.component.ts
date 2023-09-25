@@ -8,6 +8,7 @@ import { Unsubscribe } from "../../unsubscribe/unsubscribe.component";
 import { NmWeekday } from "../../../interfaces/weekdays.interface";
 import { divideIntoChunks } from "../../../utils/chunkDivider";
 import { NmDate } from "../../../interfaces/date.interface";
+import { dateRangeSetter } from "../../../utils/dateRangeSetter";
 
 @Component({
   selector: "nm-date-picker-date-mode",
@@ -39,33 +40,20 @@ export class NmDatePickerDateModeComponent extends Unsubscribe implements OnInit
   public setDate(day: NmDate): void {
     this.stateService.selectedDate = new Date(day.date);
     this.stateService.displayDate = new Date(day.date);
-    if (this.stateService.rangeSelectionActive || !day.isNextMarker && !day.isPrevMarker) {
+    if (this.stateService.rangeSelectionActive || (!day.isNextMarker && !day.isPrevMarker)) {
       this.dates = divideIntoChunks<NmDate>(this.dateModeService.updateSelected(this.datesBackup), 6, 7);
     }
     if (this.stateService.rangeSelectionActive) {
-      let [startDate, endDate] = this.stateService.selectedDateRange;
-      if (!startDate) {
-        startDate = new Date(new Date(day.date).setHours(0, 0, 0, 0));
-      } else {
-        if (endDate) {
-          startDate = new Date(new Date(day.date).setHours(0, 0, 0, 0));
-          endDate = null;
-        } else {
-          if (day.date < startDate) {
-            const startDateCopy = new Date(startDate);
-            startDate = new Date(new Date(day.date).setHours(0, 0, 0, 0));
-            endDate = new Date(new Date(startDateCopy).setHours(23, 59, 59, 999));
-          } else {
-            endDate = new Date(new Date(day.date).setHours(23, 59, 59, 999));
-          }
-        }
-      }
-      this.stateService.selectedDateRange = [startDate, endDate];
+      this.stateService.selectedDateRange = dateRangeSetter(this.stateService.selectedDateRange, day.date);
+      const [start, end] = this.stateService.selectedDateRange;
+      this.stateService.updatePicker$.next();
+      if (start && end) this.stateService.dropdownSelectorState$.next(this.SELECTOR_STATES.INACTIVE);
     } else {
       this.stateService.updatePicker$.next();
-      this.stateService.emitSelectedDate$.next();
       this.stateService.dropdownSelectorState$.next(this.SELECTOR_STATES.INACTIVE);
     }
+
+    this.stateService.emitSelectedDate$.next();
     this.cdr.markForCheck();
   }
 

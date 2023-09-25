@@ -39,6 +39,7 @@ export class NmDatePickerSelectorStateDirective implements OnDestroy {
           this.stateService.dropdownSelectorState$.next(NM_SELECTOR_STATES.INACTIVE);
           this.stateService.pickerMode$.next(this.stateService.pickerModeLimitedBy);
           if (this.stateService.selectedDate) this.stateService.displayDate = new Date(this.stateService.selectedDate);
+          if (!this.stateService.selectedDateRange[1]) this.stateService.selectedDateRange = [null, null];
         }
       });
     });

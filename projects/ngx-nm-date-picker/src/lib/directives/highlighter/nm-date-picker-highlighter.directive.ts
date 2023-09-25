@@ -2,7 +2,8 @@ import { Directive, ElementRef, Input, NgZone, OnDestroy, Renderer2 } from "@ang
 import { NmDatePickerStateService } from "../../services/state/nm-date-picker-state.service";
 import { NmDate } from "../../interfaces/date.interface";
 import { Subject, takeUntil } from "rxjs";
-import { isSameDay } from "../../utils/dateCompare";
+import { isSameDay, isSameMonth, isSameYear } from "../../utils/dateCompare";
+import { getLastDayOfMonth } from "../../utils/lastDay";
 
 @Directive({
   selector: "[nmHighlighter]",
@@ -44,7 +45,11 @@ export class NmDatePickerHighlighterDirective implements OnDestroy {
         if (!this.stateService.rangeSelectionActive || endDate || !this.cellDate) {
           return;
         }
-        this.stateService.possibleRangeEnd$.next(new Date(this.cellDate));
+        let possibleRangeEnd = new Date(this.cellDate);
+        if (this.stateService.pickerModeLimitedBy === "month") {
+          possibleRangeEnd = new Date(getLastDayOfMonth(new Date(this.cellDate)));
+        }
+        this.stateService.possibleRangeEnd$.next(possibleRangeEnd);
       });
     });
   }
@@ -71,41 +76,43 @@ export class NmDatePickerHighlighterDirective implements OnDestroy {
         let end = new Date(endDate);
         if (endDate < startDate) {
           start = new Date(endDate);
+          start.setHours(0, 0, 0, 0);
           end = new Date(startDate);
+          end.setHours(23, 59, 59, 999);
         }
-        // set borders of in-range cells
+
         if (this.cellDate > start && this.cellDate < end) {
           this.renderer.setStyle(this.el.nativeElement, "border-top", this.borderValue);
           this.renderer.setStyle(this.el.nativeElement, "border-bottom", this.borderValue);
           this.renderer.removeStyle(this.el.nativeElement, "border-left");
           this.renderer.removeStyle(this.el.nativeElement, "border-right");
-        } else if (isSameDay(this.cellDate, start)) {
-          this.renderer.setStyle(this.el.nativeElement, "border-top", this.borderValue);
-          this.renderer.setStyle(this.el.nativeElement, "border-bottom", this.borderValue);
-          this.renderer.setStyle(this.el.nativeElement, "border-left", this.borderValue);
-        } else if (isSameDay(this.cellDate, end)) {
-          this.renderer.setStyle(this.el.nativeElement, "border-top", this.borderValue);
-          this.renderer.setStyle(this.el.nativeElement, "border-bottom", this.borderValue);
-          this.renderer.setStyle(this.el.nativeElement, "border-right", this.borderValue);
         } else {
           this.renderer.removeStyle(this.el.nativeElement, "border-top");
           this.renderer.removeStyle(this.el.nativeElement, "border-bottom");
           this.renderer.removeStyle(this.el.nativeElement, "border-left");
           this.renderer.removeStyle(this.el.nativeElement, "border-right");
         }
-        // corrects the dashed borders of the starting and ending cells in range
-        if (!isSameDay(startDate, endDate)) {
-          if (startDate < endDate) {
-            this.renderer.removeStyle(this.el.nativeElement, "border-left");
-            if (isSameDay(this.cellDate, startDate)) {
-              this.renderer.setStyle(this.el.nativeElement, "border-left", this.borderValue);
-            }
-          } else {
-            this.renderer.removeStyle(this.el.nativeElement, "border-left");
-            if (isSameDay(this.cellDate, endDate)) {
-              this.renderer.setStyle(this.el.nativeElement, "border-left", this.borderValue);
-            }
-          }
+        const startChecker =
+          this.stateService.pickerModeLimitedBy === "month"
+            ? isSameMonth(this.cellDate, start)
+            : this.stateService.pickerModeLimitedBy === "year"
+            ? isSameYear(this.cellDate, start)
+            : isSameDay(this.cellDate, start);
+        if (startChecker) {
+          this.renderer.setStyle(this.el.nativeElement, "border-top", this.borderValue);
+          this.renderer.setStyle(this.el.nativeElement, "border-bottom", this.borderValue);
+          this.renderer.setStyle(this.el.nativeElement, "border-left", this.borderValue);
+        }
+        const endChecker =
+          this.stateService.pickerModeLimitedBy === "month"
+            ? isSameMonth(this.cellDate, end)
+            : this.stateService.pickerModeLimitedBy === "year"
+            ? isSameYear(this.cellDate, end)
+            : isSameDay(this.cellDate, end);
+        if (endChecker) {
+          this.renderer.setStyle(this.el.nativeElement, "border-top", this.borderValue);
+          this.renderer.setStyle(this.el.nativeElement, "border-bottom", this.borderValue);
+          this.renderer.setStyle(this.el.nativeElement, "border-right", this.borderValue);
         }
       });
     });

@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { combineLatest, map, takeUntil } from "rxjs";
 import { NmDatePickerStateService } from "../../../services/state/nm-date-picker-state.service";
 import { NmDatePickerMonthModeService } from "../../../services/month-mode/month-mode.service";
 import { NM_SELECTOR_STATES } from "../../../constants/selector-states.enum";
 import { Unsubscribe } from "../../unsubscribe/unsubscribe.component";
 import { NmDate } from "../../../interfaces/date.interface";
+import { monthRangeSetter } from "../../../utils/dateRangeSetter";
 
 @Component({
   selector: "nm-date-picker-month-mode",
@@ -32,8 +33,14 @@ export class NmDatePickerMonthModeComponent extends Unsubscribe implements OnIni
     this.stateService.displayDate = new Date(selectedMonthValue);
     if (this.stateService.pickerModeLimitedBy === "month") {
       this.stateService.selectedDate = new Date(selectedMonthValue);
+      if (this.stateService.rangeSelectionActive) {
+        this.stateService.selectedDateRange = monthRangeSetter(this.stateService.selectedDateRange, selectedMonthValue);
+        const [start, end] = this.stateService.selectedDateRange;
+        if (start && end) this.stateService.dropdownSelectorState$.next(this.SELECTOR_STATES.INACTIVE);
+      } else {
+        this.stateService.dropdownSelectorState$.next(this.SELECTOR_STATES.INACTIVE);
+      }
       this.stateService.emitSelectedDate$.next();
-      this.stateService.dropdownSelectorState$.next(this.SELECTOR_STATES.INACTIVE);
     } else {
       this.stateService.pickerMode$.next("date");
     }
