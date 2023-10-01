@@ -42,6 +42,15 @@ export class NmDatePickerDropdownSelectorComponent extends Unsubscribe implement
     return this.stateService.selectedDateRange;
   }
 
+  public get clearIconVisible(): boolean {
+    if (this.stateService.rangeSelectionActive) {
+      const [start, end] = this.stateService.selectedDateRange;
+      return start !== null && end !== null;
+    } else {
+      return this.selectedDate !== null;
+    }
+  }
+
   constructor(private readonly stateService: NmDatePickerStateService, private readonly cdr: ChangeDetectorRef) {
     super();
   }
@@ -73,6 +82,7 @@ export class NmDatePickerDropdownSelectorComponent extends Unsubscribe implement
 
   public clearPickerValue(): void {
     this.stateService.selectedDate = null;
+    this.stateService.selectedDateRange = [null, null];
     this.stateService.updatePicker$.next();
     this.stateService.emitSelectedDate$.next();
   }

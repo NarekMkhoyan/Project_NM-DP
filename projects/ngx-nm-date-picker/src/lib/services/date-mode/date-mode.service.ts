@@ -24,7 +24,7 @@ export class DateModeService {
     const firstDayIndex = new Date(startOfTheMonth).getDay();
     const lastDayIndex = new Date(endOfTheMonth).getDay();
 
-    const currentMonth: NmDate[] = new Array((endOfTheMonth - startOfTheMonth) / dayInMs + 1)
+    const currentMonth: NmDate[] = new Array(Math.round((endOfTheMonth - startOfTheMonth) / dayInMs) + 1)
       .fill(startOfTheMonth)
       .map((date, index) => {
         const calculatedDate = new Date(date + index * dayInMs);
@@ -68,7 +68,7 @@ export class DateModeService {
       })
       .reverse();
 
-    const roundedOffset = [...prevMonthDays, ...currentMonth].length <= 35 ? 7 + 7 - lastDayOffset : 7 - lastDayOffset;
+    const roundedOffset = 42 - [...prevMonthDays, ...currentMonth].length;
 
     const nextMonth = new Array(roundedOffset).fill(new Date()).map((date, index) => {
       const dateObject = new NmDate(

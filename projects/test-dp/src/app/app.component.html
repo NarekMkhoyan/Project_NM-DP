@@ -1,21 +1,22 @@
 <div class="wrap">
-  <nm-date-picker
+    <nm-date-picker
     [nmMarkWeekends]="true"
     [nmWeekendDisplayMethod]="'end'"
     [nmLanguage]="'ru'"
     [(ngModel)]="date"
     [pickerMode]="'date'"
+    [nmTheme]="'light'"
     [nmSelectorDateFormat]="'dd/MM/YYYY'"
     [nmDisplayMethod]="'dropdown'"
     [nmRangeSelection]="true"
     (ngModelChange)="log($event)"
   ></nm-date-picker>
-
   <div class="test" style="width: 100%">
     <nm-date-picker
       [nmMarkWeekends]="true"
       [nmWeekendDisplayMethod]="'end'"
       [nmLanguage]="'fr'"
+      [nmTheme]="'light'"
       [nmSelectorCustomLabel]="'Testing for a very long name that is longer'"
       [(ngModel)]="date2"
       [pickerMode]="'date'"
@@ -33,17 +34,19 @@
     [(ngModel)]="date"
     [pickerMode]="'date'"
     [nmDisplayMethod]="'inline'"
+    [nmTheme]="'light'"
     [nmMinDate]="now"
     [nmMaxDate]="max"
     [highlightedDates]="datesHighlightFn"
     [nmRangeSelection]="true"
+
     (ngModelChange)="log($event)"
   ></nm-date-picker>
 
   <nm-date-picker
     [nmMarkWeekends]="true"
     [nmWeekendDisplayMethod]="'end'"
-    [nmTheme]="'dark'"
+    [nmTheme]="'light'"
     [nmLanguage]="'en'"
     [(ngModel)]="date"
     [pickerMode]="'date'"
@@ -55,7 +58,7 @@
     [nmMarkWeekends]="true"
     [nmWeekendDisplayMethod]="'end'"
     [nmLanguage]="'am'"
-    [nmTheme]="'dark'"
+    [nmTheme]="'light'"
     [(ngModel)]="date"
     [pickerMode]="'month'"
     [nmDisplayMethod]="'inline'"
@@ -66,7 +69,7 @@
     [nmMarkWeekends]="true"
     [nmWeekendDisplayMethod]="'end'"
     [nmLanguage]="'ru'"
-    [nmTheme]="'dark'"
+    [nmTheme]="'light'"
     [(ngModel)]="date"
     [disabledDates]="disabledDates"
     [nmDisplayMethod]="'inline'"

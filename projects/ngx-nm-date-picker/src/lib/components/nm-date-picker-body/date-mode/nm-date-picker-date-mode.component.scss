@@ -28,7 +28,7 @@
   &-days {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 4px;
     &_row {
       width: 100%;
       display: flex;
@@ -87,8 +87,10 @@
       }
 
       .disabled {
-        background-color: var(--nm-datepicker-hover-background-color);
-        color: var(--nm-datepicker-text-color-secondary);
+        color: var(--nm-datepicker-text-color-disabled);
+      }
+      .disabled.weekend {
+        color: var(--nm-datepicker-color-danger-disabled);
       }
     }
   }
@@ -97,9 +99,4 @@
 .date-mode-days_item,
 .date-mode-weekdays_item {
   border: 0.5px solid transparent;
-}
-
-.date-mode-days_item__disabled {
-  border-left: 1px solid var(--nm-datepicker-hover-background-color);
-  border-right: 1px solid var(--nm-datepicker-hover-background-color);
 }

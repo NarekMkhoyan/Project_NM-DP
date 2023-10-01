@@ -1,6 +1,6 @@
 <div class="selector-wrapper" *ngIf="selectorState$ | async as selectorState">
   <div class="selector">
-    <div class="selector__label" [@labelSlideUp]="!selectedDate && selectorState !== SELECTOR_STATES.ACTIVE">
+    <div class="selector__label" [@labelSlideUp]="!clearIconVisible && selectorState !== SELECTOR_STATES.ACTIVE">
       {{ selectorCustomLabel ? selectorCustomLabel : defaultSelectorLabel }}
     </div>
     <div class="selector__value">
@@ -50,10 +50,16 @@
         </ng-template>
       </div>
       <div class="selector__value_extra">
-        <span nmTrigger *ngIf="selectedDate && selectorState === SELECTOR_STATES.ACTIVE" (click)="clearPickerValue()">
+        <span
+          class="icon"
+          nmTrigger
+          *ngIf="clearIconVisible && selectorState === SELECTOR_STATES.ACTIVE"
+          (click)="clearPickerValue()"
+        >
           <ng-container *ngTemplateOutlet="backspaceIcon"></ng-container>
         </span>
         <span
+          class="icon"
           [class.flip-horizontal-bottom]="selectorState === SELECTOR_STATES.ACTIVE"
           [class.flip-horizontal-reverse]="selectorState === SELECTOR_STATES.INACTIVE"
         >

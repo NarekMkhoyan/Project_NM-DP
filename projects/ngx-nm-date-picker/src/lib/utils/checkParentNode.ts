@@ -1,4 +1,4 @@
-export const isTriggerDescendant: (child: HTMLElement) => boolean = function (child: HTMLElement) {
+export const isTriggerDescendant: (child: HTMLElement) => boolean = (child: HTMLElement) => {
   let parentNode: ParentNode | null = child as ParentNode;
 
   while (parentNode && (parentNode as HTMLElement).classList) {

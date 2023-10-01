@@ -2,19 +2,22 @@
 
 ## To Do list / Brainstorming
 
-1. select a week
-3. Layout with custom templates
-4. market research for useful functionality
+1. market research for useful functionality
 
-5. time select
+2. time select
+3. multiple day selection (ionic)
+4. highlighted days (extra features from ionic)
 
 ## In Development
 
-1. range selection mode
+1. Layout with custom templates
+2. allow clear
+3. invalid(red) and warning states
 
 ## Bugs
-1. dark mode test
-2. picker doesn't update when selecting a date from prev or next month (datemode.service line 27 currentMonth invalid array length)
-   2-1. is random. main problem the currentMonth is being created (new Array) with negative(-) value (2010 March)
-3. disabled dates have border in range mode
-4. 2027.02 (the last line is not generated correctly)
+1. test
+  1.1 in-range dates are hardly visible in dark mode (text color should be inverted)
+  1.2 swipe animation redo(ionic)
+  1.3 flickering colors when openning a selector or hovering the year value in month mode (dp 5-6)
+  1.4 in-range month and years have gaps
+3. log testing on how many times the code runs (e.g. date-mode.service generateDays works 2 times)
