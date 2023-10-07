@@ -33,13 +33,11 @@
 
     <ng-template #nmDatePickerTpl>
       <div class="nm_date-picker__body_wrapper">
-        <div [@modeChange]="nmPickerMode">
-          <nm-date-picker-header></nm-date-picker-header>
-          <nm-date-picker-body
-            [markWeekends]="nmMarkWeekends"
-            [weekendDisplayMethod]="nmWeekendDisplayMethod"
-          ></nm-date-picker-body>
-        </div>
+        <nm-date-picker-header></nm-date-picker-header>
+        <nm-date-picker-body
+          [markWeekends]="nmMarkWeekends"
+          [weekendDisplayMethod]="nmWeekendDisplayMethod"
+        ></nm-date-picker-body>
       </div>
     </ng-template>
   </div>

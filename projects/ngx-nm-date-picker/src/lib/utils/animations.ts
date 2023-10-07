@@ -103,24 +103,6 @@ export const boxShadowDropAnimation = trigger("boxShadowDrop", [
   ]),
 ]);
 
-export const modeChangeAnimation = trigger("modeChange", [
-  transition("* <=> *", [
-    animate(
-      "400ms cubic-bezier(0.250, 0.460, 0.450, 0.940)",
-      keyframes([
-        style({
-          transform: "translateZ(-15px)",
-          opacity: 0.9,
-        }),
-        style({
-          transform: "translateZ(0)",
-          opacity: 1,
-        }),
-      ])
-    ),
-  ]),
-]);
-
 export const swipeRightAnimation = trigger("swipeRight", [
   transition("* <=> *", [
     animate(

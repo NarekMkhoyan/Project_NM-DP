@@ -4,7 +4,7 @@
       <ng-container *ngFor="let year of yearRows; let firstItem = first; let lastItem = last">
         <div
           class="year-mode_row__item-wrapper"
-          [nmHighlighter]="year"
+          [nmHighlighter]="{ dayValue: year, mode: 'year' }"
           nmTrigger
           (click)="!year.disabled && setYear(year.date)"
         >

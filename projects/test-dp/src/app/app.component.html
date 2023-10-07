@@ -46,7 +46,7 @@
     [nmWeekendDisplayMethod]="'end'"
     [nmTheme]="'dark'"
     [nmLanguage]="'en'"
-    [(ngModel)]="date"
+    [(ngModel)]="date3"
     [pickerMode]="'date'"
     [nmDisplayMethod]="'inline'"
     (ngModelChange)="log($event)"
@@ -60,6 +60,7 @@
     [(ngModel)]="date"
     [pickerMode]="'month'"
     [nmDisplayMethod]="'inline'"
+    [nmDisabled]="true"
     (ngModelChange)="log($event)"
   ></nm-date-picker>
 
