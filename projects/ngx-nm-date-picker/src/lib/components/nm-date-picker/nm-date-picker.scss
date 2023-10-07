@@ -15,7 +15,7 @@
 
 .nm_date-picker__body_wrapper {
   background-color: var(--nm-datepicker-background-color);
-  -webkit-perspective: 100px;
+  border-radius: 4px;
 }
 
 nm-date-picker {
@@ -31,7 +31,7 @@ nm-date-picker {
 }
 
 .inRange-cell {
-  background-color: var(--nm-datepicker-inrange-cell);
+  background-color: var(--nm-datepicker-inrange-cell-color);
 }
 
 * {

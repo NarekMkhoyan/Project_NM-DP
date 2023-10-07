@@ -50,6 +50,7 @@ export class AppComponent {
   public max = new Date("2043");
   public date: Date = new Date();
   public date2: Date | null = null;
+  public date3: Date | null = null;
   private minDateValue = 1692475200000;
   private maxDateValue = 1693339200000;
   private armenianHolidays = holidays;

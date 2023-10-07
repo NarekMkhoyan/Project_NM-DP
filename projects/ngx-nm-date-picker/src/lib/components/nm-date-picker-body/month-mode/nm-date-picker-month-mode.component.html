@@ -4,8 +4,7 @@
       <ng-container *ngFor="let month of monthRows">
         <div
           class="month-mode_row__item-wrapper"
-          [class.month-mode_row__item-wrapper__disabled]="month.disabled"
-          [nmHighlighter]="month"
+          [nmHighlighter]="{ dayValue: month, mode: 'month' }"
           nmTrigger
           (click)="!month.disabled && setSelectedMonth(month.date)"
         >

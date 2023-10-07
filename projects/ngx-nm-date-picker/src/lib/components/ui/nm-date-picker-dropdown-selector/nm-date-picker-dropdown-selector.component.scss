@@ -33,7 +33,13 @@
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
+      gap: 16px;
       color: var(--nm-datepicker-text-color);
+      &_main {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
       &_text {
         display: flex;
         flex-direction: row;
@@ -42,9 +48,10 @@
         gap: 8px;
       }
       &_extra {
+        min-width: 40px;
         display: flex;
         align-items: center;
-        justify-content: flex-start;
+        justify-content: flex-end;
         gap: 8px;
         span {
           display: flex;
@@ -55,6 +62,13 @@
           svg {
             height: 14px;
             width: 16px;
+          }
+        }
+        .icon {
+          svg {
+            path {
+              stroke: var(--nm-datepicker-text-color);
+            }
           }
         }
       }

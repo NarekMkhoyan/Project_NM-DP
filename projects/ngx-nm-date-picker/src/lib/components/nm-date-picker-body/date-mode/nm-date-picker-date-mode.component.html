@@ -14,8 +14,7 @@
         <ng-container *ngFor="let day of row">
           <div
             class="date-mode-days_item"
-            [class.date-mode-days_item__disabled]="day.disabled"
-            [nmHighlighter]="day"
+            [nmHighlighter]="{ dayValue: day, mode: 'date' }"
             nmTrigger
             (click)="!day.disabled && setDate(day)"
           >

@@ -5,17 +5,18 @@
     [nmLanguage]="'ru'"
     [(ngModel)]="date"
     [pickerMode]="'date'"
+    [nmTheme]="'dark'"
     [nmSelectorDateFormat]="'dd/MM/YYYY'"
     [nmDisplayMethod]="'dropdown'"
     [nmRangeSelection]="true"
     (ngModelChange)="log($event)"
   ></nm-date-picker>
-
   <div class="test" style="width: 100%">
     <nm-date-picker
       [nmMarkWeekends]="true"
       [nmWeekendDisplayMethod]="'end'"
       [nmLanguage]="'fr'"
+      [nmTheme]="'dark'"
       [nmSelectorCustomLabel]="'Testing for a very long name that is longer'"
       [(ngModel)]="date2"
       [pickerMode]="'date'"
@@ -24,7 +25,6 @@
       [nmCustomLocalization]="LOCALIZATION_FRENCH"
       (ngModelChange)="log($event)"
     ></nm-date-picker>
-    <input type="text" name="" id="" />
   </div>
   <nm-date-picker
     [nmMarkWeekends]="true"
@@ -33,6 +33,7 @@
     [(ngModel)]="date"
     [pickerMode]="'date'"
     [nmDisplayMethod]="'inline'"
+    [nmTheme]="'dark'"
     [nmMinDate]="now"
     [nmMaxDate]="max"
     [highlightedDates]="datesHighlightFn"
@@ -45,7 +46,7 @@
     [nmWeekendDisplayMethod]="'end'"
     [nmTheme]="'dark'"
     [nmLanguage]="'en'"
-    [(ngModel)]="date"
+    [(ngModel)]="date3"
     [pickerMode]="'date'"
     [nmDisplayMethod]="'inline'"
     (ngModelChange)="log($event)"
@@ -55,10 +56,11 @@
     [nmMarkWeekends]="true"
     [nmWeekendDisplayMethod]="'end'"
     [nmLanguage]="'am'"
-    [nmTheme]="'dark'"
+    [nmTheme]="'light'"
     [(ngModel)]="date"
     [pickerMode]="'month'"
     [nmDisplayMethod]="'inline'"
+    [nmDisabled]="true"
     (ngModelChange)="log($event)"
   ></nm-date-picker>
 

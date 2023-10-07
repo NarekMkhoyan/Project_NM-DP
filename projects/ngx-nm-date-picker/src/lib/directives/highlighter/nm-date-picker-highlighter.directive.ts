@@ -4,6 +4,7 @@ import { NmDate } from "../../interfaces/date.interface";
 import { Subject, takeUntil } from "rxjs";
 import { isSameDay, isSameMonth, isSameYear } from "../../utils/dateCompare";
 import { getLastDayOfMonth } from "../../utils/lastDay";
+import { NmDatePickerModeType } from "../../interfaces/picker-mode.type";
 
 @Directive({
   selector: "[nmHighlighter]",
@@ -14,12 +15,12 @@ export class NmDatePickerHighlighterDirective implements OnDestroy {
   private hoverEventListener: (() => void) | undefined;
   private cellDate: Date | undefined;
 
-  @Input("nmHighlighter") set day(dayValue: NmDate | undefined) {
-    if (!dayValue) {
+  @Input("nmHighlighter") set day(config: { dayValue: NmDate | undefined; mode: NmDatePickerModeType }) {
+    if (!config.dayValue) {
       return;
     }
-    this.cellDate = new Date(dayValue.date);
-    this.styleInRangeCells();
+    this.cellDate = new Date(config.dayValue.date);
+    this.styleInRangeCells(config.mode);
     this.handleDateCellHover();
   }
 
@@ -54,11 +55,25 @@ export class NmDatePickerHighlighterDirective implements OnDestroy {
     });
   }
 
-  private styleInRangeCells(): void {
+  private styleInRangeCells(mode: NmDatePickerModeType): void {
     if (!this.cellDate) return;
     const [startDate, endDate] = this.stateService.selectedDateRange;
-    if (startDate && this.cellDate >= startDate && endDate && this.cellDate <= endDate) {
-      this.renderer.addClass(this.el.nativeElement, "inRange-cell");
+    if (startDate && endDate) {
+      switch (mode) {
+        case "month":
+          if (isSameMonth(startDate, this.cellDate) || isSameMonth(endDate, this.cellDate)) {
+            this.renderer.addClass(this.el.nativeElement, "inRange-cell");
+          }
+          break;
+        case "year":
+          if (isSameYear(startDate, this.cellDate) || isSameYear(endDate, this.cellDate)) {
+            this.renderer.addClass(this.el.nativeElement, "inRange-cell");
+          }
+          break;
+      }
+      if (this.cellDate >= startDate && this.cellDate <= endDate) {
+        this.renderer.addClass(this.el.nativeElement, "inRange-cell");
+      }
     }
   }
 
