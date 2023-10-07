@@ -13,11 +13,10 @@
 1. Layout with custom templates
 2. allow clear
 3. invalid(red) and warning states
+4. no date selected state for the non-range dp
 
 ## Bugs
 1. test
-  1.1 in-range dates are hardly visible in dark mode (text color should be inverted)
-  1.2 swipe animation redo(ionic)
-  1.3 flickering colors when openning a selector or hovering the year value in month mode (dp 5-6)
-  1.4 in-range month and years have gaps
-3. log testing on how many times the code runs (e.g. date-mode.service generateDays works 2 times)
+  1.1 swipe animation redo(ionic)
+  1.2 flickering colors when openning a selector (use state service to see what is being shared among dps ???? or animation trigger related)
+  1.3 first year and month in range have no background (in-rangeCell)
