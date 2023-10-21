@@ -28,14 +28,14 @@
   &-days {
     display: flex;
     flex-direction: column;
-    gap: 4px;
     &_row {
       width: 100%;
-      display: flex;
-      flex-direction: row;
+      display: grid;
+      grid-template-columns: calc(100% / 7) calc(100% / 7) calc(100% / 7) calc(100% / 7) calc(100% / 7) calc(100% / 7) calc(100% / 7);
       .date-mode-day {
         height: 24px;
         width: 30px;
+        margin: 2px 0;
         color: var(--nm-datepicker-text-color);
         display: flex;
         align-items: center;
@@ -77,8 +77,8 @@
 
       .selected:not(.disabled) {
         .date-mode-day__inner {
-          background-color: var(--nm-datepicker-primary-color);
-          color: var(--nm-datepicker-white);
+          background-color: var(--nm-datepicker-primary-color) !important;
+          color: var(--nm-datepicker-white) !important;
         }
       }
 

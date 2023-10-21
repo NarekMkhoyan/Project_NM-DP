@@ -1,5 +1,4 @@
-@import "./../../../assets/styles/animations";
-@import "./../../../assets/styles/variables";
+@import "./../../assets/styles/variables";
 
 .selector-wrapper {
   padding-top: 12px;
@@ -82,19 +81,16 @@
         width: 400%;
         height: 100%;
         transform: translateX(0);
-        background: linear-gradient(
-          90deg,
-          var(--nm-datepicker-text-color-secondary) 45%,
-          var(--nm-datepicker-primary-color) 100%
-        );
+        background: var(--nm-datepicker-text-color-secondary);
+      }
+      &_inner-warning {
+        background: var(--nm-datepicker-warning-color);
+      }
+      &_inner-error {
+        background: var(--nm-datepicker-error-color);
       }
       &_inner-activated {
-        -webkit-animation: border-activation 0.2s ease-in both;
-        animation: border-activation 0.2s ease-in both;
-      }
-      &_inner-deactivated {
-        -webkit-animation: border-deactivation 0.2s ease-in both;
-        animation: border-deactivation 0.2s ease-in both;
+        background: var(--nm-datepicker-primary-color);
       }
     }
   }
@@ -108,4 +104,46 @@
 .flip-horizontal-reverse {
   -webkit-animation: flip-horizontal-bottom-reverse 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955) both;
   animation: flip-horizontal-bottom-reverse 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955) both;
+}
+
+@-webkit-keyframes flip-horizontal-bottom {
+  0% {
+    -webkit-transform: rotateX(0);
+    transform: rotateX(0);
+  }
+  100% {
+    -webkit-transform: rotateX(-180deg);
+    transform: rotateX(-180deg);
+  }
+}
+@keyframes flip-horizontal-bottom {
+  0% {
+    -webkit-transform: rotateX(0);
+    transform: rotateX(0);
+  }
+  100% {
+    -webkit-transform: rotateX(-180deg);
+    transform: rotateX(-180deg);
+  }
+}
+
+@-webkit-keyframes flip-horizontal-bottom-reverse {
+  0% {
+    -webkit-transform: rotateX(-180deg);
+    transform: rotateX(-180deg);
+  }
+  100% {
+    -webkit-transform: rotateX(0);
+    transform: rotateX(0);
+  }
+}
+@keyframes flip-horizontal-bottom-reverse {
+  0% {
+    -webkit-transform: rotateX(-180deg);
+    transform: rotateX(-180deg);
+  }
+  100% {
+    -webkit-transform: rotateX(0);
+    transform: rotateX(0);
+  }
 }

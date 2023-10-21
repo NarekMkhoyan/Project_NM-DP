@@ -9,10 +9,8 @@
   gap: 2px;
 
   &_row {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-around;
+    display: grid;
+    grid-template-columns: calc(100% / 3) calc(100% / 3) calc(100% / 3);
     .month-mode_row__item-wrapper {
       border: 0.5px solid transparent;
       flex-grow: 1;

@@ -2,15 +2,27 @@
 
 ## To Do list / Brainstorming
 
-1. market research for useful functionality
+2. styles/assets import
+3. custom validator for error status
 
-2. time select
-3. multiple day selection (ionic)
-4. highlighted days (extra features from ionic)
+4. multiple day selection (ionic)
+5. validation colors for inline mode (+range)
+6. make other day picker change optional
+7. events open/close/change-mode...
+8. check exported items
+9. Branding 
 
 ## In Development
 
 1. Layout with custom templates
-2. allow clear
-3. invalid(red) and warning states
-4. no date selected state for the non-range dp (initial state)
+   1.1 date ✔️
+   1.2 week ✔️
+   1.3 month ✔️
+   1.4 year ✔️
+   1.5 header ✔️
+   1.6 selector ✔️
+
+## Bugs
+
+1. disabled dates in between range
+2. timezone problem ???

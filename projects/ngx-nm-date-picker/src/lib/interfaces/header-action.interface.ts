@@ -1,16 +1,15 @@
-import { Subject } from "rxjs";
+import { ReplaySubject } from "rxjs";
 
 export interface IHeaderAction {
   disabled: boolean;
   onClick: () => void;
-  clickObserver$: Subject<boolean>;
+  clickObserver$: ReplaySubject<number>;
 }
 
 export class HeaderAction implements IHeaderAction {
   disabled: boolean = false;
   onClick: () => void = () => {};
-  clickObserver$: Subject<boolean> = new Subject<boolean>();
-  private static animationState: boolean = false;
+  clickObserver$: ReplaySubject<number> = new ReplaySubject<number>(1);
 
   constructor() {
     this.disabled = false;
@@ -18,11 +17,31 @@ export class HeaderAction implements IHeaderAction {
 
   public setOnClickHandler(clickHandler: () => void): this {
     this.onClick = () => {
-      HeaderAction.animationState = !HeaderAction.animationState;
-      this.clickObserver$.next(HeaderAction.animationState);
+      this.clickObserver$.next(Math.random());
       return clickHandler();
     };
 
     return this;
+  }
+}
+
+export interface IHeaderActions {
+  nextAction: HeaderAction;
+  prevAction: HeaderAction;
+  monthAction: HeaderAction;
+  yearAction: HeaderAction;
+}
+
+export class HeaderActions implements IHeaderActions {
+  nextAction: HeaderAction;
+  prevAction: HeaderAction;
+  monthAction: HeaderAction;
+  yearAction: HeaderAction;
+
+  constructor(nextAction: HeaderAction, prevAction: HeaderAction, monthAction: HeaderAction, yearAction: HeaderAction) {
+    this.nextAction = nextAction;
+    this.prevAction = prevAction;
+    this.monthAction = monthAction;
+    this.yearAction = yearAction;
   }
 }

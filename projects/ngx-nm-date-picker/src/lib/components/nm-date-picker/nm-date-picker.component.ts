@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, TemplateRef, ViewEncapsulation } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ContentChild,
+  Input,
+  OnInit,
+  TemplateRef,
+  ViewEncapsulation,
+} from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { Observable, takeUntil } from "rxjs";
 import { boxShadowDropAnimation, fadeInDownwardsAnimation, fadeInUpwardsAnimation } from "../../utils/animations";
@@ -7,13 +15,16 @@ import { NmDatePickerStateService } from "../../services/state/nm-date-picker-st
 import { NmDatePickerMonthModeService } from "../../services/month-mode/month-mode.service";
 import { NmDatePickerDisplayMethodType } from "../../interfaces/picker-display-method.type";
 import { NmDatePickerSelectorStateType } from "../../interfaces/selector-states.type";
+import { NmPublicApiService } from "../../services/public-apis/public-apis.service";
 import { NmHolidaysDisplayType } from "../../interfaces/holiday-display.type";
 import { YearModeService } from "../../services/year-mode/year-mode.service";
 import { DateModeService } from "../../services/date-mode/date-mode.service";
+import { NmSelectorStatusType } from "../../interfaces/selector-status.type";
 import { NM_SELECTOR_STATES } from "../../constants/selector-states.enum";
 import { NmDatePickerModeType } from "../../interfaces/picker-mode.type";
 import { NmLocalizationType } from "../../interfaces/localization.type";
 import { Unsubscribe } from "../unsubscribe/unsubscribe.component";
+import { NmDateInterface } from "../../interfaces/date.interface";
 import { NmLanguageType } from "../../interfaces/language.type";
 
 @Component({
@@ -32,6 +43,7 @@ import { NmLanguageType } from "../../interfaces/language.type";
     NmDatePickerMonthModeService,
     NmDatePickerHeaderService,
     NmDatePickerStateService,
+    NmPublicApiService,
     YearModeService,
     DateModeService,
   ],
@@ -77,9 +89,6 @@ export class NmDatePickerComponent extends Unsubscribe implements ControlValueAc
    */
   @Input() nmMarkWeekends: boolean = false;
 
-  // TODO: test a custom selector. Maybe delay until v3 with custom templates
-  @Input() nmCustomSelectorTpl: TemplateRef<any> | null = null;
-
   /**
    * nmSelectorDateFormat: string | null
    *
@@ -93,16 +102,16 @@ export class NmDatePickerComponent extends Unsubscribe implements ControlValueAc
     this.stateService.localization = { ...this.stateService.localization, ...value };
   }
 
-  @Input() set pickerMode(value: NmDatePickerModeType) {
+  @Input() set nmPickerMode(value: NmDatePickerModeType) {
     this.stateService.pickerMode$.next(value);
     this.stateService.pickerModeLimitedBy = value;
   }
 
-  @Input() set disabledDates(value: (date: Date) => boolean) {
+  @Input() set nmDisabledDates(value: (date: Date) => boolean) {
     this.stateService.disabledDateFunction = value;
   }
 
-  @Input() set highlightedDates(value: (date: Date) => boolean) {
+  @Input() set nmHighlightedDates(value: (date: Date, nmDateObject: NmDateInterface) => boolean) {
     this.stateService.highlightedDatesFunction = value;
   }
 
@@ -141,6 +150,36 @@ export class NmDatePickerComponent extends Unsubscribe implements ControlValueAc
     this.stateService.rangeSelectionActive = activeState;
   }
 
+  @Input() set nmAllowClear(clearIconVisible: boolean) {
+    this.stateService.nmAllowClear = clearIconVisible;
+  }
+
+  @Input() set nmStatus(status: NmSelectorStatusType) {
+    this.stateService.nmStatus = status;
+  }
+
+  @ContentChild("nmCustomDayCellTpl") set customDayCellTpl(value: TemplateRef<any> | undefined) {
+    this.stateService.customDayCellTpl = value;
+  }
+
+  @ContentChild("nmCustomWeekCellTpl") set customWeekCellTpl(value: TemplateRef<any> | undefined) {
+    this.stateService.customWeekCellTpl = value;
+  }
+
+  @ContentChild("nmCustomMonthCellTpl") set customMonthCellTpl(value: TemplateRef<any> | undefined) {
+    this.stateService.customMonthCellTpl = value;
+  }
+
+  @ContentChild("nmCustomYearCellTpl") set customYearCellTpl(value: TemplateRef<any> | undefined) {
+    this.stateService.customYearCellTpl = value;
+  }
+
+  @ContentChild("nmCustomHeaderTpl") set customHeaderTpl(value: TemplateRef<any> | undefined) {
+    this.stateService.customHeaderTpl = value;
+  }
+
+  @ContentChild("nmCustomSelectorTpl") nmCustomSelectorTpl: TemplateRef<any> | undefined;
+
   public get nmDisplayMethod(): NmDatePickerDisplayMethodType {
     return this.stateService.pickerDisplayMethod;
   }
@@ -154,6 +193,7 @@ export class NmDatePickerComponent extends Unsubscribe implements ControlValueAc
   }
 
   constructor(
+    public readonly nmPublicApiService: NmPublicApiService,
     private readonly yearModeService: YearModeService,
     private readonly stateService: NmDatePickerStateService
   ) {
@@ -172,6 +212,13 @@ export class NmDatePickerComponent extends Unsubscribe implements ControlValueAc
         ? this.stateService.selectedDateRange
         : this.stateService.selectedDate;
       this.onChange(emitValue);
+      this.onTouch();
+    });
+
+    this.stateService.dropdownSelectorState$.pipe(takeUntil(this.unsubscribe$)).subscribe((selectorState) => {
+      if (selectorState === "inactive") {
+        this.onTouch();
+      }
     });
   }
 
@@ -185,7 +232,6 @@ export class NmDatePickerComponent extends Unsubscribe implements ControlValueAc
     } else {
       date = new Date();
     }
-    this.stateService.selectedDate = date ? new Date(date) : date;
     this.stateService.displayDate = date ? new Date(date) : new Date();
     this.yearModeService.setDecadeMarker();
     this.stateService.updatePicker$.next();

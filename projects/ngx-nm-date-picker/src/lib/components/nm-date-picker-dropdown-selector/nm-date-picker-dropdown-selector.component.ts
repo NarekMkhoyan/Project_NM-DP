@@ -1,13 +1,14 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from "@angular/core";
 import { Observable, combineLatest, map, takeUntil } from "rxjs";
-import { NM_FALLBACK_LANGUAGE, NM_SELECTOR_LABEL_LOCALIZATION } from "../../../constants/localization.constant";
-import { NmDatePickerStateService } from "../../../services/state/nm-date-picker-state.service";
-import { NmDatePickerSelectorStateType } from "../../../interfaces/selector-states.type";
-import { NM_SELECTOR_STATES } from "../../../constants/selector-states.enum";
-import { NmDatePickerModeType } from "../../../interfaces/picker-mode.type";
-import { Unsubscribe } from "../../unsubscribe/unsubscribe.component";
-import { NmLanguageType } from "../../../interfaces/language.type";
-import { labelSlideUpAnimation } from "../../../utils/animations";
+import { NM_FALLBACK_LANGUAGE, NM_SELECTOR_LABEL_LOCALIZATION } from "../../constants/localization.constant";
+import { NmDatePickerStateService } from "../../services/state/nm-date-picker-state.service";
+import { NmDatePickerSelectorStateType } from "../../interfaces/selector-states.type";
+import { NmSelectorStatusType } from "../../interfaces/selector-status.type";
+import { NM_SELECTOR_STATES } from "../../constants/selector-states.enum";
+import { NmDatePickerModeType } from "../../interfaces/picker-mode.type";
+import { Unsubscribe } from "../unsubscribe/unsubscribe.component";
+import { NmLanguageType } from "../../interfaces/language.type";
+import { labelSlideUpAnimation } from "../../utils/animations";
 
 @Component({
   selector: "nm-date-picker-dropdown-selector",
@@ -40,6 +41,14 @@ export class NmDatePickerDropdownSelectorComponent extends Unsubscribe implement
 
   public get dateRange(): [Date | null, Date | null] {
     return this.stateService.selectedDateRange;
+  }
+
+  public get allowClear(): boolean {
+    return this.stateService.nmAllowClear;
+  }
+
+  public get status(): NmSelectorStatusType {
+    return this.stateService.nmStatus;
   }
 
   public get clearIconVisible(): boolean {

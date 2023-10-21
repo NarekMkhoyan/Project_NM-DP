@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, TemplateRef } from "@angular/core";
 import { combineLatest, map, takeUntil } from "rxjs";
 import { NmDatePickerStateService } from "../../../services/state/nm-date-picker-state.service";
 import { NmDatePickerMonthModeService } from "../../../services/month-mode/month-mode.service";
@@ -16,6 +16,10 @@ import { monthRangeSetter } from "../../../utils/dateRangeSetter";
 export class NmDatePickerMonthModeComponent extends Unsubscribe implements OnInit {
   public months: NmDate[][] = [];
   private SELECTOR_STATES = NM_SELECTOR_STATES;
+
+  get customMonthCellTpl(): TemplateRef<any> | undefined {
+    return this.stateService.customMonthCellTpl;
+  }
 
   constructor(
     private readonly monthService: NmDatePickerMonthModeService,

@@ -4,13 +4,13 @@ export const btnClickAnimation = trigger("click", [
   state(
     "false",
     style({
-      "background-color": "var(--nm-datepicker-background-color)",
+      "background-color": "transparent",
     })
   ),
   state(
     "true",
     style({
-      "background-color": "var(--nm-datepicker-background-color)",
+      "background-color": "transparent",
     })
   ),
   transition("* <=> *", [
@@ -109,7 +109,7 @@ export const swipeRightAnimation = trigger("swipeRight", [
       "400ms cubic-bezier(0.390, 0.575, 0.565, 1.000)",
       keyframes([
         style({
-          transform: "translateX(-25px)",
+          transform: "translateX(-5px)",
           opacity: 0,
         }),
         style({
@@ -127,7 +127,7 @@ export const swipeLeftAnimation = trigger("swipeLeft", [
       "400ms cubic-bezier(0.390, 0.575, 0.565, 1.000)",
       keyframes([
         style({
-          transform: "translateX(25px)",
+          transform: "translateX(5px)",
           opacity: 0,
         }),
         style({

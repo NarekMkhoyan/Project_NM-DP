@@ -10,3 +10,10 @@ export * from "./lib/directives/theme-change/nm-date-picker-theme.directive";
 
 export * from "./lib/interfaces/localization.type";
 
+export * from "./lib/interfaces/date.interface";
+
+export * from "./lib/interfaces/selector-status.type";
+
+export { IHeaderActions, IHeaderAction } from "./lib/interfaces/header-action.interface";
+
+export * from "./lib/services/public-apis/public-apis.service";

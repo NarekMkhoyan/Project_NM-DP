@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, TemplateRef } from "@angular/core";
 import { combineLatest, map, takeUntil } from "rxjs";
 import { NmDatePickerStateService } from "../../../services/state/nm-date-picker-state.service";
 import { DateModeService } from "../../../services/date-mode/date-mode.service";
@@ -25,6 +25,14 @@ export class NmDatePickerDateModeComponent extends Unsubscribe implements OnInit
   @Input() weekendDisplayMethod: NmHolidaysDisplayType = "end";
   @Input() markWeekends: boolean = false;
 
+  get customDayCellTpl(): TemplateRef<any> | undefined {
+    return this.stateService.customDayCellTpl;
+  }
+
+  get customWeekCellTpl(): TemplateRef<any> | undefined {
+    return this.stateService.customWeekCellTpl;
+  }
+
   constructor(
     private readonly stateService: NmDatePickerStateService,
     private readonly dateModeService: DateModeService,
@@ -38,6 +46,10 @@ export class NmDatePickerDateModeComponent extends Unsubscribe implements OnInit
   }
 
   public setDate(day: NmDate): void {
+   // TODO: make optional
+    // if (day.isNextMarker || day.isPrevMarker) {
+    //   return;
+    // }
     this.stateService.selectedDate = new Date(day.date);
     this.stateService.displayDate = new Date(day.date);
     if (this.stateService.rangeSelectionActive || (!day.isNextMarker && !day.isPrevMarker)) {

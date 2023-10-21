@@ -8,7 +8,12 @@
           nmTrigger
           (click)="!month.disabled && setSelectedMonth(month.date)"
         >
-          <ng-container *ngTemplateOutlet="defaultMonthCell; context: { $implicit: month }"></ng-container>
+          <ng-container *ngIf="customMonthCellTpl; else defaultMonthCellTpl">
+            <ng-container *ngTemplateOutlet="customMonthCellTpl; context: { $implicit: month }"></ng-container>
+          </ng-container>
+          <ng-template #defaultMonthCellTpl>
+            <ng-container *ngTemplateOutlet="defaultMonthCell; context: { $implicit: month }"></ng-container>
+          </ng-template>
         </div>
       </ng-container>
     </div>
@@ -24,7 +29,7 @@
     >
       <div class="month-mode_row__item__inner">
         <span>
-          {{ month?.displayName }}
+          {{ month.displayName }}
         </span>
       </div>
     </div>

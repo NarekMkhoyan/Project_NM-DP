@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, TemplateRef } from "@angular/core";
 import { Observable, combineLatest, takeUntil } from "rxjs";
 import { NmDatePickerHeaderService } from "../../../services/header/nm-date-picker-header.service";
 import { NmDatePickerStateService } from "../../../services/state/nm-date-picker-state.service";
+import { NmPublicApiService } from "../../../services/public-apis/public-apis.service";
 import { NM_FALLBACK_LANGUAGE } from "../../../constants/localization.constant";
+import { IHeaderActions } from "../../../interfaces/header-action.interface";
 import { NmDatePickerModeType } from "../../../interfaces/picker-mode.type";
-import { HeaderAction } from "../../../interfaces/header-action.interface";
 import { Unsubscribe } from "../../unsubscribe/unsubscribe.component";
 import { NmLanguageType } from "../../../interfaces/language.type";
 import { btnClickAnimation } from "../../../utils/animations";
@@ -17,9 +18,6 @@ import { btnClickAnimation } from "../../../utils/animations";
   animations: [btnClickAnimation],
 })
 export class NmDatePickerHeaderComponent extends Unsubscribe implements OnInit {
-  public animationMonth = false;
-  public animationYear = false;
-  // FIXME: refactor the variables above out by correct animations
   public pickerBodyWidth: number = 0;
   public selectedMonth: string = this.setMonthName(NM_FALLBACK_LANGUAGE);
   public selectedDate: Date = new Date();
@@ -33,17 +31,18 @@ export class NmDatePickerHeaderComponent extends Unsubscribe implements OnInit {
     return `${this.stateService.decadeMarkingYear - 11} - ${this.stateService.decadeMarkingYear}`;
   }
 
-  get prevBtn(): HeaderAction | null {
-    return this.stateService.headerActions[0] || null;
+  get headerActions(): IHeaderActions | null {
+    return this.publicApisService.headerActions;
   }
 
-  get nextBtn(): HeaderAction | null {
-    return this.stateService.headerActions[1] || null;
+  get customHeaderTpl(): TemplateRef<any> | undefined {
+    return this.stateService.customHeaderTpl;
   }
 
   constructor(
     private readonly headerService: NmDatePickerHeaderService,
     private readonly stateService: NmDatePickerStateService,
+    private readonly publicApisService: NmPublicApiService,
     private readonly cdr: ChangeDetectorRef
   ) {
     super();
@@ -65,17 +64,6 @@ export class NmDatePickerHeaderComponent extends Unsubscribe implements OnInit {
       this.language = currentLanguage;
       this.cdr.markForCheck();
     });
-  }
-
-  public setPickerMode(pickerMode: NmDatePickerModeType): void {
-    this.stateService.pickerMode$.next(pickerMode);
-    if (pickerMode === "month") {
-      this.animationMonth = !this.animationMonth;
-    }
-    if (pickerMode === "year") {
-      this.animationYear = !this.animationYear;
-    }
-    this.stateService.updatePicker$.next();
   }
 
   private setMonthName(language: NmLanguageType): string {

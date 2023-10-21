@@ -1,10 +1,11 @@
 nm-date-picker {
   // common colors
-
   --nm-datepicker-white: #ffffff;
   --nm-datepicker-text-color-dark: #202020;
   --nm-datepicker-color-danger: #ff4d4f;
   --nm-datepicker-holiday-color: #ff4d4f;
+  --nm-datepicker-warning-color: #faad14;
+  --nm-datepicker-error-color: #ff4d4f;
 
   // light colors
   --nm-datepicker-primary-color: #3794ff;
@@ -16,7 +17,7 @@ nm-date-picker {
   --nm-datepicker-color-danger-disabled: #ffbcbc;
   --nm-datepicker-holiday-color-disabled: #ffbcbc;
   --nm-datepicker-text-color-secondary: #808080;
-  --nm-datepicker-disabled: grayscale(0.4) opacity(0.7); //TODO:
+  --nm-datepicker-disabled: grayscale(0.4) opacity(0.7);
 }
 
 [nm-theme="dark"] {

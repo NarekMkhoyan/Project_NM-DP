@@ -1,5 +1,12 @@
-import { Component } from "@angular/core";
-import { NmLocalizationType } from "ngx-nm-date-picker";
+import { ChangeDetectionStrategy, Component, ViewChild } from "@angular/core";
+import { AbstractControl, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {
+  IHeaderActions,
+  NmDateInterface,
+  NmDatePickerComponent,
+  NmLocalizationType,
+  NmSelectorStatusType,
+} from "ngx-nm-date-picker";
 
 const LOCALIZATION_FRENCH: NmLocalizationType = {
   fr: {
@@ -43,6 +50,7 @@ const holidays: Date[] = [
   selector: "app-root",
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.scss"],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
   public LOCALIZATION_FRENCH = LOCALIZATION_FRENCH;
@@ -54,18 +62,80 @@ export class AppComponent {
   private minDateValue = 1692475200000;
   private maxDateValue = 1693339200000;
   private armenianHolidays = holidays;
+  public form!: FormGroup;
+
+  @ViewChild("customNmDatePicker") customNmDatePicker!: NmDatePickerComponent;
+
   log(date: Date) {
     console.log(date, "onCahnge");
+  }
+
+  get dateCOntrol(): AbstractControl<Date> | null {
+    return this.form.get("date");
+  }
+
+  get pickerStatus(): NmSelectorStatusType {
+    console.log();
+    if (this.dateCOntrol?.value && this.form.touched && String(this.dateCOntrol?.value.getDate()).includes("5")) {
+      return "error";
+    }
+    return !this.form.valid && this.form.touched ? "warning" : "default";
+  }
+
+  get nmHeaderActions(): IHeaderActions | null {
+    if (!this.customNmDatePicker) {
+      return null;
+    }
+    return this.customNmDatePicker.nmPublicApiService.headerActions;
+  }
+
+  get calendarWidth(): number {
+    return (document.body.clientWidth - 30) / 7;
+  }
+
+  constructor(private readonly fb: FormBuilder) {
+    this.form = this.fb.group({
+      date: ["", Validators.required],
+    });
+
+    this.form.valueChanges.subscribe((form) => {
+      console.log(form);
+      console.log(this.form.valid);
+    });
   }
 
   public disabledDates: (date: Date) => boolean = (date: Date) => {
     return date.getTime() < this.minDateValue || date.getTime() > this.maxDateValue || date.getTime() === 1692907200000;
   };
 
-  public datesHighlightFn: (date: Date) => boolean = (date: Date) => {
-    return !!this.armenianHolidays.find(
+  public datesHighlightFn: (date: Date, nmDateObject: NmDateInterface) => boolean = (
+    date: Date,
+    nmDateObject: NmDateInterface
+  ) => {
+    const isArmenianholiday = !!this.armenianHolidays.find(
       (holiday) => holiday.getMonth() === date.getMonth() && holiday.getDate() === date.getDate()
     );
+    if (isArmenianholiday) {
+      switch (date.getDate()) {
+        case 2:
+          nmDateObject.customTextColor = "#097255";
+          nmDateObject.customBackgroundColor = "#c8e5d0";
+          break;
+        case 3:
+          nmDateObject.customTextColor = "#800080";
+          nmDateObject.customBackgroundColor = "#ffc0cb";
+          break;
+        case 4:
+          nmDateObject.customTextColor = "#440ab8";
+          nmDateObject.customBackgroundColor = "#d3c8e5";
+          break;
+        case 5:
+          nmDateObject.customTextColor = "#ffffff";
+          nmDateObject.customBackgroundColor = "#50c8ff";
+          break;
+      }
+    }
+    return isArmenianholiday;
   };
 
   // get url(): string {

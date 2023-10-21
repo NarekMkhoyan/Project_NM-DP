@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, TemplateRef } from "@angular/core";
 import { takeUntil } from "rxjs";
 import { NmDatePickerStateService } from "../../../services/state/nm-date-picker-state.service";
 import { YearModeService } from "../../../services/year-mode/year-mode.service";
@@ -16,6 +16,10 @@ import { yearRangeSetter } from "../../../utils/dateRangeSetter";
 export class NmDatePickerYearModeComponent extends Unsubscribe implements OnInit {
   private SELECTOR_STATES = NM_SELECTOR_STATES;
   public years: NmDate[][] = [];
+
+  get customYearCellTpl(): TemplateRef<any> | undefined {
+    return this.stateService.customYearCellTpl;
+  }
 
   constructor(
     private readonly stateService: NmDatePickerStateService,

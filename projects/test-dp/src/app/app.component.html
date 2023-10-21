@@ -1,14 +1,15 @@
-<div class="wrap">
-  <nm-date-picker
+<div class="wrap" #wrap>
+  <!-- <nm-date-picker
     [nmMarkWeekends]="true"
     [nmWeekendDisplayMethod]="'end'"
     [nmLanguage]="'ru'"
     [(ngModel)]="date"
-    [pickerMode]="'date'"
+    [nmPickerMode]="'date'"
     [nmTheme]="'dark'"
     [nmSelectorDateFormat]="'dd/MM/YYYY'"
     [nmDisplayMethod]="'dropdown'"
     [nmRangeSelection]="true"
+    [nmAllowClear]="false"
     (ngModelChange)="log($event)"
   ></nm-date-picker>
   <div class="test" style="width: 100%">
@@ -19,10 +20,11 @@
       [nmTheme]="'dark'"
       [nmSelectorCustomLabel]="'Testing for a very long name that is longer'"
       [(ngModel)]="date2"
-      [pickerMode]="'date'"
+      [nmPickerMode]="'date'"
       [nmDisplayMethod]="'dropdown'"
       [nmRangeSelection]="true"
       [nmCustomLocalization]="LOCALIZATION_FRENCH"
+      [nmAllowClear]="false"
       (ngModelChange)="log($event)"
     ></nm-date-picker>
   </div>
@@ -31,12 +33,12 @@
     [nmWeekendDisplayMethod]="'end'"
     [nmLanguage]="'ru'"
     [(ngModel)]="date"
-    [pickerMode]="'date'"
+    [nmPickerMode]="'date'"
     [nmDisplayMethod]="'inline'"
     [nmTheme]="'dark'"
     [nmMinDate]="now"
     [nmMaxDate]="max"
-    [highlightedDates]="datesHighlightFn"
+    [nmHighlightedDates]="datesHighlightFn"
     [nmRangeSelection]="true"
     (ngModelChange)="log($event)"
   ></nm-date-picker>
@@ -47,7 +49,7 @@
     [nmTheme]="'dark'"
     [nmLanguage]="'en'"
     [(ngModel)]="date3"
-    [pickerMode]="'date'"
+    [nmPickerMode]="'date'"
     [nmDisplayMethod]="'inline'"
     (ngModelChange)="log($event)"
   ></nm-date-picker>
@@ -58,7 +60,7 @@
     [nmLanguage]="'am'"
     [nmTheme]="'light'"
     [(ngModel)]="date"
-    [pickerMode]="'month'"
+    [nmPickerMode]="'month'"
     [nmDisplayMethod]="'inline'"
     [nmDisabled]="true"
     (ngModelChange)="log($event)"
@@ -70,19 +72,171 @@
     [nmLanguage]="'ru'"
     [nmTheme]="'dark'"
     [(ngModel)]="date"
-    [disabledDates]="disabledDates"
+    [nmDisabledDates]="disabledDates"
     [nmDisplayMethod]="'inline'"
-    [pickerMode]="'date'"
+    [nmPickerMode]="'date'"
+    (ngModelChange)="log($event)"
+    [nmRangeSelection]="true"
+  ></nm-date-picker>
+
+  <form [formGroup]="form">
+    <nm-date-picker
+      [nmMarkWeekends]="true"
+      [nmWeekendDisplayMethod]="'end'"
+      [nmLanguage]="'ru'"
+      [formControlName]="'date'"
+      [nmPickerMode]="'date'"
+      [nmTheme]="'dark'"
+      [nmSelectorDateFormat]="'dd/MM/YYYY'"
+      [nmDisplayMethod]="'dropdown'"
+      [nmStatus]="pickerStatus"
+      (ngModelChange)="log($event)"
+    ></nm-date-picker>
+  </form> -->
+
+  <nm-date-picker
+    [nmMarkWeekends]="true"
+    [nmWeekendDisplayMethod]="'end'"
+    [nmTheme]="'dark'"
+    [nmLanguage]="'en'"
+    [(ngModel)]="date3"
+    [nmPickerMode]="'date'"
+    [nmDisplayMethod]="'inline'"
+    [nmRangeSelection]="true"
     (ngModelChange)="log($event)"
   ></nm-date-picker>
+
+  <nm-date-picker
+    [nmMarkWeekends]="true"
+    [nmWeekendDisplayMethod]="'end'"
+    [nmTheme]="'dark'"
+    [nmLanguage]="'en'"
+    [(ngModel)]="date3"
+    [nmPickerMode]="'date'"
+    [nmDisplayMethod]="'inline'"
+    (ngModelChange)="log($event)"
+    [nmDisplayMethod]="'dropdown'"
+  ></nm-date-picker>
+
+  <nm-date-picker
+    #customNmDatePicker
+    class="custom-date-picker"
+    [nmMarkWeekends]="false"
+    [nmWeekendDisplayMethod]="'split'"
+    [nmLanguage]="'en'"
+    [(ngModel)]="date"
+    [nmPickerMode]="'date'"
+    [nmTheme]="'light'"
+    [nmDisplayMethod]="'dropdown'"
+    (ngModelChange)="log($event)"
+  >
+    <ng-template #nmCustomDayCellTpl let-day>
+      <div
+        class="custom-day"
+        [class.other-month]="day.isNextMarker || day.isPrevMarker"
+        [class.selected]="day.isSelected"
+        [class.today]="day.isToday"
+      >
+        <span>{{ day.date | date : "d" }}</span>
+      </div>
+    </ng-template>
+
+    <ng-template #nmCustomWeekCellTpl let-week>
+      <div class="custom-week">
+        <span>{{ week.name[0] }}</span>
+      </div>
+    </ng-template>
+
+    <ng-template #nmCustomMonthCellTpl let-month>
+      <div class="custom-month" [class.custom-month__selected]="month.isSelected">
+        {{ month.displayName }}
+      </div>
+    </ng-template>
+
+    <ng-template #nmCustomYearCellTpl let-year>
+      <div class="custom-year" [class.custom-year__selected]="year.isSelected">
+        {{ year.date | date : "YYYY" }}
+      </div>
+    </ng-template>
+
+    <ng-template #nmCustomSelectorTpl>
+      <div class="custom-selector">
+        <div class="year">{{ date | date : "YYYY" }}</div>
+        <div class="date">{{ date | date : "MMMM dd" }}</div>
+      </div>
+    </ng-template>
+
+    <ng-template #nmCustomHeaderTpl>
+      <div class="custom-header" *ngIf="nmHeaderActions">
+        <button
+          class="arrow-btn"
+          [disabled]="nmHeaderActions.prevAction.disabled"
+          (click)="nmHeaderActions.prevAction.onClick()"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="chevron-left-arrow">
+            <g data-name="16">
+              <rect width="24" height="24" fill="none"></rect>
+              <path
+                d="M14.16,14.72a.75.75,0,0,1,0,1.06.76.76,0,0,1-1.07,0L9.84,12.53a.75.75,0,0,1,0-1.06l3.25-3.25a.77.77,0,0,1,1.07,0,.75.75,0,0,1,0,1.06L11.44,12Z"
+              ></path>
+            </g>
+          </svg>
+        </button>
+        <div class="date">
+          <button
+            class="text-btn"
+            [disabled]="nmHeaderActions.monthAction.disabled"
+            (click)="nmHeaderActions.monthAction.onClick()"
+          >
+            {{ date | date : "MMMM" }}</button
+          >&nbsp;
+          <button
+            class="text-btn"
+            [disabled]="nmHeaderActions.yearAction.disabled"
+            (click)="nmHeaderActions.yearAction.onClick()"
+          >
+            {{ date | date : "YYYY" }}
+          </button>
+        </div>
+        <button
+          class="arrow-btn"
+          [disabled]="nmHeaderActions.nextAction.disabled"
+          (click)="nmHeaderActions.nextAction.onClick()"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="chevron-right-arrow">
+            <g data-name="17">
+              <rect width="24" height="24" fill="none" transform="rotate(180 12 12)"></rect>
+              <path
+                d="M9.84,14.72A.75.75,0,0,0,10.38,16a.74.74,0,0,0,.53-.22l3.25-3.25a.75.75,0,0,0,0-1.06L10.91,8.22a.77.77,0,0,0-1.07,0,.75.75,0,0,0,0,1.06L12.56,12Z"
+              ></path>
+            </g>
+          </svg>
+        </button>
+      </div>
+    </ng-template>
+  </nm-date-picker>
+
+  <nm-date-picker
+    [nmMarkWeekends]="true"
+    [nmWeekendDisplayMethod]="'end'"
+    [nmTheme]="'light'"
+    [nmLanguage]="'en'"
+    [(ngModel)]="date3"
+    [nmPickerMode]="'date'"
+    [nmDisplayMethod]="'inline'"
+    (ngModelChange)="log($event)"
+    [nmDisplayMethod]="'inline'"
+  >
+    <ng-template #nmCustomDayCellTpl let-day>
+      <div
+        class="custom-day-calendar"
+        [class.calendar-other-month]="day.isNextMarker || day.isPrevMarker"
+        [class.calendar-selected]="day.isSelected"
+        [class.calendar-today]="day.isToday"
+        [style.width.px]="calendarWidth"
+      >
+        <span class="date-marker">{{ day.date | date : "d" }}</span>
+      </div>
+    </ng-template>
+  </nm-date-picker>
 </div>
-
-<!-- <img #imgTest [src]="image" id="imageForTest" nmImageBlur /> -->
-
-<!-- <div
-[nmImageBlur]="image"
-style="width: 350px; height: 350px"
->
-
-</div>
- -->

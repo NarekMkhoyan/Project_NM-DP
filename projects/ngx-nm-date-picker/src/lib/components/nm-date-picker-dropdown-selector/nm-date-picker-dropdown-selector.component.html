@@ -53,7 +53,7 @@
         <span
           class="icon"
           nmTrigger
-          *ngIf="clearIconVisible && selectorState === SELECTOR_STATES.ACTIVE"
+          *ngIf="clearIconVisible && selectorState === SELECTOR_STATES.ACTIVE && allowClear"
           (click)="clearPickerValue()"
         >
           <ng-container *ngTemplateOutlet="backspaceIcon"></ng-container>
@@ -70,8 +70,9 @@
     <div class="selector__border">
       <div
         class="selector__border_inner"
+        [class.selector__border_inner-error]="status === 'error'"
+        [class.selector__border_inner-warning]="status === 'warning'"
         [class.selector__border_inner-activated]="selectorState === SELECTOR_STATES.ACTIVE"
-        [class.selector__border_inner-deactivated]="selectorState === SELECTOR_STATES.INACTIVE"
       ></div>
     </div>
   </div>
