@@ -58,13 +58,14 @@ export class AppComponent {
   public max = new Date("2043");
   public date: Date = new Date();
   public date2: Date | null = null;
-  public date3: Date | null = null;
+  public date3: Date | null = new Date();
   private minDateValue = 1692475200000;
   private maxDateValue = 1693339200000;
   private armenianHolidays = holidays;
   public form!: FormGroup;
 
   @ViewChild("customNmDatePicker") customNmDatePicker!: NmDatePickerComponent;
+  @ViewChild("customCalendarPicker") customCalendarPicker!: NmDatePickerComponent;
 
   log(date: Date) {
     console.log(date, "onCahnge");
@@ -87,6 +88,14 @@ export class AppComponent {
       return null;
     }
     return this.customNmDatePicker.nmPublicApiService.headerActions;
+  }
+
+
+  get nmCalendarHeaderActions(): IHeaderActions | null {
+    if (!this.customCalendarPicker) {
+      return null;
+    }
+    return this.customCalendarPicker.nmPublicApiService.headerActions;
   }
 
   get calendarWidth(): number {

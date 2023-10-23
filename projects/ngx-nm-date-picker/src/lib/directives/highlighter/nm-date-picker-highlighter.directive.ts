@@ -97,15 +97,15 @@ export class NmDatePickerHighlighterDirective implements OnDestroy {
         }
 
         if (this.cellDate > start && this.cellDate < end) {
-          this.renderer.setStyle(this.el.nativeElement, "border-top", this.borderValue);
-          this.renderer.setStyle(this.el.nativeElement, "border-bottom", this.borderValue);
-          this.renderer.removeStyle(this.el.nativeElement, "border-left");
-          this.renderer.removeStyle(this.el.nativeElement, "border-right");
+          this.renderer.setStyle(this.el.nativeElement.firstChild, "border-top", this.borderValue);
+          this.renderer.setStyle(this.el.nativeElement.firstChild, "border-bottom", this.borderValue);
+          this.renderer.removeStyle(this.el.nativeElement.firstChild, "border-left");
+          this.renderer.removeStyle(this.el.nativeElement.firstChild, "border-right");
         } else {
-          this.renderer.removeStyle(this.el.nativeElement, "border-top");
-          this.renderer.removeStyle(this.el.nativeElement, "border-bottom");
-          this.renderer.removeStyle(this.el.nativeElement, "border-left");
-          this.renderer.removeStyle(this.el.nativeElement, "border-right");
+          this.renderer.removeStyle(this.el.nativeElement.firstChild, "border-top");
+          this.renderer.removeStyle(this.el.nativeElement.firstChild, "border-bottom");
+          this.renderer.removeStyle(this.el.nativeElement.firstChild, "border-left");
+          this.renderer.removeStyle(this.el.nativeElement.firstChild, "border-right");
         }
         const startChecker =
           this.stateService.pickerModeLimitedBy === "month"
@@ -114,9 +114,9 @@ export class NmDatePickerHighlighterDirective implements OnDestroy {
             ? isSameYear(this.cellDate, start)
             : isSameDay(this.cellDate, start);
         if (startChecker) {
-          this.renderer.setStyle(this.el.nativeElement, "border-top", this.borderValue);
-          this.renderer.setStyle(this.el.nativeElement, "border-bottom", this.borderValue);
-          this.renderer.setStyle(this.el.nativeElement, "border-left", this.borderValue);
+          this.renderer.setStyle(this.el.nativeElement.firstChild, "border-top", this.borderValue);
+          this.renderer.setStyle(this.el.nativeElement.firstChild, "border-bottom", this.borderValue);
+          this.renderer.setStyle(this.el.nativeElement.firstChild, "border-left", this.borderValue);
         }
         const endChecker =
           this.stateService.pickerModeLimitedBy === "month"
@@ -125,9 +125,9 @@ export class NmDatePickerHighlighterDirective implements OnDestroy {
             ? isSameYear(this.cellDate, end)
             : isSameDay(this.cellDate, end);
         if (endChecker) {
-          this.renderer.setStyle(this.el.nativeElement, "border-top", this.borderValue);
-          this.renderer.setStyle(this.el.nativeElement, "border-bottom", this.borderValue);
-          this.renderer.setStyle(this.el.nativeElement, "border-right", this.borderValue);
+          this.renderer.setStyle(this.el.nativeElement.firstChild, "border-top", this.borderValue);
+          this.renderer.setStyle(this.el.nativeElement.firstChild, "border-bottom", this.borderValue);
+          this.renderer.setStyle(this.el.nativeElement.firstChild, "border-right", this.borderValue);
         }
       });
     });

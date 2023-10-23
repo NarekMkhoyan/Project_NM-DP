@@ -62,7 +62,7 @@
     border-radius: 8px;
     color: white;
     padding: 12px 20px;
-    width: 248px;
+    width: 234px;
     .year {
       font-size: 16px;
     }
@@ -106,7 +106,7 @@
   }
 
   .custom-day-calendar {
-    border: 0.3px solid lightgray;
+    border: 0.5px solid lightgray;
     padding: 8px 12px;
     display: flex;
     min-height: 110px;
@@ -135,6 +135,42 @@
   .custom-day-calendar.calendar-today {
     .date-marker {
       border: 1px solid var(--nm-datepicker-primary-color);
+    }
+  }
+
+  .custom-calendar-header {
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 24px;
+    .calendar-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 8px;
+      .calendar-arrow-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        outline: none;
+        &:active {
+          background-color: rgba(0, 0, 0, 0.1);
+        }
+      }
+    }
+
+    .date {
+      .calendar-text-btn {
+        border: none;
+        outline: none;
+        font-size: 22px;
+        background-color: transparent;
+      }
     }
   }
 }

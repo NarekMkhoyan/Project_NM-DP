@@ -217,6 +217,7 @@
   </nm-date-picker>
 
   <nm-date-picker
+    #customCalendarPicker
     [nmMarkWeekends]="true"
     [nmWeekendDisplayMethod]="'end'"
     [nmTheme]="'light'"
@@ -226,6 +227,7 @@
     [nmDisplayMethod]="'inline'"
     (ngModelChange)="log($event)"
     [nmDisplayMethod]="'inline'"
+    [nmMarkWeekends]="false"
   >
     <ng-template #nmCustomDayCellTpl let-day>
       <div
@@ -236,6 +238,47 @@
         [style.width.px]="calendarWidth"
       >
         <span class="date-marker">{{ day.date | date : "d" }}</span>
+      </div>
+    </ng-template>
+
+    <ng-template #nmCustomHeaderTpl>
+      <div class="custom-calendar-header" *ngIf="nmCalendarHeaderActions">
+        <div class="calendar-actions">
+          <button
+            class="calendar-arrow-btn"
+            [disabled]="nmCalendarHeaderActions.prevAction.disabled"
+            (click)="nmCalendarHeaderActions.prevAction.onClick()"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="chevron-left-arrow">
+              <g data-name="16">
+                <rect width="24" height="24" fill="none"></rect>
+                <path
+                  d="M14.16,14.72a.75.75,0,0,1,0,1.06.76.76,0,0,1-1.07,0L9.84,12.53a.75.75,0,0,1,0-1.06l3.25-3.25a.77.77,0,0,1,1.07,0,.75.75,0,0,1,0,1.06L11.44,12Z"
+                ></path>
+              </g>
+            </svg>
+          </button>
+          <button
+            class="calendar-arrow-btn"
+            [disabled]="nmCalendarHeaderActions.nextAction.disabled"
+            (click)="nmCalendarHeaderActions.nextAction.onClick()"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="chevron-right-arrow">
+              <g data-name="17">
+                <rect width="24" height="24" fill="none" transform="rotate(180 12 12)"></rect>
+                <path
+                  d="M9.84,14.72A.75.75,0,0,0,10.38,16a.74.74,0,0,0,.53-.22l3.25-3.25a.75.75,0,0,0,0-1.06L10.91,8.22a.77.77,0,0,0-1.07,0,.75.75,0,0,0,0,1.06L12.56,12Z"
+                ></path>
+              </g>
+            </svg>
+          </button>
+        </div>
+        <div class="date">
+          <button class="calendar-text-btn">
+            {{ nmCalendarHeaderActions.monthAction.pickerDisplayDate| date : "MMMM" }}&nbsp;
+            {{ nmCalendarHeaderActions.yearAction.pickerDisplayDate | date : "YYYY" }}
+          </button>
+        </div>
       </div>
     </ng-template>
   </nm-date-picker>

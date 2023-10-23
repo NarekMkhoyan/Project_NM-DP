@@ -98,5 +98,7 @@
 
 .date-mode-days_item,
 .date-mode-weekdays_item {
-  border: 0.5px solid transparent;
+  div:first-child {
+    border: 0.5px solid transparent;
+  }
 }

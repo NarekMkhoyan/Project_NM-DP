@@ -17,10 +17,10 @@ export class NmDatePickerHeaderService {
     this.mode = pickerMode;
     if (this.publicApisService.headerActions === null) {
       this.publicApisService.headerActions = new HeaderActions(
-        new HeaderAction().setOnClickHandler(this.nextActionHandler),
-        new HeaderAction().setOnClickHandler(this.prevActionHandler),
-        new HeaderAction().setOnClickHandler(() => this.setPickerMode('month')),
-        new HeaderAction().setOnClickHandler(() => this.setPickerMode('year'))
+        new HeaderAction(this.stateService.displayDate).setOnClickHandler(this.nextActionHandler),
+        new HeaderAction(this.stateService.displayDate).setOnClickHandler(this.prevActionHandler),
+        new HeaderAction(this.stateService.displayDate).setOnClickHandler(() => this.setPickerMode("month")),
+        new HeaderAction(this.stateService.displayDate).setOnClickHandler(() => this.setPickerMode("year"))
       );
     }
     this.checkForMinMaxRange(pickerMode);
@@ -66,6 +66,7 @@ export class NmDatePickerHeaderService {
   };
 
   private updateSelectedDate(newValue: number): void {
+    this.updateHeaderActionDisplayDates(new Date(newValue));
     this.stateService.displayDate = new Date(newValue);
     this.stateService.updatePicker$.next();
   }
@@ -153,5 +154,18 @@ export class NmDatePickerHeaderService {
           nextAction.disabled = false;
         }
     }
+  }
+
+  private updateHeaderActionDisplayDates(newDate: Date): void {
+    if (!this.publicApisService.headerActions) {
+      return;
+    }
+    const actions: HeaderActions = this.publicApisService.headerActions;
+    for (const key in actions) {
+      if (Object.prototype.hasOwnProperty.call(actions, key)) {
+        (actions[key as keyof HeaderActions] as HeaderAction).setDisplayDate(newDate);
+      }
+    }
+    this.publicApisService.headerActions = { ...actions };
   }
 }
