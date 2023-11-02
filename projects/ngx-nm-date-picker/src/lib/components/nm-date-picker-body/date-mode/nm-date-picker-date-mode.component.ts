@@ -46,10 +46,6 @@ export class NmDatePickerDateModeComponent extends Unsubscribe implements OnInit
   }
 
   public setDate(day: NmDate): void {
-   // TODO: make optional
-    // if (day.isNextMarker || day.isPrevMarker) {
-    //   return;
-    // }
     this.stateService.selectedDate = new Date(day.date);
     this.stateService.displayDate = new Date(day.date);
     if (this.stateService.rangeSelectionActive || (!day.isNextMarker && !day.isPrevMarker)) {

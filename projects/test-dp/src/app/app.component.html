@@ -78,21 +78,21 @@
     (ngModelChange)="log($event)"
     [nmRangeSelection]="true"
   ></nm-date-picker>
-
+-->
   <form [formGroup]="form">
     <nm-date-picker
       [nmMarkWeekends]="true"
       [nmWeekendDisplayMethod]="'end'"
       [nmLanguage]="'ru'"
       [formControlName]="'date'"
-      [nmPickerMode]="'date'"
+      [nmPickerMode]="'year'"
       [nmTheme]="'dark'"
       [nmSelectorDateFormat]="'dd/MM/YYYY'"
-      [nmDisplayMethod]="'dropdown'"
+      [nmDisplayMethod]="'inline'"
       [nmStatus]="pickerStatus"
       (ngModelChange)="log($event)"
     ></nm-date-picker>
-  </form> -->
+  </form>
 
   <nm-date-picker
     [nmMarkWeekends]="true"
@@ -133,6 +133,7 @@
     <ng-template #nmCustomDayCellTpl let-day>
       <div
         class="custom-day"
+        [nmCancelAction]="day.isNextMarker || day.isPrevMarker"
         [class.other-month]="day.isNextMarker || day.isPrevMarker"
         [class.selected]="day.isSelected"
         [class.today]="day.isToday"
@@ -275,7 +276,7 @@
         </div>
         <div class="date">
           <button class="calendar-text-btn">
-            {{ nmCalendarHeaderActions.monthAction.pickerDisplayDate| date : "MMMM" }}&nbsp;
+            {{ nmCalendarHeaderActions.monthAction.pickerDisplayDate | date : "MMMM" }}&nbsp;
             {{ nmCalendarHeaderActions.yearAction.pickerDisplayDate | date : "YYYY" }}
           </button>
         </div>

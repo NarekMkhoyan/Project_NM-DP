@@ -8,14 +8,12 @@ import { IHeaderActions } from "../../../interfaces/header-action.interface";
 import { NmDatePickerModeType } from "../../../interfaces/picker-mode.type";
 import { Unsubscribe } from "../../unsubscribe/unsubscribe.component";
 import { NmLanguageType } from "../../../interfaces/language.type";
-import { btnClickAnimation } from "../../../utils/animations";
 
 @Component({
   selector: "nm-date-picker-header",
   templateUrl: "./nm-date-picker-header.component.html",
   styleUrls: ["./nm-date-picker-header.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [btnClickAnimation],
 })
 export class NmDatePickerHeaderComponent extends Unsubscribe implements OnInit {
   public pickerBodyWidth: number = 0;

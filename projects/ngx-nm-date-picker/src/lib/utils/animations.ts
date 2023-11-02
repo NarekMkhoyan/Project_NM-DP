@@ -1,26 +1,5 @@
 import { animate, keyframes, state, style, transition, trigger } from "@angular/animations";
 
-export const btnClickAnimation = trigger("click", [
-  state(
-    "false",
-    style({
-      "background-color": "transparent",
-    })
-  ),
-  state(
-    "true",
-    style({
-      "background-color": "transparent",
-    })
-  ),
-  transition("* <=> *", [
-    animate(
-      300,
-      keyframes([style({ filter: "opacity(1)" }), style({ filter: "opacity(0.5)" }), style({ filter: "opacity(1)" })])
-    ),
-  ]),
-]);
-
 export const fadeInDownwardsAnimation = trigger("fadeInDownwards", [
   transition("void => *", [
     animate(

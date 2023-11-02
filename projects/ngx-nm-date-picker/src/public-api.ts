@@ -8,6 +8,8 @@ export * from "./lib/components/nm-date-picker/nm-date-picker.component";
 
 export * from "./lib/directives/theme-change/nm-date-picker-theme.directive";
 
+export * from "./lib/directives/nmCancelAction/nm-cancel-action.directive";
+
 export * from "./lib/interfaces/localization.type";
 
 export * from "./lib/interfaces/date.interface";

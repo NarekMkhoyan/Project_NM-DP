@@ -12,11 +12,8 @@
 ## In Development
 
 1. validation colors for inline mode (+range)
-2. make other day picker change optional
-3. events open/close/change-mode...
+2. events open/close/change-mode...
 
 ## Bugs
 
 1. disabled dates in between range
-2. timezone problem ???
-3. switch click animations to css

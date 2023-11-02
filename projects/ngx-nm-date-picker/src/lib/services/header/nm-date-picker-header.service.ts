@@ -15,6 +15,7 @@ export class NmDatePickerHeaderService {
 
   public generateHeaderActionButtons(pickerMode: NmDatePickerModeType): void {
     this.mode = pickerMode;
+    this.updateHeaderActionDisplayDates(this.stateService.displayDate);
     if (this.publicApisService.headerActions === null) {
       this.publicApisService.headerActions = new HeaderActions(
         new HeaderAction(this.stateService.displayDate).setOnClickHandler(this.nextActionHandler),

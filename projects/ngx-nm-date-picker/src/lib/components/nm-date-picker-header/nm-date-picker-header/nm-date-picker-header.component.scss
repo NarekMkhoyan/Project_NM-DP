@@ -113,3 +113,9 @@
     stroke: var(--nm-datepicker-text-color-disabled) !important;
   }
 }
+
+.click {
+  &:active {
+    opacity: 0.8;
+  }
+}
