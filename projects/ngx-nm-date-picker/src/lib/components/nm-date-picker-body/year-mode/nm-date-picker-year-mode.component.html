@@ -8,12 +8,12 @@
           nmTrigger
           (click)="!year.disabled && setYear(year.date)"
         >
-        <ng-container *ngIf="customYearCellTpl; else defaultYearCellTpl">
-          <ng-container *ngTemplateOutlet="customYearCellTpl; context: { $implicit: year }"></ng-container>
-        </ng-container>
-        <ng-template #defaultYearCellTpl>
-          <ng-container *ngTemplateOutlet="defaultYearCell; context: { $implicit: year }"></ng-container>
-        </ng-template>
+          <ng-container *ngIf="customYearCellTpl; else defaultYearCellTpl">
+            <ng-container *ngTemplateOutlet="customYearCellTpl; context: { $implicit: year }"></ng-container>
+          </ng-container>
+          <ng-template #defaultYearCellTpl>
+            <ng-container *ngTemplateOutlet="defaultYearCell; context: { $implicit: year }"></ng-container>
+          </ng-template>
         </div>
       </ng-container>
     </div>
@@ -21,9 +21,12 @@
 
   <ng-template #defaultYearCell let-year>
     <div
+      *ngIf="nmStatus$ | async as nmStatus"
       class="year-mode_row__item"
       [class.other-decade]="year.isPrevMarker || year.isNextMarker"
       [class.selected-item]="year.isSelected"
+      [class.selected_warning]="year.isSelected && nmStatus === 'warning'"
+      [class.selected_error]="year.isSelected && nmStatus === 'error'"
       [class.pointer]="!year.disabled"
       [class.disabled]="year.disabled"
       [class.selected]="year.isSelected"

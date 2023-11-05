@@ -14,12 +14,11 @@ import { NmDatePickerHeaderService } from "../../services/header/nm-date-picker-
 import { NmDatePickerStateService } from "../../services/state/nm-date-picker-state.service";
 import { NmDatePickerMonthModeService } from "../../services/month-mode/month-mode.service";
 import { NmDatePickerDisplayMethodType } from "../../interfaces/picker-display-method.type";
-import { NmDatePickerSelectorStateType } from "../../interfaces/selector-states.type";
+import { NM_VALID_STATUS, NmSelectorStatusType } from "../../constants/valid-status.enum";
 import { NmPublicApiService } from "../../services/public-apis/public-apis.service";
 import { NmHolidaysDisplayType } from "../../interfaces/holiday-display.type";
 import { YearModeService } from "../../services/year-mode/year-mode.service";
 import { DateModeService } from "../../services/date-mode/date-mode.service";
-import { NmSelectorStatusType } from "../../interfaces/selector-status.type";
 import { NM_SELECTOR_STATES } from "../../constants/selector-states.enum";
 import { NmDatePickerModeType } from "../../interfaces/picker-mode.type";
 import { NmLocalizationType } from "../../interfaces/localization.type";
@@ -49,7 +48,7 @@ import { NmLanguageType } from "../../interfaces/language.type";
   ],
 })
 export class NmDatePickerComponent extends Unsubscribe implements ControlValueAccessor, OnInit {
-  public SELECTOR_STATES = NM_SELECTOR_STATES;
+  public readonly SELECTOR_STATES = NM_SELECTOR_STATES;
   /**
    * weekendDisplayMethod: string
    *
@@ -94,7 +93,7 @@ export class NmDatePickerComponent extends Unsubscribe implements ControlValueAc
    *
    * Pass the date format, that you want the selected date to be displayed in the default date picker selector
    *
-   * Default value = null. Results in date + month name in the set locale, + year
+   * Default value = null. Results in: date + month name in the set locale, + year
    */
   @Input() nmSelectorDateFormat: string | null = null;
 
@@ -155,7 +154,7 @@ export class NmDatePickerComponent extends Unsubscribe implements ControlValueAc
   }
 
   @Input() set nmStatus(status: NmSelectorStatusType) {
-    this.stateService.nmStatus = status;
+    this.stateService.nmStatus$.next(NM_VALID_STATUS[status]);
   }
 
   @ContentChild("nmCustomDayCellTpl") set customDayCellTpl(value: TemplateRef<any> | undefined) {
@@ -184,7 +183,7 @@ export class NmDatePickerComponent extends Unsubscribe implements ControlValueAc
     return this.stateService.pickerDisplayMethod;
   }
 
-  public get selectorState$(): Observable<NmDatePickerSelectorStateType> {
+  public get selectorState$(): Observable<NM_SELECTOR_STATES> {
     return this.stateService.dropdownSelectorState$;
   }
 

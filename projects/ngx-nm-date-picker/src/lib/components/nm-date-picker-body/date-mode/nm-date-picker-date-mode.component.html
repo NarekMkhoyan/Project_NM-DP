@@ -38,12 +38,15 @@
 
   <ng-template #defaultDayCell let-day>
     <div
+      *ngIf="nmStatus$ | async as nmStatus"
       class="date-mode-day"
       [class.other-month]="day.isNextMarker || day.isPrevMarker"
       [class.weekend]="markWeekends && day.isWeekend"
       [class.disabled]="day.disabled"
       [class.pointer]="!day.disabled"
       [class.selected]="day.isSelected"
+      [class.selected_warning]="day.isSelected && nmStatus === 'warning'"
+      [class.selected_error]="day.isSelected && nmStatus === 'error'"
       [class.today]="day.isToday"
       [class.highlighted]="day.isHighlighted"
     >

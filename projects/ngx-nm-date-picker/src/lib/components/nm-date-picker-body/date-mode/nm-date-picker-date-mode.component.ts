@@ -1,14 +1,15 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, TemplateRef } from "@angular/core";
-import { combineLatest, map, takeUntil } from "rxjs";
+import { Observable, combineLatest, map, takeUntil } from "rxjs";
 import { NmDatePickerStateService } from "../../../services/state/nm-date-picker-state.service";
-import { DateModeService } from "../../../services/date-mode/date-mode.service";
 import { NmHolidaysDisplayType } from "../../../interfaces/holiday-display.type";
+import { DateModeService } from "../../../services/date-mode/date-mode.service";
 import { NM_SELECTOR_STATES } from "../../../constants/selector-states.enum";
+import { NM_VALID_STATUS } from "../../../constants/valid-status.enum";
 import { Unsubscribe } from "../../unsubscribe/unsubscribe.component";
 import { NmWeekday } from "../../../interfaces/weekdays.interface";
+import { dateRangeSetter } from "../../../utils/dateRangeSetter";
 import { divideIntoChunks } from "../../../utils/chunkDivider";
 import { NmDate } from "../../../interfaces/date.interface";
-import { dateRangeSetter } from "../../../utils/dateRangeSetter";
 
 @Component({
   selector: "nm-date-picker-date-mode",
@@ -31,6 +32,10 @@ export class NmDatePickerDateModeComponent extends Unsubscribe implements OnInit
 
   get customWeekCellTpl(): TemplateRef<any> | undefined {
     return this.stateService.customWeekCellTpl;
+  }
+
+  get nmStatus$(): Observable<NM_VALID_STATUS> {
+    return this.stateService.nmStatus$;
   }
 
   constructor(

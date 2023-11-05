@@ -85,11 +85,12 @@
       [nmWeekendDisplayMethod]="'end'"
       [nmLanguage]="'ru'"
       [formControlName]="'date'"
-      [nmPickerMode]="'year'"
-      [nmTheme]="'dark'"
+      [nmPickerMode]="'month'"
+      [nmTheme]="'light'"
       [nmSelectorDateFormat]="'dd/MM/YYYY'"
       [nmDisplayMethod]="'inline'"
-      [nmStatus]="pickerStatus"
+      [nmStatus]="form.invalid && form.touched ? 'warning' : 'default'"
+      [nmRangeSelection]="true"
       (ngModelChange)="log($event)"
     ></nm-date-picker>
   </form>
@@ -228,6 +229,7 @@
     [nmDisplayMethod]="'inline'"
     (ngModelChange)="log($event)"
     [nmDisplayMethod]="'inline'"
+    [nmRangeSelection]="true"
     [nmMarkWeekends]="false"
   >
     <ng-template #nmCustomDayCellTpl let-day>

@@ -21,10 +21,13 @@
 
   <ng-template #defaultMonthCell let-month>
     <div
+      *ngIf="nmStatus$ | async as nmStatus"
       class="month-mode_row__item"
       [class.selected-item]="month.isSelected"
       [class.disabled]="month.disabled"
       [class.selected]="month.isSelected"
+      [class.selected_warning]="month.isSelected && nmStatus === 'warning'"
+      [class.selected_error]="month.isSelected && nmStatus === 'error'"
       [class.pointer]="!month.disabled"
     >
       <div class="month-mode_row__item__inner">

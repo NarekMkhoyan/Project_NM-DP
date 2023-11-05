@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component, ViewChild } from "@angular/core";
-import { AbstractControl, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
 import {
   IHeaderActions,
   NmDateInterface,
   NmDatePickerComponent,
   NmLocalizationType,
-  NmSelectorStatusType,
 } from "ngx-nm-date-picker";
 
 const LOCALIZATION_FRENCH: NmLocalizationType = {
@@ -75,21 +74,12 @@ export class AppComponent {
     return this.form.get("date");
   }
 
-  get pickerStatus(): NmSelectorStatusType {
-    console.log();
-    if (this.dateCOntrol?.value && this.form.touched && String(this.dateCOntrol?.value.getDate()).includes("5")) {
-      return "error";
-    }
-    return !this.form.valid && this.form.touched ? "warning" : "default";
-  }
-
   get nmHeaderActions(): IHeaderActions | null {
     if (!this.customNmDatePicker) {
       return null;
     }
     return this.customNmDatePicker.nmPublicApiService.headerActions;
   }
-
 
   get nmCalendarHeaderActions(): IHeaderActions | null {
     if (!this.customCalendarPicker) {
@@ -104,13 +94,35 @@ export class AppComponent {
 
   constructor(private readonly fb: FormBuilder) {
     this.form = this.fb.group({
-      date: ["", Validators.required],
+      date: ["", [Validators.required, this.dateArrayValidator()]],
     });
 
     this.form.valueChanges.subscribe((form) => {
-      console.log(form);
-      console.log(this.form.valid);
+
     });
+  }
+
+  private dateCustomValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (control.value) {
+        console.log(control.value);
+
+        const inValid = control.value.getFullYear() > 2030 || String(this.dateCOntrol?.value.getDate()).includes("4");
+        return inValid ? { value: "Invalid date" } : null;
+      }
+      return null;
+    };
+  }
+
+  private dateArrayValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const dates: [Date, Date] = control.value;
+      if (dates) {
+        const inValid = dates[0].getFullYear() >= 2024 && dates[1].getFullYear() <= 2030;
+        return inValid ? { value: "Invalid date" } : null;
+      }
+      return null;
+    };
   }
 
   public disabledDates: (date: Date) => boolean = (date: Date) => {

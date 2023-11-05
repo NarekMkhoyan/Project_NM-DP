@@ -69,9 +69,10 @@
     </div>
     <div class="selector__border">
       <div
+      *ngIf="nmStatus$ | async as nmStatus"
         class="selector__border_inner"
-        [class.selector__border_inner-error]="status === 'error'"
-        [class.selector__border_inner-warning]="status === 'warning'"
+        [class.selector__border_inner-error]="nmStatus === 'error'"
+        [class.selector__border_inner-warning]="nmStatus === 'warning'"
         [class.selector__border_inner-activated]="selectorState === SELECTOR_STATES.ACTIVE"
       ></div>
     </div>

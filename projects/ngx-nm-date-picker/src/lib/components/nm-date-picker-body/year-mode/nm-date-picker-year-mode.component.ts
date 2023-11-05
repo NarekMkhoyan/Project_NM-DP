@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, TemplateRef } from "@angular/core";
-import { takeUntil } from "rxjs";
+import { Observable, takeUntil } from "rxjs";
 import { NmDatePickerStateService } from "../../../services/state/nm-date-picker-state.service";
 import { YearModeService } from "../../../services/year-mode/year-mode.service";
 import { NM_SELECTOR_STATES } from "../../../constants/selector-states.enum";
+import { NM_VALID_STATUS } from "../../../constants/valid-status.enum";
 import { Unsubscribe } from "../../unsubscribe/unsubscribe.component";
-import { NmDate } from "../../../interfaces/date.interface";
 import { yearRangeSetter } from "../../../utils/dateRangeSetter";
+import { NmDate } from "../../../interfaces/date.interface";
 
 @Component({
   selector: "nm-date-picker-year-mode",
@@ -19,6 +20,10 @@ export class NmDatePickerYearModeComponent extends Unsubscribe implements OnInit
 
   get customYearCellTpl(): TemplateRef<any> | undefined {
     return this.stateService.customYearCellTpl;
+  }
+
+  get nmStatus$(): Observable<NM_VALID_STATUS> {
+    return this.stateService.nmStatus$;
   }
 
   constructor(

@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, TemplateRef } from "@angular/core";
-import { combineLatest, map, takeUntil } from "rxjs";
+import { Observable, combineLatest, map, takeUntil } from "rxjs";
 import { NmDatePickerStateService } from "../../../services/state/nm-date-picker-state.service";
 import { NmDatePickerMonthModeService } from "../../../services/month-mode/month-mode.service";
 import { NM_SELECTOR_STATES } from "../../../constants/selector-states.enum";
+import { NM_VALID_STATUS } from "../../../constants/valid-status.enum";
 import { Unsubscribe } from "../../unsubscribe/unsubscribe.component";
-import { NmDate } from "../../../interfaces/date.interface";
 import { monthRangeSetter } from "../../../utils/dateRangeSetter";
+import { NmDate } from "../../../interfaces/date.interface";
 
 @Component({
   selector: "nm-date-picker-month-mode",
@@ -19,6 +20,10 @@ export class NmDatePickerMonthModeComponent extends Unsubscribe implements OnIni
 
   get customMonthCellTpl(): TemplateRef<any> | undefined {
     return this.stateService.customMonthCellTpl;
+  }
+
+  get nmStatus$(): Observable<NM_VALID_STATUS> {
+    return this.stateService.nmStatus$;
   }
 
   constructor(

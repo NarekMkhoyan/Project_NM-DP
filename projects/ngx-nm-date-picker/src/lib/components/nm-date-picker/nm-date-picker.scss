@@ -30,8 +30,16 @@ nm-date-picker {
   }
 }
 
-.inRange-cell {
-  background-color: var(--nm-datepicker-inrange-cell-color);
+.inRange-cell-default {
+  background-color: var(--nm-datepicker-inrange-cell-default-color);
+}
+
+.inRange-cell-warning {
+  background-color: var(--nm-datepicker-inrange-cell-warning-color);
+}
+
+.inRange-cell-error {
+  background-color: var(--nm-datepicker-inrange-cell-error-color);
 }
 
 * {

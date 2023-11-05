@@ -2,10 +2,9 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } 
 import { Observable, combineLatest, map, takeUntil } from "rxjs";
 import { NM_FALLBACK_LANGUAGE, NM_SELECTOR_LABEL_LOCALIZATION } from "../../constants/localization.constant";
 import { NmDatePickerStateService } from "../../services/state/nm-date-picker-state.service";
-import { NmDatePickerSelectorStateType } from "../../interfaces/selector-states.type";
-import { NmSelectorStatusType } from "../../interfaces/selector-status.type";
 import { NM_SELECTOR_STATES } from "../../constants/selector-states.enum";
 import { NmDatePickerModeType } from "../../interfaces/picker-mode.type";
+import { NM_VALID_STATUS } from "../../constants/valid-status.enum";
 import { Unsubscribe } from "../unsubscribe/unsubscribe.component";
 import { NmLanguageType } from "../../interfaces/language.type";
 import { labelSlideUpAnimation } from "../../utils/animations";
@@ -27,7 +26,7 @@ export class NmDatePickerDropdownSelectorComponent extends Unsubscribe implement
   public defaultSelectorLabel: string = NM_SELECTOR_LABEL_LOCALIZATION[NM_FALLBACK_LANGUAGE];
   private monthNames = this.stateService.localization[NM_FALLBACK_LANGUAGE].MONTH_NAMES_DECLENSED;
 
-  public get selectorState$(): Observable<NmDatePickerSelectorStateType> {
+  public get selectorState$(): Observable<NM_SELECTOR_STATES> {
     return this.stateService.dropdownSelectorState$;
   }
 
@@ -47,8 +46,8 @@ export class NmDatePickerDropdownSelectorComponent extends Unsubscribe implement
     return this.stateService.nmAllowClear;
   }
 
-  public get status(): NmSelectorStatusType {
-    return this.stateService.nmStatus;
+  public get nmStatus$(): Observable<NM_VALID_STATUS> {
+    return this.stateService.nmStatus$;
   }
 
   public get clearIconVisible(): boolean {

@@ -1,13 +1,12 @@
 import { Injectable, TemplateRef } from "@angular/core";
 import { BehaviorSubject, Subject, ReplaySubject } from "rxjs";
 import { NmDatePickerDisplayMethodType } from "../../interfaces/picker-display-method.type";
-import { NmDatePickerSelectorStateType } from "../../interfaces/selector-states.type";
-import { NmSelectorStatusType } from "../../interfaces/selector-status.type";
 import { NM_FALLBACK_LANGUAGE } from "../../constants/localization.constant";
 import { NM_SELECTOR_STATES } from "../../constants/selector-states.enum";
 import { NmDatePickerModeType } from "../../interfaces/picker-mode.type";
 import { NmLocalizationType } from "../../interfaces/localization.type";
 import { NM_LOCALIZATION } from "../../constants/localization.constant";
+import { NM_VALID_STATUS } from "../../constants/valid-status.enum";
 import { NmDateInterface } from "../../interfaces/date.interface";
 import { NmLanguageType } from "../../interfaces/language.type";
 
@@ -30,8 +29,8 @@ export class NmDatePickerStateService {
   /** The current display method of the picker. Dropdown or inline */
   public pickerDisplayMethod: NmDatePickerDisplayMethodType = "dropdown";
   /** The current state of the date picker selector(*in dropdown mode) */
-  public dropdownSelectorState$: BehaviorSubject<NmDatePickerSelectorStateType> =
-    new BehaviorSubject<NmDatePickerSelectorStateType>(NM_SELECTOR_STATES.INITIAL);
+  public dropdownSelectorState$: BehaviorSubject<NM_SELECTOR_STATES> =
+    new BehaviorSubject<NM_SELECTOR_STATES>(NM_SELECTOR_STATES.INITIAL);
   /** The function that checks, if a day is disabled. Passed in by the user. Defaults to null */
   public disabledDateFunction: null | ((date: Date) => boolean) = null;
   /** Callback function that accepts a date and return whether it should be highlighted or not as a return argument*/
@@ -51,7 +50,7 @@ export class NmDatePickerStateService {
 
   public nmAllowClear: boolean = true;
 
-  public nmStatus: NmSelectorStatusType = "default";
+  public nmStatus$: BehaviorSubject<NM_VALID_STATUS> = new BehaviorSubject<NM_VALID_STATUS>(NM_VALID_STATUS.default);
 
   /** Shows whether the range selection is active */
   public rangeSelectionActive: boolean = false;

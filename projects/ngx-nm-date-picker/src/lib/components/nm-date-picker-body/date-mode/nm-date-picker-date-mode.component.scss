@@ -31,7 +31,9 @@
     &_row {
       width: 100%;
       display: grid;
-      grid-template-columns: calc(100% / 7) calc(100% / 7) calc(100% / 7) calc(100% / 7) calc(100% / 7) calc(100% / 7) calc(100% / 7);
+      grid-template-columns: calc(100% / 7) calc(100% / 7) calc(100% / 7) calc(100% / 7) calc(100% / 7) calc(100% / 7) calc(
+          100% / 7
+        );
       .date-mode-day {
         height: 24px;
         width: 30px;
@@ -78,6 +80,20 @@
       .selected:not(.disabled) {
         .date-mode-day__inner {
           background-color: var(--nm-datepicker-primary-color) !important;
+          color: var(--nm-datepicker-white) !important;
+        }
+      }
+
+      .selected_warning:not(.disabled) {
+        .date-mode-day__inner {
+          background-color: var(--nm-datepicker-warning-color) !important;
+          color: var(--nm-datepicker-white) !important;
+        }
+      }
+
+      .selected_error:not(.disabled) {
+        .date-mode-day__inner {
+          background-color: var(--nm-datepicker-error-color) !important;
           color: var(--nm-datepicker-white) !important;
         }
       }
