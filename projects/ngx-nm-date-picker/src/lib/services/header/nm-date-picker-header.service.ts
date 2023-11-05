@@ -16,8 +16,8 @@ export class NmDatePickerHeaderService {
   public generateHeaderActionButtons(pickerMode: NmDatePickerModeType): void {
     this.mode = pickerMode;
     this.updateHeaderActionDisplayDates(this.stateService.displayDate);
-    if (this.publicApisService.headerActions === null) {
-      this.publicApisService.headerActions = new HeaderActions(
+    if (this.publicApisService.nmHeaderActions === null) {
+      this.publicApisService.nmHeaderActions = new HeaderActions(
         new HeaderAction(this.stateService.displayDate).setOnClickHandler(this.nextActionHandler),
         new HeaderAction(this.stateService.displayDate).setOnClickHandler(this.prevActionHandler),
         new HeaderAction(this.stateService.displayDate).setOnClickHandler(() => this.setPickerMode("month")),
@@ -73,10 +73,10 @@ export class NmDatePickerHeaderService {
   }
 
   private checkForMinMaxRange(pickerMode: NmDatePickerModeType): void {
-    if (this.publicApisService.headerActions === null) {
+    if (this.publicApisService.nmHeaderActions === null) {
       return;
     }
-    const { prevAction, nextAction } = this.publicApisService.headerActions;
+    const { prevAction, nextAction } = this.publicApisService.nmHeaderActions;
     switch (pickerMode) {
       case "date":
         if (this.stateService.nmMinDate) {
@@ -158,15 +158,15 @@ export class NmDatePickerHeaderService {
   }
 
   private updateHeaderActionDisplayDates(newDate: Date): void {
-    if (!this.publicApisService.headerActions) {
+    if (!this.publicApisService.nmHeaderActions) {
       return;
     }
-    const actions: HeaderActions = this.publicApisService.headerActions;
+    const actions: HeaderActions = this.publicApisService.nmHeaderActions;
     for (const key in actions) {
       if (Object.prototype.hasOwnProperty.call(actions, key)) {
         (actions[key as keyof HeaderActions] as HeaderAction).setDisplayDate(newDate);
       }
     }
-    this.publicApisService.headerActions = { ...actions };
+    this.publicApisService.nmHeaderActions = { ...actions };
   }
 }

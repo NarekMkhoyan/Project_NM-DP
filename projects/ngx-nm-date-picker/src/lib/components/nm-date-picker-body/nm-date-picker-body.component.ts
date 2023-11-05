@@ -34,7 +34,7 @@ export class NmDatePickerBodyComponent implements AfterViewInit, OnDestroy {
   }
 
   get headerActions(): IHeaderActions | null {
-    return this.publicApiService.headerActions;
+    return this.publicApiService.nmHeaderActions;
   }
 
   constructor(

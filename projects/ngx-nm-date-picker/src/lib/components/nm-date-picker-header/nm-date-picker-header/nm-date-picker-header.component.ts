@@ -30,7 +30,7 @@ export class NmDatePickerHeaderComponent extends Unsubscribe implements OnInit {
   }
 
   get headerActions(): IHeaderActions | null {
-    return this.publicApisService.headerActions;
+    return this.publicApisService.nmHeaderActions;
   }
 
   get customHeaderTpl(): TemplateRef<any> | undefined {

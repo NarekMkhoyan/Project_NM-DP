@@ -50,19 +50,28 @@ import { NmLanguageType } from "../../interfaces/language.type";
 export class NmDatePickerComponent extends Unsubscribe implements ControlValueAccessor, OnInit {
   public readonly SELECTOR_STATES = NM_SELECTOR_STATES;
   /**
-   * weekendDisplayMethod: string
+   * nmWeekendDisplayMethod: string
    *
    * Specify the method for displaying weekends(Saturdays and Sundays) on the calendar.
    *
-   *  start - the days of the week start with Saturday, Sunday ...
+   *  start - the week starts with Saturday, Sunday ...
    *
-   *  end - the days of the week end with ... Saturday, Sunday
+   *  end - the week ends with ... Saturday, Sunday
    *
-   *  split - the week start with Sunday ... ends with Saturday
+   *  split - the week starts with Sunday ... ends with Saturday
    *
    * Default value = 'end'.
    */
   @Input() nmWeekendDisplayMethod: NmHolidaysDisplayType = "end";
+
+  /**
+   * nmMarkWeekends: boolean
+   *
+   * Whether to mark the weekends in red (by default) or not.
+   *
+   * Default value = false.
+   */
+  @Input() nmMarkWeekends: boolean = false;
 
   /**
    * nmLanguage: NmLanguageType
@@ -80,49 +89,100 @@ export class NmDatePickerComponent extends Unsubscribe implements ControlValueAc
   }
 
   /**
-   * nmMarkWeekends: boolean
-   *
-   * Whether to mark the weekends in red (by default) or not.
-   *
-   * Default value = false.
-   */
-  @Input() nmMarkWeekends: boolean = false;
-
-  /**
    * nmSelectorDateFormat: string | null
    *
-   * Pass the date format, that you want the selected date to be displayed in the default date picker selector
+   * Pass the date format, that you want the selected date to be displayed in, in the default date picker selector
    *
    * Default value = null. Results in: date + month name in the set locale, + year
    */
   @Input() nmSelectorDateFormat: string | null = null;
 
+  /**
+   * nmCustomLocalization: NmLocalizationType
+   *
+   * Pass in a custom localization object following the NmLocalizationType type
+   *
+   * * WEEKDAY_NAMES_SHORT used for the weekday names in 'date' mode
+   * * MONTH_NAMES_SHORT used for month names in 'month' mode
+   * * MONTH_NAMES_DECLENSED used for displaying the selected month name in the date picker selector (display method 'dropdown') \* You can pass declensed names if the language requires it (e.g. Russian)
+   */
   @Input() set nmCustomLocalization(value: NmLocalizationType) {
     this.stateService.localization = { ...this.stateService.localization, ...value };
   }
 
+  /**
+   * nmPickerMode: 'date' | 'month' | 'year'
+   *
+   * Pass in the date picker operation mode
+   */
   @Input() set nmPickerMode(value: NmDatePickerModeType) {
     this.stateService.pickerMode$.next(value);
     this.stateService.pickerModeLimitedBy = value;
   }
 
+  /**
+   * nmDisabledDates: (date: Date) => boolean
+   *
+   * Accepts a callback function, that is applied to every date cell in the view
+   *
+   * Receives the Date object of the cell, and must return a boolean value based on the evaluation that determines whether the cell is disabled or not
+   *
+   * @example
+    (date: Date) => {
+        return date.getTime() < this.minDateValue || date.getTime() > this.maxDateValue;
+    };
+   */
   @Input() set nmDisabledDates(value: (date: Date) => boolean) {
     this.stateService.disabledDateFunction = value;
   }
 
+  /**
+   * nmHighlightedDates: (date: Date, nmDateObject: NmDateInterface) => boolean)
+   *
+   * Accepts a callback function, that is applied to every date cell in the view
+   *
+   * Receives the Date object of the cell and the nmDateObject class, and must return a boolean value based on the evaluation that determines whether the cell should be highlighted or not
+   *
+   * \* To highlight a specific date in custom colors, you can use the customTextColor and customBackgroundColor properties from the nmDateObject to set custom colors
+   */
   @Input() set nmHighlightedDates(value: (date: Date, nmDateObject: NmDateInterface) => boolean) {
     this.stateService.highlightedDatesFunction = value;
   }
 
+  /**
+   * nmDisplayMethod: 'inline' | 'dropdown'
+   *
+   * Select one of the 2 supported display methods.
+   *
+   * By default it is set to 'dropdown'
+   */
   @Input() set nmDisplayMethod(value: NmDatePickerDisplayMethodType) {
     this.stateService.pickerDisplayMethod = value;
   }
 
+  /**
+   * nmDisabled: boolean
+   *
+   * A boolean value that sets the disabled state of the whole picker
+   */
   @Input() nmDisabled: boolean = false;
 
+  /**
+   * nmSelectorCustomLabel: string | null
+   *
+   * Is used to set a custom label for the picker selector in the 'dropdown' display mode
+   *
+   * By default the value is null. And the word 'Date'(in the specified locale) will be used
+   */
   @Input() nmSelectorCustomLabel: string | null = null;
 
-  // min and max dates
+  /**
+   * nmMinDate: Date | null
+   *
+   * Used to set the lower limit of valid, selectable dates
+   *
+   * Any date earlier than nmMinDate will be either disabled or not displayed at all(depends on the operation mode)
+   */
   @Input() set nmMinDate(value: Date | null) {
     this.stateService.nmMinDate = value;
     if (value) {
@@ -134,6 +194,13 @@ export class NmDatePickerComponent extends Unsubscribe implements ControlValueAc
     }
   }
 
+  /**
+   * nmMinDate: Date | null
+   *
+   * Used to set the upper limit of valid, selectable dates
+   *
+   * Any date later than nmMaxDate will be either disabled or not displayed at all(depends on the operation mode)
+   */
   @Input() set nmMaxDate(value: Date | null) {
     this.stateService.nmMaxDate = value;
     if (value) {
@@ -145,14 +212,37 @@ export class NmDatePickerComponent extends Unsubscribe implements ControlValueAc
     }
   }
 
+  /**
+   * nmRangeSelection: boolean
+   *
+   * A boolean value that activates the range selection mode
+   *
+   * \* Available for all 3 operation modes
+   *
+   * False - by default
+   */
   @Input() set nmRangeSelection(activeState: boolean) {
     this.stateService.rangeSelectionActive = activeState;
   }
 
+  /**
+   * nmAllowClear: boolean
+   *
+   * A boolean value that makes the clear icon available on the default date picker selector in the 'dropdown' display mode
+   *
+   * By default is set to true
+   */
   @Input() set nmAllowClear(clearIconVisible: boolean) {
     this.stateService.nmAllowClear = clearIconVisible;
   }
 
+  /**
+   * nmStatus: 'default' | 'warning' | 'error'
+   *
+   * Pass in the date picker status based on a validation
+   *
+   * \* Works for all 3 operation mode and 2 display methods + in range selection mode
+   */
   @Input() set nmStatus(status: NmSelectorStatusType) {
     this.stateService.nmStatus$.next(NM_VALID_STATUS[status]);
   }

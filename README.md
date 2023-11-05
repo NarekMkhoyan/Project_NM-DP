@@ -4,12 +4,10 @@
 
 1. styles/assets import
 
-2. multiple day selection (ionic)
-
 ## In Development
 
-1. events open/close/change-mode...
-2. Branding/docs
+1. events open/close/change-mode/next/prev
+2. multiple day selection (ionic)
 
 ## Bugs
 

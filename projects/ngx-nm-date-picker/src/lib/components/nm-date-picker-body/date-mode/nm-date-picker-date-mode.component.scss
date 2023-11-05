@@ -70,11 +70,11 @@
       }
 
       .weekend {
-        color: var(--nm-datepicker-color-danger);
+        color: var(--nm-datepicker-holiday-color);
       }
 
       .highlighted {
-        color: var(--nm-datepicker-holiday-color);
+        color: var(--nm-datepicker-highlight-color);
       }
 
       .selected:not(.disabled) {

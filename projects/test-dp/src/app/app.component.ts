@@ -78,14 +78,14 @@ export class AppComponent {
     if (!this.customNmDatePicker) {
       return null;
     }
-    return this.customNmDatePicker.nmPublicApiService.headerActions;
+    return this.customNmDatePicker.nmPublicApiService.nmHeaderActions;
   }
 
   get nmCalendarHeaderActions(): IHeaderActions | null {
     if (!this.customCalendarPicker) {
       return null;
     }
-    return this.customCalendarPicker.nmPublicApiService.headerActions;
+    return this.customCalendarPicker.nmPublicApiService.nmHeaderActions;
   }
 
   get calendarWidth(): number {
