@@ -47,6 +47,7 @@ export class NmDatePickerHeaderService {
         break;
     }
     this.updateSelectedDate(newDate);
+    this.publicApisService.nmPrevActionTriggered$.next();
   };
 
   private nextActionHandler: () => void = () => {
@@ -64,6 +65,7 @@ export class NmDatePickerHeaderService {
         break;
     }
     this.updateSelectedDate(newDate);
+    this.publicApisService.nmNextActionTriggered$.next();
   };
 
   private updateSelectedDate(newValue: number): void {

@@ -190,14 +190,14 @@
             [disabled]="nmHeaderActions.monthAction.disabled"
             (click)="nmHeaderActions.monthAction.onClick()"
           >
-            {{ date | date : "MMMM" }}</button
+            {{ nmHeaderActions.monthAction.pickerDisplayDate | date : "MMMM" }}&nbsp;</button
           >&nbsp;
           <button
             class="text-btn"
             [disabled]="nmHeaderActions.yearAction.disabled"
             (click)="nmHeaderActions.yearAction.onClick()"
           >
-            {{ date | date : "YYYY" }}
+            {{ nmHeaderActions.yearAction.pickerDisplayDate | date : "YYYY" }}
           </button>
         </div>
         <button

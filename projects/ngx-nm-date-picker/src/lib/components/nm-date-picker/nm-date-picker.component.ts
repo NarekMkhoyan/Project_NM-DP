@@ -305,10 +305,22 @@ export class NmDatePickerComponent extends Unsubscribe implements ControlValueAc
     });
 
     this.stateService.dropdownSelectorState$.pipe(takeUntil(this.unsubscribe$)).subscribe((selectorState) => {
-      if (selectorState === "inactive") {
-        this.onTouch();
+      switch (selectorState) {
+        case NM_SELECTOR_STATES.INITIAL:
+          break;
+        case NM_SELECTOR_STATES.ACTIVE:
+          this.nmPublicApiService.nmDropdownOpenEvent$.next();
+          break;
+        case NM_SELECTOR_STATES.INACTIVE:
+          this.nmPublicApiService.nmDropdownCloseEvent$.next();
+          this.onTouch();
+          break;
       }
     });
+
+    this.stateService.pickerMode$.pipe(takeUntil(this.unsubscribe$)).subscribe((currentPickerMode) => {
+      this.nmPublicApiService.nmPickerCurrentMode$.next(currentPickerMode);
+    })
   }
 
   // ControlValueAccessor functions

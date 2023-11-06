@@ -6,8 +6,7 @@
 
 ## In Development
 
-1. events open/close/change-mode/next/prev
-2. multiple day selection (ionic)
+1. multiple day selection (ionic)
 
 ## Bugs
 

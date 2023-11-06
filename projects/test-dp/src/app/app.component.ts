@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ViewChild } from "@angular/core";
+import { AfterViewInit, ChangeDetectionStrategy, Component, ViewChild } from "@angular/core";
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
 import {
   IHeaderActions,
@@ -51,7 +51,7 @@ const holidays: Date[] = [
   styleUrls: ["./app.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
   public LOCALIZATION_FRENCH = LOCALIZATION_FRENCH;
   public now = new Date("2019");
   public max = new Date("2043");
@@ -100,6 +100,16 @@ export class AppComponent {
     this.form.valueChanges.subscribe((form) => {
 
     });
+
+  }
+
+
+  ngAfterViewInit(): void {
+    // this.customNmDatePicker.nmPublicApiService.nmDropdownOpenEvent$.subscribe(() => console.log('open'));
+    // this.customNmDatePicker.nmPublicApiService.nmDropdownCloseEvent$.subscribe(() => console.log('close'));
+    // this.customNmDatePicker.nmPublicApiService.nmNextActionTriggered$.subscribe(() => console.log('next'));
+    // this.customNmDatePicker.nmPublicApiService.nmPrevActionTriggered$.subscribe(() => console.log('prev'));
+    // this.customNmDatePicker.nmPublicApiService.nmPickerCurrentMode$.subscribe((mode) => console.log('Mode: ' + mode));
   }
 
   private dateCustomValidator(): ValidatorFn {
