@@ -1,26 +1,5 @@
 import { animate, keyframes, state, style, transition, trigger } from "@angular/animations";
 
-export const btnClickAnimation = trigger("click", [
-  state(
-    "false",
-    style({
-      "background-color": "var(--nm-datepicker-background-color)",
-    })
-  ),
-  state(
-    "true",
-    style({
-      "background-color": "var(--nm-datepicker-background-color)",
-    })
-  ),
-  transition("* <=> *", [
-    animate(
-      300,
-      keyframes([style({ filter: "opacity(1)" }), style({ filter: "opacity(0.5)" }), style({ filter: "opacity(1)" })])
-    ),
-  ]),
-]);
-
 export const fadeInDownwardsAnimation = trigger("fadeInDownwards", [
   transition("void => *", [
     animate(
@@ -109,7 +88,7 @@ export const swipeRightAnimation = trigger("swipeRight", [
       "400ms cubic-bezier(0.390, 0.575, 0.565, 1.000)",
       keyframes([
         style({
-          transform: "translateX(-25px)",
+          transform: "translateX(-5px)",
           opacity: 0,
         }),
         style({
@@ -127,7 +106,7 @@ export const swipeLeftAnimation = trigger("swipeLeft", [
       "400ms cubic-bezier(0.390, 0.575, 0.565, 1.000)",
       keyframes([
         style({
-          transform: "translateX(25px)",
+          transform: "translateX(5px)",
           opacity: 0,
         }),
         style({

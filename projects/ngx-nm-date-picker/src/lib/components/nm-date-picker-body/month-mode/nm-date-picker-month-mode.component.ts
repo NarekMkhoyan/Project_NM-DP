@@ -1,11 +1,13 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from "@angular/core";
-import { combineLatest, map, takeUntil } from "rxjs";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, TemplateRef } from "@angular/core";
+import { Observable, combineLatest, map, takeUntil } from "rxjs";
 import { NmDatePickerStateService } from "../../../services/state/nm-date-picker-state.service";
 import { NmDatePickerMonthModeService } from "../../../services/month-mode/month-mode.service";
 import { NM_SELECTOR_STATES } from "../../../constants/selector-states.enum";
+import { NM_VALID_STATUS } from "../../../constants/valid-status.enum";
 import { Unsubscribe } from "../../unsubscribe/unsubscribe.component";
-import { NmDate } from "../../../interfaces/date.interface";
 import { monthRangeSetter } from "../../../utils/dateRangeSetter";
+import { NmDate } from "../../../interfaces/date.interface";
+import { isSameMonth } from "../../../utils/dateCompare";
 
 @Component({
   selector: "nm-date-picker-month-mode",
@@ -16,6 +18,14 @@ import { monthRangeSetter } from "../../../utils/dateRangeSetter";
 export class NmDatePickerMonthModeComponent extends Unsubscribe implements OnInit {
   public months: NmDate[][] = [];
   private SELECTOR_STATES = NM_SELECTOR_STATES;
+
+  get customMonthCellTpl(): TemplateRef<any> | undefined {
+    return this.stateService.customMonthCellTpl;
+  }
+
+  get nmStatus$(): Observable<NM_VALID_STATUS> {
+    return this.stateService.nmStatus$;
+  }
 
   constructor(
     private readonly monthService: NmDatePickerMonthModeService,
@@ -37,6 +47,16 @@ export class NmDatePickerMonthModeComponent extends Unsubscribe implements OnIni
         this.stateService.selectedDateRange = monthRangeSetter(this.stateService.selectedDateRange, selectedMonthValue);
         const [start, end] = this.stateService.selectedDateRange;
         if (start && end) this.stateService.dropdownSelectorState$.next(this.SELECTOR_STATES.INACTIVE);
+      } else if (this.stateService.nmMultiDateSelect) {
+        const amongSelected = this.stateService.selectedDatesArray.findIndex((selectedDate) =>
+          isSameMonth(selectedDate, selectedMonthValue)
+        );
+        if (amongSelected >= 0) {
+          this.stateService.selectedDatesArray.splice(amongSelected, 1);
+        } else {
+          this.stateService.selectedDatesArray.push(selectedMonthValue);
+        }
+        this.stateService.updatePicker$.next();
       } else {
         this.stateService.dropdownSelectorState$.next(this.SELECTOR_STATES.INACTIVE);
       }

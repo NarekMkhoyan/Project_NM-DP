@@ -28,14 +28,16 @@
   &-days {
     display: flex;
     flex-direction: column;
-    gap: 4px;
     &_row {
       width: 100%;
-      display: flex;
-      flex-direction: row;
+      display: grid;
+      grid-template-columns: calc(100% / 7) calc(100% / 7) calc(100% / 7) calc(100% / 7) calc(100% / 7) calc(100% / 7) calc(
+          100% / 7
+        );
       .date-mode-day {
         height: 24px;
         width: 30px;
+        margin: 2px 0;
         color: var(--nm-datepicker-text-color);
         display: flex;
         align-items: center;
@@ -68,17 +70,31 @@
       }
 
       .weekend {
-        color: var(--nm-datepicker-color-danger);
+        color: var(--nm-datepicker-holiday-color);
       }
 
       .highlighted {
-        color: var(--nm-datepicker-holiday-color);
+        color: var(--nm-datepicker-highlight-color);
       }
 
       .selected:not(.disabled) {
         .date-mode-day__inner {
-          background-color: var(--nm-datepicker-primary-color);
-          color: var(--nm-datepicker-white);
+          background-color: var(--nm-datepicker-primary-color) !important;
+          color: var(--nm-datepicker-white) !important;
+        }
+      }
+
+      .selected_warning:not(.disabled) {
+        .date-mode-day__inner {
+          background-color: var(--nm-datepicker-warning-color) !important;
+          color: var(--nm-datepicker-white) !important;
+        }
+      }
+
+      .selected_error:not(.disabled) {
+        .date-mode-day__inner {
+          background-color: var(--nm-datepicker-error-color) !important;
+          color: var(--nm-datepicker-white) !important;
         }
       }
 
@@ -98,5 +114,7 @@
 
 .date-mode-days_item,
 .date-mode-weekdays_item {
-  border: 0.5px solid transparent;
+  div:first-child {
+    border: 0.5px solid transparent;
+  }
 }

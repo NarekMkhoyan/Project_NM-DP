@@ -1,14 +1,14 @@
-import { Injectable } from "@angular/core";
+import { Injectable, TemplateRef } from "@angular/core";
 import { BehaviorSubject, Subject, ReplaySubject } from "rxjs";
 import { NmDatePickerDisplayMethodType } from "../../interfaces/picker-display-method.type";
-import { NmDatePickerSelectorStateType } from "../../interfaces/selector-states.type";
 import { NM_FALLBACK_LANGUAGE } from "../../constants/localization.constant";
 import { NM_SELECTOR_STATES } from "../../constants/selector-states.enum";
 import { NmDatePickerModeType } from "../../interfaces/picker-mode.type";
 import { NmLocalizationType } from "../../interfaces/localization.type";
 import { NM_LOCALIZATION } from "../../constants/localization.constant";
+import { NM_VALID_STATUS } from "../../constants/valid-status.enum";
+import { NmDateInterface } from "../../interfaces/date.interface";
 import { NmLanguageType } from "../../interfaces/language.type";
-import { HeaderAction } from "../../interfaces/header-action.interface";
 
 @Injectable()
 export class NmDatePickerStateService {
@@ -29,12 +29,12 @@ export class NmDatePickerStateService {
   /** The current display method of the picker. Dropdown or inline */
   public pickerDisplayMethod: NmDatePickerDisplayMethodType = "dropdown";
   /** The current state of the date picker selector(*in dropdown mode) */
-  public dropdownSelectorState$: BehaviorSubject<NmDatePickerSelectorStateType> =
-    new BehaviorSubject<NmDatePickerSelectorStateType>(NM_SELECTOR_STATES.INITIAL);
+  public dropdownSelectorState$: BehaviorSubject<NM_SELECTOR_STATES> =
+    new BehaviorSubject<NM_SELECTOR_STATES>(NM_SELECTOR_STATES.INITIAL);
   /** The function that checks, if a day is disabled. Passed in by the user. Defaults to null */
   public disabledDateFunction: null | ((date: Date) => boolean) = null;
   /** Callback function that accepts a date and return whether it should be highlighted or not as a return argument*/
-  public highlightedDatesFunction: null | ((date: Date) => boolean) = null;
+  public highlightedDatesFunction: null | ((date: Date, nmDateObject: NmDateInterface) => boolean) = null;
   /** The localization object that holds the default 3 languages and any additional translations */
   public localization: NmLocalizationType = NM_LOCALIZATION;
   /** The current language subject. */
@@ -48,21 +48,26 @@ export class NmDatePickerStateService {
   /** The maximum date that the pickers supports (set by the user). */
   public nmMaxDate: Date | null = null;
 
-  private _headerActions: HeaderAction[] = [];
+  public nmAllowClear: boolean = true;
 
-  public set headerActions(actions: HeaderAction[]) {
-    this._headerActions = actions;
-  }
+  public nmMultiDateSelect: boolean = false;
 
-  public get headerActions(): HeaderAction[] {
-    return this._headerActions;
-  }
+  public nmStatus$: BehaviorSubject<NM_VALID_STATUS> = new BehaviorSubject<NM_VALID_STATUS>(NM_VALID_STATUS.default);
 
   /** Shows whether the range selection is active */
   public rangeSelectionActive: boolean = false;
   /** The currently selected date range */
   public selectedDateRange: [Date | null, Date | null] = [null, null];
+  /** The array used to store multiple dates during 'multi date selection mode' (nmMultiDateSelect = true) */
+  public selectedDatesArray: Date[] = [];
 
   public possibleRangeEnd$: BehaviorSubject<Date | null> = new BehaviorSubject<Date | null>(null);
   // TODO: if the user selects the same day as start and end, set the time from 00 to 23
+
+  // Custom templates
+  public customDayCellTpl: TemplateRef<any> | undefined = undefined;
+  public customHeaderTpl: TemplateRef<any> | undefined = undefined;
+  public customWeekCellTpl: TemplateRef<any> | undefined = undefined;
+  public customMonthCellTpl: TemplateRef<any> | undefined = undefined;
+  public customYearCellTpl: TemplateRef<any> | undefined = undefined;
 }

@@ -1,14 +1,16 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from "@angular/core";
-import { combineLatest, map, takeUntil } from "rxjs";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, TemplateRef } from "@angular/core";
+import { Observable, combineLatest, map, takeUntil } from "rxjs";
 import { NmDatePickerStateService } from "../../../services/state/nm-date-picker-state.service";
-import { DateModeService } from "../../../services/date-mode/date-mode.service";
 import { NmHolidaysDisplayType } from "../../../interfaces/holiday-display.type";
+import { DateModeService } from "../../../services/date-mode/date-mode.service";
 import { NM_SELECTOR_STATES } from "../../../constants/selector-states.enum";
+import { NM_VALID_STATUS } from "../../../constants/valid-status.enum";
 import { Unsubscribe } from "../../unsubscribe/unsubscribe.component";
 import { NmWeekday } from "../../../interfaces/weekdays.interface";
+import { dateRangeSetter } from "../../../utils/dateRangeSetter";
 import { divideIntoChunks } from "../../../utils/chunkDivider";
 import { NmDate } from "../../../interfaces/date.interface";
-import { dateRangeSetter } from "../../../utils/dateRangeSetter";
+import { isSameDay } from "../../../utils/dateCompare";
 
 @Component({
   selector: "nm-date-picker-date-mode",
@@ -24,6 +26,18 @@ export class NmDatePickerDateModeComponent extends Unsubscribe implements OnInit
 
   @Input() weekendDisplayMethod: NmHolidaysDisplayType = "end";
   @Input() markWeekends: boolean = false;
+
+  get customDayCellTpl(): TemplateRef<any> | undefined {
+    return this.stateService.customDayCellTpl;
+  }
+
+  get customWeekCellTpl(): TemplateRef<any> | undefined {
+    return this.stateService.customWeekCellTpl;
+  }
+
+  get nmStatus$(): Observable<NM_VALID_STATUS> {
+    return this.stateService.nmStatus$;
+  }
 
   constructor(
     private readonly stateService: NmDatePickerStateService,
@@ -48,6 +62,16 @@ export class NmDatePickerDateModeComponent extends Unsubscribe implements OnInit
       const [start, end] = this.stateService.selectedDateRange;
       this.stateService.updatePicker$.next();
       if (start && end) this.stateService.dropdownSelectorState$.next(this.SELECTOR_STATES.INACTIVE);
+    } else if (this.stateService.nmMultiDateSelect) {
+      const amongSelected = this.stateService.selectedDatesArray.findIndex((selectedDate) =>
+        isSameDay(selectedDate, day.date)
+      );
+      if (amongSelected >= 0) {
+        this.stateService.selectedDatesArray.splice(amongSelected, 1);
+      } else {
+        this.stateService.selectedDatesArray.push(day.date);
+      }
+      this.stateService.updatePicker$.next();
     } else {
       this.stateService.updatePicker$.next();
       this.stateService.dropdownSelectorState$.next(this.SELECTOR_STATES.INACTIVE);

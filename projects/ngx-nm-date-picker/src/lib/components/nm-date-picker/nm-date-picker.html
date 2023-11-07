@@ -1,4 +1,9 @@
-<div *ngIf="nmPickerMode$ | async as nmPickerMode" class="nm_date-picker" [class.nm_date-picker__disabled]="nmDisabled">
+<div
+  *ngIf="nmPickerMode$ | async as nmPickerMode"
+  class="nm_date-picker"
+  [class.width-100]="nmDisplayMethod === 'dropdown'"
+  [class.nm_date-picker__disabled]="nmDisabled"
+>
   <div class="nm_date-picker__wrapper">
     <ng-container [ngSwitch]="nmDisplayMethod">
       <ng-container *ngSwitchCase="'inline'">

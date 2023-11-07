@@ -22,7 +22,7 @@ export class NmDatePickerMonthModeService {
 
   private updateSelectedMonth(dates: NmDate[]): NmDate[] {
     const updatedDates = dates.map((date) => {
-      if (this.stateService.rangeSelectionActive && date.date) {
+      if (this.stateService.rangeSelectionActive) {
         if (
           (this.stateService.selectedDateRange[0] && isSameMonth(this.stateService.selectedDateRange[0], date.date)) ||
           (this.stateService.selectedDateRange[1] && isSameMonth(this.stateService.selectedDateRange[1], date.date))
@@ -31,7 +31,16 @@ export class NmDatePickerMonthModeService {
         } else {
           date.setSelected(false);
         }
-      } else if (this.stateService.selectedDate && date.date) {
+      } else if (this.stateService.nmMultiDateSelect) {
+        const amongSelected = this.stateService.selectedDatesArray.find((selectedDate) =>
+          isSameMonth(selectedDate, date.date)
+        );
+        if (amongSelected) {
+          date.setSelected(true);
+        } else {
+          date.setSelected(false);
+        }
+      } else if (this.stateService.selectedDate) {
         if (isSameMonth(this.stateService.selectedDate, date.date)) {
           date.setSelected(true);
         } else {

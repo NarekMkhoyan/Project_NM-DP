@@ -3,7 +3,12 @@
     <div class="date-mode-weekdays_row">
       <ng-container *ngFor="let weekday of weekdays">
         <div class="date-mode-weekdays_item">
-          <ng-container *ngTemplateOutlet="defaultWekdayCellTpl; context: { $implicit: weekday }"></ng-container>
+          <ng-container *ngIf="customWeekCellTpl; else defaultWeekCellTpl">
+            <ng-container *ngTemplateOutlet="customWeekCellTpl; context: { $implicit: weekday }"></ng-container>
+          </ng-container>
+          <ng-template #defaultWeekCellTpl>
+            <ng-container *ngTemplateOutlet="defaultWekdayCellTpl; context: { $implicit: weekday }"></ng-container>
+          </ng-template>
         </div>
       </ng-container>
     </div>
@@ -11,32 +16,45 @@
   <div class="date-mode-days">
     <ng-container *ngFor="let row of dates">
       <div class="date-mode-days_row">
-        <ng-container *ngFor="let day of row">
+        <ng-container *ngFor="let day of row; let index = index">
           <div
-            class="date-mode-days_item"
+            class="date-mode-days_item nmValueSetter"
             [nmHighlighter]="{ dayValue: day, mode: 'date' }"
             nmTrigger
             (click)="!day.disabled && setDate(day)"
+            [style.gridColumnStart]="index + 1"
           >
-            <ng-container *ngTemplateOutlet="defaultDayCellTpl; context: { $implicit: day }"></ng-container>
+            <ng-container *ngIf="customDayCellTpl; else defaultDayCellTpl">
+              <ng-container *ngTemplateOutlet="customDayCellTpl; context: { $implicit: day }"></ng-container>
+            </ng-container>
+            <ng-template #defaultDayCellTpl>
+              <ng-container *ngTemplateOutlet="defaultDayCell; context: { $implicit: day }"></ng-container>
+            </ng-template>
           </div>
         </ng-container>
       </div>
     </ng-container>
   </div>
 
-  <ng-template #defaultDayCellTpl let-day>
+  <ng-template #defaultDayCell let-day>
     <div
+      *ngIf="nmStatus$ | async as nmStatus"
       class="date-mode-day"
       [class.other-month]="day.isNextMarker || day.isPrevMarker"
       [class.weekend]="markWeekends && day.isWeekend"
       [class.disabled]="day.disabled"
       [class.pointer]="!day.disabled"
       [class.selected]="day.isSelected"
+      [class.selected_warning]="day.isSelected && nmStatus === 'warning'"
+      [class.selected_error]="day.isSelected && nmStatus === 'error'"
       [class.today]="day.isToday"
       [class.highlighted]="day.isHighlighted"
     >
-      <div class="date-mode-day__inner">
+      <div
+        class="date-mode-day__inner"
+        [style.color]="day.customTextColor"
+        [style.backgroundColor]="day.customBackgroundColor"
+      >
         <span>
           {{ day.date | date : "d" }}
         </span>

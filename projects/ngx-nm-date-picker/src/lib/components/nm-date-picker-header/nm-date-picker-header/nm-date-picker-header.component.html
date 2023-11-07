@@ -1,43 +1,50 @@
-<div class="nm_date-picker-header" nmTrigger [style.width.px]="pickerBodyWidth">
-  <ng-container [ngSwitch]="currentPickerMode$ | async">
-    <ng-container *ngSwitchCase="'date'">
-      <ng-container *ngTemplateOutlet="dateModeHeader"></ng-container>
-    </ng-container>
-    <ng-container *ngSwitchCase="'month'">
-      <ng-container *ngTemplateOutlet="monthModeHeader"></ng-container>
-    </ng-container>
-    <ng-container *ngSwitchCase="'year'">
-      <ng-container *ngTemplateOutlet="yearModeHeader"></ng-container>
-    </ng-container>
+<div class="nm_date-picker-header" nmTrigger [style.width.px]="pickerBodyWidth" *ngIf="headerActions">
+  <ng-container *ngIf="customHeaderTpl; else defaultHeaderTpl">
+    <ng-container *ngTemplateOutlet="customHeaderTpl"></ng-container>
   </ng-container>
+  <ng-template #defaultHeaderTpl>
+    <ng-container [ngSwitch]="currentPickerMode$ | async">
+      <ng-container *ngSwitchCase="'date'">
+        <ng-container *ngTemplateOutlet="dateModeHeader"></ng-container>
+      </ng-container>
+      <ng-container *ngSwitchCase="'month'">
+        <ng-container *ngTemplateOutlet="monthModeHeader"></ng-container>
+      </ng-container>
+      <ng-container *ngSwitchCase="'year'">
+        <ng-container *ngTemplateOutlet="yearModeHeader"></ng-container>
+      </ng-container>
+    </ng-container>
+  </ng-template>
 
   <ng-template #dateModeHeader>
     <div class="nm_date-picker-header__info" nmTrigger>
-      <div class="nm_date-picker-header__info_month" [@click]="animationMonth" (click)="setPickerMode('month')">
+      <div
+        class="nm_date-picker-header__info_month click"
+        (click)="headerActions.monthAction.onClick()"
+      >
         {{ selectedMonth }}
       </div>
-      <div class="nm_date-picker-header__info_year" [@click]="animationYear" (click)="setPickerMode('year')">
+      <div
+        class="nm_date-picker-header__info_year click"
+        (click)="headerActions.yearAction.onClick()"
+      >
         {{ selectedDate.getFullYear() }}
       </div>
     </div>
     <div class="nm_date-picker-header__controls">
       <button
-        *ngIf="prevBtn"
-        [disabled]="prevBtn.disabled"
-        [@click]="prevBtn.clickObserver$ | async"
-        [class.disabled_btn]="prevBtn.disabled"
-        class="nm_date-picker-header_controls__item"
-        (click)="prevBtn.onClick()"
+        [disabled]="headerActions.prevAction.disabled"
+        [class.disabled_btn]="headerActions.prevAction.disabled"
+        class="nm_date-picker-header_controls__item click"
+        (click)="headerActions.prevAction.onClick()"
       >
         <ng-container *ngTemplateOutlet="arrowLeft"></ng-container>
       </button>
       <button
-        *ngIf="nextBtn"
-        [disabled]="nextBtn.disabled"
-        [class.disabled_btn]="nextBtn.disabled"
-        [@click]="nextBtn.clickObserver$ | async"
-        class="nm_date-picker-header_controls__item"
-        (click)="nextBtn.onClick()"
+        [disabled]="headerActions.nextAction.disabled"
+        [class.disabled_btn]="headerActions.nextAction.disabled"
+        class="nm_date-picker-header_controls__item click"
+        (click)="headerActions.nextAction.onClick()"
       >
         <ng-container *ngTemplateOutlet="arrowRight"></ng-container>
       </button>
@@ -47,25 +54,21 @@
   <ng-template #monthModeHeader>
     <div class="nm_month-picker__container" nmTrigger>
       <button
-        *ngIf="prevBtn"
-        [disabled]="prevBtn.disabled"
-        [@click]="prevBtn.clickObserver$ | async"
-        [class.disabled_btn]="prevBtn.disabled"
-        class="nm_month-picker__container__control"
-        (click)="prevBtn.onClick()"
+        [disabled]="headerActions.prevAction.disabled"
+        [class.disabled_btn]="headerActions.prevAction.disabled"
+        class="nm_month-picker__container__control click"
+        (click)="headerActions.prevAction.onClick()"
       >
         <ng-container *ngTemplateOutlet="arrowLeft"></ng-container>
       </button>
-      <div class="nm_month-picker__container__year-value" (click)="setPickerMode('year')">
+      <div class="nm_month-picker__container__year-value" (click)="headerActions.yearAction.onClick()">
         {{ selectedDate.getFullYear() }}
       </div>
       <button
-        *ngIf="nextBtn"
-        [disabled]="nextBtn.disabled"
-        [@click]="nextBtn.clickObserver$ | async"
-        [class.disabled_btn]="nextBtn.disabled"
-        class="nm_month-picker__container__control"
-        (click)="nextBtn.onClick()"
+        [disabled]="headerActions.nextAction.disabled"
+        [class.disabled_btn]="headerActions.nextAction.disabled"
+        class="nm_month-picker__container__control click"
+        (click)="headerActions.nextAction.onClick()"
       >
         <ng-container *ngTemplateOutlet="arrowRight"></ng-container>
       </button>
@@ -75,12 +78,10 @@
   <ng-template #yearModeHeader>
     <div class="nm_year-picker__container" nmTrigger>
       <button
-        *ngIf="prevBtn"
-        [disabled]="prevBtn.disabled"
-        [@click]="prevBtn.clickObserver$ | async"
-        [class.disabled_btn]="prevBtn.disabled"
-        class="nm_year-picker__container__control"
-        (click)="prevBtn.onClick()"
+        [disabled]="headerActions.prevAction.disabled"
+        [class.disabled_btn]="headerActions.prevAction.disabled"
+        class="nm_year-picker__container__control click"
+        (click)="headerActions.prevAction.onClick()"
       >
         <ng-container *ngTemplateOutlet="arrowLeft"></ng-container>
       </button>
@@ -88,12 +89,10 @@
         {{ yearRangeHeader }}
       </div>
       <button
-        *ngIf="nextBtn"
-        [disabled]="nextBtn.disabled"
-        [@click]="nextBtn.clickObserver$ | async"
-        [class.disabled_btn]="nextBtn.disabled"
-        class="nm_year-picker__container__control"
-        (click)="nextBtn.onClick()"
+        [disabled]="headerActions.nextAction.disabled"
+        [class.disabled_btn]="headerActions.nextAction.disabled"
+        class="nm_year-picker__container__control click"
+        (click)="headerActions.nextAction.onClick()"
       >
         <ng-container *ngTemplateOutlet="arrowRight"></ng-container>
       </button>

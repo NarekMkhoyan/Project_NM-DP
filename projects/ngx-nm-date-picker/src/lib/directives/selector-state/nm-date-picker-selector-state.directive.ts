@@ -1,7 +1,7 @@
 import { Directive, ElementRef, Input, NgZone, OnDestroy, Renderer2 } from "@angular/core";
 import { NmDatePickerStateService } from "../../services/state/nm-date-picker-state.service";
 import { NM_SELECTOR_STATES } from "../../constants/selector-states.enum";
-import { isTriggerDescendant } from "../../utils/checkParentNode";
+import { isClassDescendant } from "../../utils/checkParentNode";
 
 @Directive({
   selector: "[nmDatePickerSelectorState]",
@@ -29,7 +29,7 @@ export class NmDatePickerSelectorStateDirective implements OnDestroy {
   private createActionInstances(): void {
     this.unlistenDocumentClick = this.renderer.listen(document, "click", (event: PointerEvent) => {
       this.ngZone.runOutsideAngular(() => {
-        if ((this.dropdownPicker && this.dropdownPicker.contains(event.target as Node)) || isTriggerDescendant(event.target as HTMLElement)) {
+        if ((this.dropdownPicker && this.dropdownPicker.contains(event.target as Node)) || isClassDescendant(event.target as HTMLElement, 'nmTrigger')) {
           return;
         }
         if (this.el.nativeElement.contains(event.target as Node)) {

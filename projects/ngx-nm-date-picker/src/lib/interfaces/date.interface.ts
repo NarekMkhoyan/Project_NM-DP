@@ -10,6 +10,8 @@ export interface NmDateInterface {
   isWeekend: boolean;
   isHighlighted: boolean;
   displayName?: string;
+  customTextColor: string | undefined;
+  customBackgroundColor: string | undefined;
 }
 
 export class NmDate implements NmDateInterface {
@@ -22,6 +24,8 @@ export class NmDate implements NmDateInterface {
   isWeekend = false;
   isHighlighted = false;
   displayName?: string;
+  customTextColor = undefined;
+  customBackgroundColor = undefined;
 
   constructor(value: Date) {
     this.date = value;
@@ -82,9 +86,9 @@ export class NmDate implements NmDateInterface {
     return this;
   }
 
-  setHighlightedDay(highlighterFn: null | ((date: Date) => boolean)): this {
+  setHighlightedDay(highlighterFn: null | ((date: Date, nmDateObject: NmDateInterface) => boolean)): this {
     if (highlighterFn) {
-      this.isHighlighted = highlighterFn(this.date);
+      this.isHighlighted = highlighterFn(this.date, this);
     }
     return this;
   }

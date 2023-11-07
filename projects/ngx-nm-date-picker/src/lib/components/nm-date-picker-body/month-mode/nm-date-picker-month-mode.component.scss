@@ -6,16 +6,11 @@
   padding: 6px 12px;
   display: flex;
   flex-direction: column;
-  gap: 2px;
 
   &_row {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-around;
+    display: grid;
+    grid-template-columns: calc(100% / 3) calc(100% / 3) calc(100% / 3);
     .month-mode_row__item-wrapper {
-      border: 0.5px solid transparent;
-      flex-grow: 1;
       .month-mode_row__item {
         font-family: "Lato";
         font-size: 14px;
@@ -53,9 +48,29 @@
         }
       }
 
+      .selected_warning:not(.disabled) {
+        .month-mode_row__item__inner {
+          background-color: var(--nm-datepicker-warning-color) !important;
+          color: var(--nm-datepicker-white) !important;
+        }
+      }
+
+      .selected_error:not(.disabled) {
+        .month-mode_row__item__inner {
+          background-color: var(--nm-datepicker-error-color) !important;
+          color: var(--nm-datepicker-white) !important;
+        }
+      }
+
       .disabled {
         color: var(--nm-datepicker-text-color-disabled);
       }
     }
+  }
+}
+
+.month-mode_row__item-wrapper {
+  div:first-child {
+    border: 0.5px solid transparent;
   }
 }

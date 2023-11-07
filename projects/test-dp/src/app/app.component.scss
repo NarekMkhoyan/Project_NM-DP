@@ -1,12 +1,180 @@
 .wrap {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   gap: 24px;
   flex-wrap: wrap;
   margin-bottom: 24px;
 
+  .small {
+    max-width: 240px;
+  }
+
   .test {
     display: flex;
     flex-direction: column;
+  }
+
+  .custom-date-picker {
+    --nm-datepicker-primary-color: #e91d62;
+  }
+  .custom-day {
+    width: 31px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+
+  .other-month {
+    display: none;
+  }
+
+  .today {
+    border: 1px solid var(--nm-datepicker-primary-color);
+  }
+
+  .selected {
+    background-color: var(--nm-datepicker-primary-color);
+    color: white;
+  }
+
+  .custom-week {
+    font-size: 12px;
+  }
+
+  .custom-month,
+  .custom-year {
+    border-radius: 4px;
+    width: 70px;
+    height: 25px;
+    margin: 13px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .custom-month__selected,
+  .custom-year__selected {
+    background-color: var(--nm-datepicker-primary-color);
+    color: white;
+  }
+
+  .custom-selector {
+    background-color: var(--nm-datepicker-primary-color);
+    border-radius: 8px;
+    color: white;
+    padding: 12px 20px;
+    width: 239px;
+    .year {
+      font-size: 16px;
+    }
+    .date {
+      margin-top: 4px;
+      font-size: 24px;
+    }
+  }
+
+  .custom-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .arrow-btn {
+      background-color: transparent;
+      border: none;
+      outline: none;
+      margin: 0;
+      padding: 0;
+      &:hover {
+        svg {
+          fill: var(--nm-datepicker-primary-color);
+        }
+      }
+      svg {
+        width: 30px;
+        height: 30px;
+      }
+    }
+
+    .text-btn {
+      font-size: 14px;
+      border: none;
+      outline: none;
+      padding: 0;
+      &:hover {
+        color: var(--nm-datepicker-primary-color);
+      }
+    }
+  }
+
+  .custom-day-calendar {
+    border: 0.5px solid lightgray;
+    padding: 8px 12px;
+    display: flex;
+    min-height: 110px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+
+    .date-marker {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+  }
+
+  .custom-day-calendar.calendar-selected {
+    .date-marker {
+      background-color: var(--nm-datepicker-primary-color);
+      color: white;
+    }
+  }
+
+  .custom-day-calendar.calendar-today {
+    .date-marker {
+      border: 1px solid var(--nm-datepicker-primary-color);
+    }
+  }
+
+  .custom-calendar-header {
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 24px;
+    .calendar-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 8px;
+      .calendar-arrow-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        outline: none;
+        &:active {
+          background-color: rgba(0, 0, 0, 0.1);
+        }
+      }
+    }
+
+    .date {
+      .calendar-text-btn {
+        border: none;
+        outline: none;
+        font-size: 22px;
+        background-color: transparent;
+      }
+    }
   }
 }

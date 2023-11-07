@@ -9,10 +9,11 @@ import {
 } from "@angular/core";
 import { Observable } from "rxjs";
 import { NmDatePickerStateService } from "../../services/state/nm-date-picker-state.service";
+import { NmPublicApiService } from "../../services/public-apis/public-apis.service";
 import { swipeLeftAnimation, swipeRightAnimation } from "../../utils/animations";
 import { NmHolidaysDisplayType } from "../../interfaces/holiday-display.type";
+import { IHeaderActions } from "../../interfaces/header-action.interface";
 import { NmDatePickerModeType } from "../../interfaces/picker-mode.type";
-import { HeaderAction } from "../../interfaces/header-action.interface";
 
 @Component({
   selector: "nm-date-picker-body",
@@ -32,15 +33,14 @@ export class NmDatePickerBodyComponent implements AfterViewInit, OnDestroy {
     return this.stateService.pickerMode$;
   }
 
-  get prevBtn(): HeaderAction | null {
-    return this.stateService.headerActions[0] || null;
+  get headerActions(): IHeaderActions | null {
+    return this.publicApiService.nmHeaderActions;
   }
 
-  get nextBtn(): HeaderAction | null {
-    return this.stateService.headerActions[1] || null;
-  }
-
-  constructor(private readonly stateService: NmDatePickerStateService) {}
+  constructor(
+    private readonly stateService: NmDatePickerStateService,
+    private readonly publicApiService: NmPublicApiService
+  ) {}
 
   ngAfterViewInit(): void {
     this.setPickerBodyWidth();

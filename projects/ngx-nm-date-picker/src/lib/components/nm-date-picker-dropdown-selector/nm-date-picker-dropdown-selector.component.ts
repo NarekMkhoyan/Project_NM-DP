@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from "@angular/core";
 import { Observable, combineLatest, map, takeUntil } from "rxjs";
-import { NM_FALLBACK_LANGUAGE, NM_SELECTOR_LABEL_LOCALIZATION } from "../../../constants/localization.constant";
-import { NmDatePickerStateService } from "../../../services/state/nm-date-picker-state.service";
-import { NmDatePickerSelectorStateType } from "../../../interfaces/selector-states.type";
-import { NM_SELECTOR_STATES } from "../../../constants/selector-states.enum";
-import { NmDatePickerModeType } from "../../../interfaces/picker-mode.type";
-import { Unsubscribe } from "../../unsubscribe/unsubscribe.component";
-import { NmLanguageType } from "../../../interfaces/language.type";
-import { labelSlideUpAnimation } from "../../../utils/animations";
+import { NM_FALLBACK_LANGUAGE, NM_SELECTOR_LABEL_LOCALIZATION } from "../../constants/localization.constant";
+import { NmDatePickerStateService } from "../../services/state/nm-date-picker-state.service";
+import { NM_SELECTOR_STATES } from "../../constants/selector-states.enum";
+import { NmDatePickerModeType } from "../../interfaces/picker-mode.type";
+import { NM_VALID_STATUS } from "../../constants/valid-status.enum";
+import { Unsubscribe } from "../unsubscribe/unsubscribe.component";
+import { NmLanguageType } from "../../interfaces/language.type";
+import { labelSlideUpAnimation } from "../../utils/animations";
 
 @Component({
   selector: "nm-date-picker-dropdown-selector",
@@ -26,7 +26,7 @@ export class NmDatePickerDropdownSelectorComponent extends Unsubscribe implement
   public defaultSelectorLabel: string = NM_SELECTOR_LABEL_LOCALIZATION[NM_FALLBACK_LANGUAGE];
   private monthNames = this.stateService.localization[NM_FALLBACK_LANGUAGE].MONTH_NAMES_DECLENSED;
 
-  public get selectorState$(): Observable<NmDatePickerSelectorStateType> {
+  public get selectorState$(): Observable<NM_SELECTOR_STATES> {
     return this.stateService.dropdownSelectorState$;
   }
 
@@ -38,14 +38,32 @@ export class NmDatePickerDropdownSelectorComponent extends Unsubscribe implement
     return this.stateService.rangeSelectionActive;
   }
 
+  public get multiModeActive(): boolean {
+    return this.stateService.nmMultiDateSelect;
+  }
+
   public get dateRange(): [Date | null, Date | null] {
     return this.stateService.selectedDateRange;
+  }
+
+  public get dateArray(): Date[] {
+    return this.stateService.selectedDatesArray;
+  }
+
+  public get allowClear(): boolean {
+    return this.stateService.nmAllowClear;
+  }
+
+  public get nmStatus$(): Observable<NM_VALID_STATUS> {
+    return this.stateService.nmStatus$;
   }
 
   public get clearIconVisible(): boolean {
     if (this.stateService.rangeSelectionActive) {
       const [start, end] = this.stateService.selectedDateRange;
       return start !== null && end !== null;
+    } else if (this.stateService.nmMultiDateSelect) {
+      return this.stateService.selectedDatesArray.length > 0;
     } else {
       return this.selectedDate !== null;
     }
@@ -83,6 +101,7 @@ export class NmDatePickerDropdownSelectorComponent extends Unsubscribe implement
   public clearPickerValue(): void {
     this.stateService.selectedDate = null;
     this.stateService.selectedDateRange = [null, null];
+    this.stateService.selectedDatesArray = [];
     this.stateService.updatePicker$.next();
     this.stateService.emitSelectedDate$.next();
   }

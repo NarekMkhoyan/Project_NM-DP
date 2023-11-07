@@ -1,23 +1,35 @@
 import { Injectable } from "@angular/core";
+import { HeaderAction, HeaderActions } from "../../interfaces/header-action.interface";
 import { NmDatePickerStateService } from "../state/nm-date-picker-state.service";
 import { NmDatePickerModeType } from "../../interfaces/picker-mode.type";
-import { HeaderAction } from "../../interfaces/header-action.interface";
+import { NmPublicApiService } from "../public-apis/public-apis.service";
 import { isSameMonth } from "../../utils/dateCompare";
 
 @Injectable()
 export class NmDatePickerHeaderService {
   private mode: NmDatePickerModeType = "date";
-  constructor(private readonly stateService: NmDatePickerStateService) {}
+  constructor(
+    private readonly stateService: NmDatePickerStateService,
+    private readonly publicApisService: NmPublicApiService
+  ) {}
 
   public generateHeaderActionButtons(pickerMode: NmDatePickerModeType): void {
     this.mode = pickerMode;
-    if (this.stateService.headerActions.length === 0) {
-      this.stateService.headerActions = [
-        new HeaderAction().setOnClickHandler(this.prevActionHandler),
-        new HeaderAction().setOnClickHandler(this.nextActionHandler),
-      ];
+    this.updateHeaderActionDisplayDates(this.stateService.displayDate);
+    if (this.publicApisService.nmHeaderActions === null) {
+      this.publicApisService.nmHeaderActions = new HeaderActions(
+        new HeaderAction(this.stateService.displayDate).setOnClickHandler(this.nextActionHandler),
+        new HeaderAction(this.stateService.displayDate).setOnClickHandler(this.prevActionHandler),
+        new HeaderAction(this.stateService.displayDate).setOnClickHandler(() => this.setPickerMode("month")),
+        new HeaderAction(this.stateService.displayDate).setOnClickHandler(() => this.setPickerMode("year"))
+      );
     }
     this.checkForMinMaxRange(pickerMode);
+  }
+
+  private setPickerMode(pickerMode: NmDatePickerModeType): void {
+    this.stateService.pickerMode$.next(pickerMode);
+    this.stateService.updatePicker$.next();
   }
 
   private prevActionHandler: () => void = () => {
@@ -35,6 +47,7 @@ export class NmDatePickerHeaderService {
         break;
     }
     this.updateSelectedDate(newDate);
+    this.publicApisService.nmPrevActionTriggered$.next();
   };
 
   private nextActionHandler: () => void = () => {
@@ -52,63 +65,65 @@ export class NmDatePickerHeaderService {
         break;
     }
     this.updateSelectedDate(newDate);
+    this.publicApisService.nmNextActionTriggered$.next();
   };
 
   private updateSelectedDate(newValue: number): void {
+    this.updateHeaderActionDisplayDates(new Date(newValue));
     this.stateService.displayDate = new Date(newValue);
     this.stateService.updatePicker$.next();
   }
 
   private checkForMinMaxRange(pickerMode: NmDatePickerModeType): void {
-    const [prevBtn, nextBtn] = this.stateService.headerActions;
-    if (!prevBtn || !nextBtn) {
+    if (this.publicApisService.nmHeaderActions === null) {
       return;
     }
+    const { prevAction, nextAction } = this.publicApisService.nmHeaderActions;
     switch (pickerMode) {
       case "date":
         if (this.stateService.nmMinDate) {
           const isSameMonthWithMin = isSameMonth(this.stateService.displayDate, this.stateService.nmMinDate);
           if (isSameMonthWithMin) {
-            prevBtn.disabled = true;
+            prevAction.disabled = true;
           } else {
-            prevBtn.disabled = false;
+            prevAction.disabled = false;
           }
         } else {
-          prevBtn.disabled = false;
+          prevAction.disabled = false;
         }
 
         if (this.stateService.nmMaxDate) {
           const isSameMonthWithMax = isSameMonth(this.stateService.nmMaxDate, this.stateService.displayDate);
           if (isSameMonthWithMax) {
-            nextBtn.disabled = true;
+            nextAction.disabled = true;
           } else {
-            nextBtn.disabled = false;
+            nextAction.disabled = false;
           }
         } else {
-          nextBtn.disabled = false;
+          nextAction.disabled = false;
         }
         break;
       case "month":
         if (this.stateService.nmMinDate) {
           const difference = this.stateService.displayDate.getFullYear() - this.stateService.nmMinDate.getFullYear();
           if (difference <= 0) {
-            prevBtn.disabled = true;
+            prevAction.disabled = true;
           } else {
-            prevBtn.disabled = false;
+            prevAction.disabled = false;
           }
         } else {
-          prevBtn.disabled = false;
+          prevAction.disabled = false;
         }
 
         if (this.stateService.nmMaxDate) {
           const difference = this.stateService.nmMaxDate.getFullYear() - this.stateService.displayDate.getFullYear();
           if (difference <= 0) {
-            nextBtn.disabled = true;
+            nextAction.disabled = true;
           } else {
-            nextBtn.disabled = false;
+            nextAction.disabled = false;
           }
         } else {
-          nextBtn.disabled = false;
+          nextAction.disabled = false;
         }
         break;
 
@@ -123,24 +138,37 @@ export class NmDatePickerHeaderService {
         if (this.stateService.nmMinDate) {
           const difference = decadeMarkingYear - this.stateService.nmMinDate.getFullYear();
           if (difference < 11) {
-            prevBtn.disabled = true;
+            prevAction.disabled = true;
           } else {
-            prevBtn.disabled = false;
+            prevAction.disabled = false;
           }
         } else {
-          prevBtn.disabled = false;
+          prevAction.disabled = false;
         }
 
         if (this.stateService.nmMaxDate) {
           const difference = this.stateService.nmMaxDate.getFullYear() - decadeMarkingYear;
           if (difference < 0) {
-            nextBtn.disabled = true;
+            nextAction.disabled = true;
           } else {
-            nextBtn.disabled = false;
+            nextAction.disabled = false;
           }
         } else {
-          nextBtn.disabled = false;
+          nextAction.disabled = false;
         }
     }
+  }
+
+  private updateHeaderActionDisplayDates(newDate: Date): void {
+    if (!this.publicApisService.nmHeaderActions) {
+      return;
+    }
+    const actions: HeaderActions = this.publicApisService.nmHeaderActions;
+    for (const key in actions) {
+      if (Object.prototype.hasOwnProperty.call(actions, key)) {
+        (actions[key as keyof HeaderActions] as HeaderAction).setDisplayDate(newDate);
+      }
+    }
+    this.publicApisService.nmHeaderActions = { ...actions };
   }
 }

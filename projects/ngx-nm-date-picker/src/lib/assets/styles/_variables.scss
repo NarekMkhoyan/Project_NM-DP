@@ -1,14 +1,18 @@
 nm-date-picker {
   // common colors
-
   --nm-datepicker-white: #ffffff;
   --nm-datepicker-text-color-dark: #202020;
   --nm-datepicker-color-danger: #ff4d4f;
   --nm-datepicker-holiday-color: #ff4d4f;
+  --nm-datepicker-highlight-color: #ff4d4f;
 
   // light colors
   --nm-datepicker-primary-color: #3794ff;
-  --nm-datepicker-inrange-cell-color: #e6f7ff;
+  --nm-datepicker-warning-color: #faad14;
+  --nm-datepicker-error-color: #ff2d31;
+  --nm-datepicker-inrange-cell-default-color: #e6f7ff;
+  --nm-datepicker-inrange-cell-error-color: #ffe6e6;
+  --nm-datepicker-inrange-cell-warning-color: #fff5e6;
   --nm-datepicker-text-color: #202020;
   --nm-datepicker-background-color: #f6f6f6;
   --nm-datepicker-hover-background-color: #0000000d;
@@ -16,12 +20,16 @@ nm-date-picker {
   --nm-datepicker-color-danger-disabled: #ffbcbc;
   --nm-datepicker-holiday-color-disabled: #ffbcbc;
   --nm-datepicker-text-color-secondary: #808080;
-  --nm-datepicker-disabled: grayscale(0.4) opacity(0.7); //TODO:
+  --nm-datepicker-disabled: grayscale(0.4) opacity(0.7);
 }
 
 [nm-theme="dark"] {
   --nm-datepicker-primary-color: #0672cb;
-  --nm-datepicker-inrange-cell-color: #263653;
+  --nm-datepicker-warning-color: #e09705;
+  --nm-datepicker-error-color: #cd0003;
+  --nm-datepicker-inrange-cell-default-color: #263653;
+  --nm-datepicker-inrange-cell-error-color: #532626;
+  --nm-datepicker-inrange-cell-warning-color: #534626;
   --nm-datepicker-text-color: #f6f6f6;
   --nm-datepicker-background-color: #0f172a; // #000d1d
   --nm-datepicker-hover-background-color: #ffffff4d;

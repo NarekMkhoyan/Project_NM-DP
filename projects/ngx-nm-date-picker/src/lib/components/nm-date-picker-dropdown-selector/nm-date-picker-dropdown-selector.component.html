@@ -6,7 +6,7 @@
     <div class="selector__value">
       <div class="selector__value_main">
         <ng-container *ngIf="selectorDateFormat; else defaultSelectorValueTpl">
-          <ng-container *ngIf="rangeModeActive; else singleDateTpl">
+          <ng-container *ngIf="rangeModeActive">
             <div class="selector__value_text" *ngIf="dateRange[0] && dateRange[1]">
               <ng-container
                 *ngTemplateOutlet="
@@ -23,7 +23,19 @@
               ></ng-container>
             </div>
           </ng-container>
-          <ng-template #singleDateTpl>
+          <ng-container *ngIf="multiModeActive">
+            <div class="selector__value_text">
+              <ng-container *ngFor="let date of dateArray">
+                <ng-container
+                  *ngTemplateOutlet="
+                    formatedSelectorDateValue;
+                    context: { $implicit: date, format: selectorDateFormat }
+                  "
+                ></ng-container>
+              </ng-container>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="!rangeModeActive && !multiModeActive" #singleDateTpl>
             <span class="selector__value_text" *ngIf="selectedDate">
               <ng-container
                 *ngTemplateOutlet="
@@ -32,28 +44,35 @@
                 "
               ></ng-container>
             </span>
-          </ng-template>
+          </ng-container>
         </ng-container>
         <ng-template #defaultSelectorValueTpl>
-          <ng-container *ngIf="rangeModeActive; else singleDateTpl">
+          <ng-container *ngIf="rangeModeActive">
             <div class="selector__value_text" *ngIf="dateRange[0] && dateRange[1]">
               <ng-container *ngTemplateOutlet="selectorDateValue; context: { $implicit: dateRange[0] }"></ng-container>
               <span>—</span>
               <ng-container *ngTemplateOutlet="selectorDateValue; context: { $implicit: dateRange[1] }"></ng-container>
             </div>
           </ng-container>
-          <ng-template #singleDateTpl>
+          <ng-container *ngIf="multiModeActive">
+            <div class="selector__value_text">
+              <ng-container *ngFor="let date of dateArray">
+                <ng-container *ngTemplateOutlet="selectorDateValue; context: { $implicit: date }"></ng-container>
+              </ng-container>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="!rangeModeActive && !multiModeActive" #singleDateTpl>
             <div class="selector__value_text" *ngIf="selectedDate">
               <ng-container *ngTemplateOutlet="selectorDateValue; context: { $implicit: selectedDate }"></ng-container>
             </div>
-          </ng-template>
+          </ng-container>
         </ng-template>
       </div>
       <div class="selector__value_extra">
         <span
           class="icon"
           nmTrigger
-          *ngIf="clearIconVisible && selectorState === SELECTOR_STATES.ACTIVE"
+          *ngIf="clearIconVisible && selectorState === SELECTOR_STATES.ACTIVE && allowClear"
           (click)="clearPickerValue()"
         >
           <ng-container *ngTemplateOutlet="backspaceIcon"></ng-container>
@@ -69,9 +88,11 @@
     </div>
     <div class="selector__border">
       <div
+        *ngIf="nmStatus$ | async as nmStatus"
         class="selector__border_inner"
+        [class.selector__border_inner-error]="nmStatus === 'error'"
+        [class.selector__border_inner-warning]="nmStatus === 'warning'"
         [class.selector__border_inner-activated]="selectorState === SELECTOR_STATES.ACTIVE"
-        [class.selector__border_inner-deactivated]="selectorState === SELECTOR_STATES.INACTIVE"
       ></div>
     </div>
   </div>
