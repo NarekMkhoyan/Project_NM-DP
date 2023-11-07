@@ -50,12 +50,16 @@ export class NmDatePickerStateService {
 
   public nmAllowClear: boolean = true;
 
+  public nmMultiDateSelect: boolean = false;
+
   public nmStatus$: BehaviorSubject<NM_VALID_STATUS> = new BehaviorSubject<NM_VALID_STATUS>(NM_VALID_STATUS.default);
 
   /** Shows whether the range selection is active */
   public rangeSelectionActive: boolean = false;
   /** The currently selected date range */
   public selectedDateRange: [Date | null, Date | null] = [null, null];
+  /** The array used to store multiple dates during 'multi date selection mode' (nmMultiDateSelect = true) */
+  public selectedDatesArray: Date[] = [];
 
   public possibleRangeEnd$: BehaviorSubject<Date | null> = new BehaviorSubject<Date | null>(null);
   // TODO: if the user selects the same day as start and end, set the time from 00 to 23

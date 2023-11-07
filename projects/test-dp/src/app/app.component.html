@@ -1,17 +1,16 @@
 <div class="wrap" #wrap>
-  <!-- <nm-date-picker
-    [nmMarkWeekends]="true"
-    [nmWeekendDisplayMethod]="'end'"
-    [nmLanguage]="'ru'"
-    [(ngModel)]="date"
-    [nmPickerMode]="'date'"
-    [nmTheme]="'dark'"
-    [nmSelectorDateFormat]="'dd/MM/YYYY'"
-    [nmDisplayMethod]="'dropdown'"
-    [nmRangeSelection]="true"
-    [nmAllowClear]="false"
-    (ngModelChange)="log($event)"
-  ></nm-date-picker>
+  <div class="small">
+    <nm-date-picker
+      [(ngModel)]="date3"
+      [nmPickerMode]="'date'"
+      [nmTheme]="'dark'"
+      [nmMultiDateSelect]="true"
+      [nmDisplayMethod]="'dropdown'"
+      [nmSelectorDateFormat]="'dd'"
+      (ngModelChange)="log($event)"
+    ></nm-date-picker>
+  </div>
+  <button (click)="clear()">Clear</button>
   <div class="test" style="width: 100%">
     <nm-date-picker
       [nmMarkWeekends]="true"
@@ -78,7 +77,7 @@
     (ngModelChange)="log($event)"
     [nmRangeSelection]="true"
   ></nm-date-picker>
--->
+
   <form [formGroup]="form">
     <nm-date-picker
       [nmMarkWeekends]="true"
@@ -286,3 +285,4 @@
     </ng-template>
   </nm-date-picker>
 </div>
+

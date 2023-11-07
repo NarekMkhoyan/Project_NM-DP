@@ -55,7 +55,8 @@ export class AppComponent implements AfterViewInit {
   public LOCALIZATION_FRENCH = LOCALIZATION_FRENCH;
   public now = new Date("2019");
   public max = new Date("2043");
-  public date: Date = new Date();
+  public date: Date | null = new Date();
+  public dateArr: Date[] = [new Date()];
   public date2: Date | null = null;
   public date3: Date | null = new Date();
   private minDateValue = 1692475200000;
@@ -111,6 +112,12 @@ export class AppComponent implements AfterViewInit {
     // this.customNmDatePicker.nmPublicApiService.nmPrevActionTriggered$.subscribe(() => console.log('prev'));
     // this.customNmDatePicker.nmPublicApiService.nmPickerCurrentMode$.subscribe((mode) => console.log('Mode: ' + mode));
   }
+
+public clear(): void {
+  this.dateArr = [];
+  this.date3 = null;
+  this.date = null;
+}
 
   private dateCustomValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {

@@ -6,8 +6,6 @@
 
 ## In Development
 
-1. multiple day selection (ionic)
-
 ## Bugs
 
 1. disabled dates in between range

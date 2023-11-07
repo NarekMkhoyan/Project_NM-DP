@@ -7,6 +7,7 @@ import { NM_VALID_STATUS } from "../../../constants/valid-status.enum";
 import { Unsubscribe } from "../../unsubscribe/unsubscribe.component";
 import { yearRangeSetter } from "../../../utils/dateRangeSetter";
 import { NmDate } from "../../../interfaces/date.interface";
+import { isSameYear } from "../../../utils/dateCompare";
 
 @Component({
   selector: "nm-date-picker-year-mode",
@@ -49,6 +50,16 @@ export class NmDatePickerYearModeComponent extends Unsubscribe implements OnInit
         this.stateService.selectedDateRange = yearRangeSetter(this.stateService.selectedDateRange, selectedYear);
         const [start, end] = this.stateService.selectedDateRange;
         if (start && end) this.stateService.dropdownSelectorState$.next(this.SELECTOR_STATES.INACTIVE);
+      } else if (this.stateService.nmMultiDateSelect) {
+        const amongSelected = this.stateService.selectedDatesArray.findIndex((selectedDate) =>
+          isSameYear(selectedDate, selectedYear)
+        );
+        if (amongSelected >= 0) {
+          this.stateService.selectedDatesArray.splice(amongSelected, 1);
+        } else {
+          this.stateService.selectedDatesArray.push(selectedYear);
+        }
+        this.stateService.updatePicker$.next();
       } else {
         this.stateService.dropdownSelectorState$.next(this.SELECTOR_STATES.INACTIVE);
       }

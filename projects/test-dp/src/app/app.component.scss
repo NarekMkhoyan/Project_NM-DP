@@ -1,9 +1,13 @@
 .wrap {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   gap: 24px;
   flex-wrap: wrap;
   margin-bottom: 24px;
+
+  .small {
+    max-width: 240px;
+  }
 
   .test {
     display: flex;

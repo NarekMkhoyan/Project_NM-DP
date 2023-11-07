@@ -38,8 +38,16 @@ export class NmDatePickerDropdownSelectorComponent extends Unsubscribe implement
     return this.stateService.rangeSelectionActive;
   }
 
+  public get multiModeActive(): boolean {
+    return this.stateService.nmMultiDateSelect;
+  }
+
   public get dateRange(): [Date | null, Date | null] {
     return this.stateService.selectedDateRange;
+  }
+
+  public get dateArray(): Date[] {
+    return this.stateService.selectedDatesArray;
   }
 
   public get allowClear(): boolean {
@@ -54,6 +62,8 @@ export class NmDatePickerDropdownSelectorComponent extends Unsubscribe implement
     if (this.stateService.rangeSelectionActive) {
       const [start, end] = this.stateService.selectedDateRange;
       return start !== null && end !== null;
+    } else if (this.stateService.nmMultiDateSelect) {
+      return this.stateService.selectedDatesArray.length > 0;
     } else {
       return this.selectedDate !== null;
     }
@@ -91,6 +101,7 @@ export class NmDatePickerDropdownSelectorComponent extends Unsubscribe implement
   public clearPickerValue(): void {
     this.stateService.selectedDate = null;
     this.stateService.selectedDateRange = [null, null];
+    this.stateService.selectedDatesArray = [];
     this.stateService.updatePicker$.next();
     this.stateService.emitSelectedDate$.next();
   }

@@ -7,6 +7,7 @@ import { NM_VALID_STATUS } from "../../../constants/valid-status.enum";
 import { Unsubscribe } from "../../unsubscribe/unsubscribe.component";
 import { monthRangeSetter } from "../../../utils/dateRangeSetter";
 import { NmDate } from "../../../interfaces/date.interface";
+import { isSameMonth } from "../../../utils/dateCompare";
 
 @Component({
   selector: "nm-date-picker-month-mode",
@@ -46,6 +47,16 @@ export class NmDatePickerMonthModeComponent extends Unsubscribe implements OnIni
         this.stateService.selectedDateRange = monthRangeSetter(this.stateService.selectedDateRange, selectedMonthValue);
         const [start, end] = this.stateService.selectedDateRange;
         if (start && end) this.stateService.dropdownSelectorState$.next(this.SELECTOR_STATES.INACTIVE);
+      } else if (this.stateService.nmMultiDateSelect) {
+        const amongSelected = this.stateService.selectedDatesArray.findIndex((selectedDate) =>
+          isSameMonth(selectedDate, selectedMonthValue)
+        );
+        if (amongSelected >= 0) {
+          this.stateService.selectedDatesArray.splice(amongSelected, 1);
+        } else {
+          this.stateService.selectedDatesArray.push(selectedMonthValue);
+        }
+        this.stateService.updatePicker$.next();
       } else {
         this.stateService.dropdownSelectorState$.next(this.SELECTOR_STATES.INACTIVE);
       }

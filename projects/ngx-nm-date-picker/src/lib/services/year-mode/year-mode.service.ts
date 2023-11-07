@@ -39,7 +39,7 @@ export class YearModeService {
 
   private updateSelectedYear(years: NmDate[]): NmDate[] {
     const updatedDates = years.map((date) => {
-      if (this.stateService.rangeSelectionActive && date.date) {
+      if (this.stateService.rangeSelectionActive) {
         if (
           (this.stateService.selectedDateRange[0] && isSameYear(this.stateService.selectedDateRange[0], date.date)) ||
           (this.stateService.selectedDateRange[1] && isSameYear(this.stateService.selectedDateRange[1], date.date))
@@ -48,7 +48,16 @@ export class YearModeService {
         } else {
           date.setSelected(false);
         }
-      } else if (this.stateService.selectedDate && date.date) {
+      } else if (this.stateService.nmMultiDateSelect) {
+        const amongSelected = this.stateService.selectedDatesArray.find((selectedDate) =>
+          isSameYear(selectedDate, date.date)
+        );
+        if (amongSelected) {
+          date.setSelected(true);
+        } else {
+          date.setSelected(false);
+        }
+      } else if (this.stateService.selectedDate) {
         if (isSameYear(this.stateService.selectedDate, date.date)) {
           date.setSelected(true);
         } else {

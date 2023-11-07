@@ -10,6 +10,7 @@ import { NmWeekday } from "../../../interfaces/weekdays.interface";
 import { dateRangeSetter } from "../../../utils/dateRangeSetter";
 import { divideIntoChunks } from "../../../utils/chunkDivider";
 import { NmDate } from "../../../interfaces/date.interface";
+import { isSameDay } from "../../../utils/dateCompare";
 
 @Component({
   selector: "nm-date-picker-date-mode",
@@ -61,6 +62,16 @@ export class NmDatePickerDateModeComponent extends Unsubscribe implements OnInit
       const [start, end] = this.stateService.selectedDateRange;
       this.stateService.updatePicker$.next();
       if (start && end) this.stateService.dropdownSelectorState$.next(this.SELECTOR_STATES.INACTIVE);
+    } else if (this.stateService.nmMultiDateSelect) {
+      const amongSelected = this.stateService.selectedDatesArray.findIndex((selectedDate) =>
+        isSameDay(selectedDate, day.date)
+      );
+      if (amongSelected >= 0) {
+        this.stateService.selectedDatesArray.splice(amongSelected, 1);
+      } else {
+        this.stateService.selectedDatesArray.push(day.date);
+      }
+      this.stateService.updatePicker$.next();
     } else {
       this.stateService.updatePicker$.next();
       this.stateService.dropdownSelectorState$.next(this.SELECTOR_STATES.INACTIVE);

@@ -217,12 +217,15 @@ export class NmDatePickerComponent extends Unsubscribe implements ControlValueAc
    *
    * A boolean value that activates the range selection mode
    *
-   * \* Available for all 3 operation modes
+   * \* Available for all 3 operation modes.
+   *
+   * \* Not compatible with nmMultiDateSelect.
    *
    * False - by default
    */
   @Input() set nmRangeSelection(activeState: boolean) {
     this.stateService.rangeSelectionActive = activeState;
+    this.stateService.nmMultiDateSelect = false;
   }
 
   /**
@@ -245,6 +248,24 @@ export class NmDatePickerComponent extends Unsubscribe implements ControlValueAc
    */
   @Input() set nmStatus(status: NmSelectorStatusType) {
     this.stateService.nmStatus$.next(NM_VALID_STATUS[status]);
+  }
+
+  /**
+   * nmMultiDateSelect: boolean
+   *
+   * Activates the multi day selection mode, where you will be able to select mulltiple dates.
+   *
+   * The component will output an array of Dates.
+   *
+   * \* Works with all 3 operation modes.
+   *
+   * \* Not compatible with nmRangeSelection.
+   *
+   * False - by default
+   */
+  @Input() set nmMultiDateSelect(value: boolean) {
+    this.stateService.nmMultiDateSelect = value;
+    this.stateService.rangeSelectionActive = false;
   }
 
   @ContentChild("nmCustomDayCellTpl") set customDayCellTpl(value: TemplateRef<any> | undefined) {
@@ -297,9 +318,9 @@ export class NmDatePickerComponent extends Unsubscribe implements ControlValueAc
       ) {
         return;
       }
-      const emitValue = this.stateService.rangeSelectionActive
-        ? this.stateService.selectedDateRange
-        : this.stateService.selectedDate;
+      let emitValue: Date | [Date | null, Date | null] | Date[] | null = this.stateService.selectedDate;
+      if (this.stateService.rangeSelectionActive) emitValue = this.stateService.selectedDateRange;
+      if (this.stateService.nmMultiDateSelect) emitValue = this.stateService.selectedDatesArray;
       this.onChange(emitValue);
       this.onTouch();
     });
@@ -320,20 +341,12 @@ export class NmDatePickerComponent extends Unsubscribe implements ControlValueAc
 
     this.stateService.pickerMode$.pipe(takeUntil(this.unsubscribe$)).subscribe((currentPickerMode) => {
       this.nmPublicApiService.nmPickerCurrentMode$.next(currentPickerMode);
-    })
+    });
   }
 
   // ControlValueAccessor functions
-  public writeValue(dateValue: Date | [Date, Date] | null): void {
-    let date: Date = new Date();
-    if (Array.isArray(dateValue)) {
-      date = dateValue[0] ? new Date(dateValue[0]) : new Date();
-    } else if (dateValue) {
-      date = new Date(dateValue);
-    } else {
-      date = new Date();
-    }
-    this.stateService.displayDate = date ? new Date(date) : new Date();
+  public writeValue(dateValue: Date | [Date | null, Date | null] | Date[] | null): void {
+    this.processWriteValueDate(dateValue);
     this.yearModeService.setDecadeMarker();
     this.stateService.updatePicker$.next();
   }
@@ -348,9 +361,49 @@ export class NmDatePickerComponent extends Unsubscribe implements ControlValueAc
 
   public setDisabledState?(isDisabled: boolean): void {}
 
-  private onChange: (value: Date | [Date | null, Date | null] | null) => void = (
-    value: Date | [Date | null, Date | null] | null
+  private onChange: (value: Date | [Date | null, Date | null] | Date[] | null) => void = (
+    value: Date | [Date | null, Date | null] | Date[] | null
   ) => {};
 
   private onTouch: any = () => {};
+
+  private processWriteValueDate(date: Date | [Date | null, Date | null] | Date[] | null): void {
+    let newDateValue: Date | [Date | null, Date | null] | Date[] | null = date;
+    let displayDate: Date = new Date();
+    if (Array.isArray(date)) {
+      displayDate = date[0] ? new Date(date[0]) : new Date();
+      if (this.stateService.nmMultiDateSelect) {
+        newDateValue = [...date];
+      } else if (this.stateService.rangeSelectionActive) {
+        newDateValue = [date[0] || null, date[1] || null];
+      } else {
+        newDateValue = date[0];
+      }
+    } else if (date) {
+      displayDate = new Date(date);
+      if (this.stateService.nmMultiDateSelect) {
+        newDateValue = [date];
+      }
+      if (this.stateService.rangeSelectionActive) {
+        newDateValue = [date, null];
+      }
+    } else {
+      displayDate = new Date();
+      if (this.stateService.nmMultiDateSelect) {
+        newDateValue = [];
+      }
+      if (this.stateService.rangeSelectionActive) {
+        newDateValue = [null, null];
+      }
+    }
+
+    if (this.stateService.nmMultiDateSelect)
+      newDateValue ? (this.stateService.selectedDatesArray = newDateValue as Date[]) : [];
+    if (this.stateService.rangeSelectionActive)
+      newDateValue ? (this.stateService.selectedDateRange = newDateValue as [Date | null, Date | null]) : [];
+    if (!this.stateService.nmMultiDateSelect && !this.stateService.rangeSelectionActive) {
+      this.stateService.selectedDate = newDateValue as Date | null;
+    }
+    this.stateService.displayDate = displayDate ? new Date(displayDate) : new Date();
+  }
 }
