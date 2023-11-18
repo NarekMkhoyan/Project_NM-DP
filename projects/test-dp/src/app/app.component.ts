@@ -5,6 +5,7 @@ import {
   NmDateInterface,
   NmDatePickerComponent,
   NmLocalizationType,
+  NmLocalizationLanguageTypes,
 } from "ngx-nm-date-picker";
 
 const LOCALIZATION_FRENCH: NmLocalizationType = {
@@ -55,14 +56,15 @@ export class AppComponent implements AfterViewInit {
   public LOCALIZATION_FRENCH = LOCALIZATION_FRENCH;
   public now = new Date("2019");
   public max = new Date("2043");
-  public date: Date | null = new Date();
+  public date: Date | null = null;
   public dateArr: Date[] = [new Date()];
   public date2: Date | null = null;
   public date3: Date | null = new Date();
-  private minDateValue = 1692475200000;
-  private maxDateValue = 1693339200000;
-  private armenianHolidays = holidays;
+  private minDateValue = new Date("2023.11.8");
+  private maxDateValue = new Date("2023.11.22");
+  private holidays = holidays;
   public form!: FormGroup;
+  public theme: "light" | "dark" = "light";
 
   @ViewChild("customNmDatePicker") customNmDatePicker!: NmDatePickerComponent;
   @ViewChild("customCalendarPicker") customCalendarPicker!: NmDatePickerComponent;
@@ -98,12 +100,8 @@ export class AppComponent implements AfterViewInit {
       date: ["", [Validators.required, this.dateArrayValidator()]],
     });
 
-    this.form.valueChanges.subscribe((form) => {
-
-    });
-
+    this.form.valueChanges.subscribe((form) => {});
   }
-
 
   ngAfterViewInit(): void {
     // this.customNmDatePicker.nmPublicApiService.nmDropdownOpenEvent$.subscribe(() => console.log('open'));
@@ -113,11 +111,11 @@ export class AppComponent implements AfterViewInit {
     // this.customNmDatePicker.nmPublicApiService.nmPickerCurrentMode$.subscribe((mode) => console.log('Mode: ' + mode));
   }
 
-public clear(): void {
-  this.dateArr = [];
-  this.date3 = null;
-  this.date = null;
-}
+  public clear(): void {
+    this.dateArr = [];
+    this.date3 = null;
+    this.date = null;
+  }
 
   private dateCustomValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
@@ -143,17 +141,23 @@ public clear(): void {
   }
 
   public disabledDates: (date: Date) => boolean = (date: Date) => {
-    return date.getTime() < this.minDateValue || date.getTime() > this.maxDateValue || date.getTime() === 1692907200000;
+    return date < this.minDateValue || date > this.maxDateValue;
   };
 
-  public datesHighlightFn: (date: Date, nmDateObject: NmDateInterface) => boolean = (
+  public datesHighlightFn: (date: Date) => boolean = (date: Date) => {
+    return !!this.holidays.find(
+      (holiday) => holiday.getMonth() === date.getMonth() && holiday.getDate() === date.getDate()
+    );
+  };
+
+  public datesHighlightCustomFn: (date: Date, nmDateObject: NmDateInterface) => boolean = (
     date: Date,
     nmDateObject: NmDateInterface
   ) => {
-    const isArmenianholiday = !!this.armenianHolidays.find(
+    const isHoliday = !!this.holidays.find(
       (holiday) => holiday.getMonth() === date.getMonth() && holiday.getDate() === date.getDate()
     );
-    if (isArmenianholiday) {
+    if (isHoliday) {
       switch (date.getDate()) {
         case 2:
           nmDateObject.customTextColor = "#097255";
@@ -173,7 +177,7 @@ public clear(): void {
           break;
       }
     }
-    return isArmenianholiday;
+    return isHoliday;
   };
 
   // get url(): string {

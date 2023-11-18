@@ -20,6 +20,8 @@ export * from "./lib/interfaces/localization.type";
 
 export { NmDateInterface } from "./lib/interfaces/date.interface";
 
+export { NmWeekdayInterface } from "./lib/interfaces/weekdays.interface";
+
 export { NmSelectorStatusType } from "./lib/constants/valid-status.enum";
 
 export { IHeaderActions, IHeaderAction } from "./lib/interfaces/header-action.interface";

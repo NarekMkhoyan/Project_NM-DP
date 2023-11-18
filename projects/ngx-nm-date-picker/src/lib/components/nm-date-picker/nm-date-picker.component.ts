@@ -253,7 +253,7 @@ export class NmDatePickerComponent extends Unsubscribe implements ControlValueAc
   /**
    * nmMultiDateSelect: boolean
    *
-   * Activates the multi day selection mode, where you will be able to select mulltiple dates.
+   * Activates the multi day selection mode, where you will be able to select multiple dates.
    *
    * The component will output an array of Dates.
    *

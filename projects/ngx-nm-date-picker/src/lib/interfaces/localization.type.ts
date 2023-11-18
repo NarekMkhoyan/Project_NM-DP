@@ -1,4 +1,4 @@
-type NmLocalizationLanguageTypes = "en" | "ru" | "am" | string;
+export type NmLocalizationLanguageTypes = "en" | "ru" | "am" | string;
 
 export type NmLocalizationType = {
   [key in NmLocalizationLanguageTypes]: {
