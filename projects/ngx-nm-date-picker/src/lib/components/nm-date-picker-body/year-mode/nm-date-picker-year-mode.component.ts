@@ -49,7 +49,10 @@ export class NmDatePickerYearModeComponent extends Unsubscribe implements OnInit
       if (this.stateService.rangeSelectionActive) {
         this.stateService.selectedDateRange = yearRangeSetter(this.stateService.selectedDateRange, selectedYear);
         const [start, end] = this.stateService.selectedDateRange;
-        if (start && end) this.stateService.dropdownSelectorState$.next(this.SELECTOR_STATES.INACTIVE);
+        if (start && end) {
+          this.stateService.rangeLimits = [null, null];
+          this.stateService.dropdownSelectorState$.next(this.SELECTOR_STATES.INACTIVE);
+        }
       } else if (this.stateService.nmMultiDateSelect) {
         const amongSelected = this.stateService.selectedDatesArray.findIndex((selectedDate) =>
           isSameYear(selectedDate, selectedYear)

@@ -3,7 +3,7 @@ import { BehaviorSubject, Subject, ReplaySubject } from "rxjs";
 import { NmDatePickerDisplayMethodType } from "../../interfaces/picker-display-method.type";
 import { NM_FALLBACK_LANGUAGE } from "../../constants/localization.constant";
 import { NM_SELECTOR_STATES } from "../../constants/selector-states.enum";
-import { IHeaderActions } from "../../interfaces/header-action.interface";
+import { NmHeaderActionsGroup } from "../../interfaces/header-action.interface";
 import { NmDatePickerModeType } from "../../interfaces/picker-mode.type";
 import { NmLocalizationType } from "../../interfaces/localization.type";
 import { NM_LOCALIZATION } from "../../constants/localization.constant";
@@ -54,7 +54,7 @@ export class NmDatePickerStateService {
    *
    * \* Each separate nmDatePicker has its own instance of these actions
    */
-  public nmHeaderActions: IHeaderActions | null = null;
+  public nmHeaderActions: NmHeaderActionsGroup | null = null;
 
   /** Follows the picker body width to adjust the header width accordingly */
   public pickerBodyWidth$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
@@ -78,6 +78,8 @@ export class NmDatePickerStateService {
   public selectedDatesArray: Date[] = [];
 
   public possibleRangeEnd$: BehaviorSubject<Date | null> = new BehaviorSubject<Date | null>(null);
+
+  public rangeLimits: [Date | null, Date | null] = [null, null];
 
   // Custom templates
   public customDayCellTpl: TemplateRef<any> | undefined = undefined;

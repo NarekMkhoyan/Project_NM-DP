@@ -14,9 +14,9 @@ export class YearModeService {
     const copy = new Date(new Date(this.stateService.displayDate).setHours(0, 0, 0, 0));
     years = years
       .map((year, index, arr) => {
-        const dateObject = new NmDate(
-          new Date(copy.setFullYear(this.stateService.decadeMarkingYear - index))
-        ).setDisabledYear(this.stateService.disabledDateFunction);
+        const dateObject = new NmDate(new Date(copy.setFullYear(this.stateService.decadeMarkingYear - index)))
+          .setDisabledYear(this.stateService.disabledDateFunction)
+          .setDisabledStateInRangeMode(this.stateService);
         if (index === 0) {
           dateObject.setAsNextMarker();
         }

@@ -302,6 +302,10 @@ export class NmDatePickerComponent extends Unsubscribe implements ControlValueAc
     return this.stateService.pickerMode$;
   }
 
+  public get selectedDate(): Date | [Date | null, Date | null] | Date[] | null {
+    return this.stateService.selectedDate;
+  }
+
   constructor(
     public readonly nmActionNotifierService: NmActionNotifierService,
     private readonly yearModeService: YearModeService,
@@ -342,6 +346,7 @@ export class NmDatePickerComponent extends Unsubscribe implements ControlValueAc
     this.stateService.pickerMode$.pipe(takeUntil(this.unsubscribe$)).subscribe((currentPickerMode) => {
       this.nmActionNotifierService.nmPickerCurrentMode$.next(currentPickerMode);
     });
+    this.stateService.updatePicker$.next();
   }
 
   // ControlValueAccessor functions

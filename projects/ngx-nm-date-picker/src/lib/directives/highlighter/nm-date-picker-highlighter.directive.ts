@@ -18,7 +18,7 @@ export class NmDatePickerHighlighterDirective implements OnDestroy {
   private cellDate: Date | undefined;
 
   @Input("nmHighlighter") set day(config: { dayValue: NmDate | undefined; mode: NmDatePickerModeType }) {
-    if (!config.dayValue) {
+    if (!config.dayValue || config.dayValue.disabled) {
       return;
     }
     this.pickerMode = config.mode;

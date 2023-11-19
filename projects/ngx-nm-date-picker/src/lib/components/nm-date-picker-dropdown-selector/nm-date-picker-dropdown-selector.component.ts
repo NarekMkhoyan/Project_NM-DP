@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from "@angular/core";
 import { Observable, combineLatest, map, takeUntil } from "rxjs";
 import { NM_FALLBACK_LANGUAGE, NM_SELECTOR_LABEL_LOCALIZATION } from "../../constants/localization.constant";
+import { NmActionNotifierService } from "../../services/action-notifier/action-notifier.service";
 import { NmDatePickerStateService } from "../../services/state/nm-date-picker-state.service";
 import { NM_SELECTOR_STATES } from "../../constants/selector-states.enum";
 import { NmDatePickerModeType } from "../../interfaces/picker-mode.type";
@@ -69,7 +70,11 @@ export class NmDatePickerDropdownSelectorComponent extends Unsubscribe implement
     }
   }
 
-  constructor(private readonly stateService: NmDatePickerStateService, private readonly cdr: ChangeDetectorRef) {
+  constructor(
+    private readonly stateService: NmDatePickerStateService,
+    private readonly actionNotifierService: NmActionNotifierService,
+    private readonly cdr: ChangeDetectorRef
+  ) {
     super();
   }
 
@@ -101,9 +106,11 @@ export class NmDatePickerDropdownSelectorComponent extends Unsubscribe implement
   public clearPickerValue(): void {
     this.stateService.selectedDate = null;
     this.stateService.selectedDateRange = [null, null];
+    this.stateService.rangeLimits = [null, null];
     this.stateService.selectedDatesArray = [];
     this.stateService.updatePicker$.next();
     this.stateService.emitSelectedDate$.next();
+    this.actionNotifierService.nmClearActionTriggered$.next();
   }
 
   public getMonthName(date: Date | null): string {

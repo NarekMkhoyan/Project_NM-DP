@@ -30,6 +30,7 @@ export class DateModeService {
         const calculatedDate = new Date(date + index * dayInMs);
         const dateObject = new NmDate(calculatedDate)
           .setDisabledState(this.stateService.disabledDateFunction)
+          .setDisabledStateInRangeMode(this.stateService)
           .setHighlightedDay(this.stateService.highlightedDatesFunction);
         if (isSameDay(new Date(), calculatedDate)) {
           dateObject.setAsToday();

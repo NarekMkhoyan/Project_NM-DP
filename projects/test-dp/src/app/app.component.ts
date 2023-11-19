@@ -1,7 +1,7 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, ViewChild } from "@angular/core";
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
 import {
-  IHeaderActions,
+  NmHeaderActionsGroup,
   NmDateInterface,
   NmDatePickerComponent,
   NmLocalizationType,
@@ -90,7 +90,8 @@ export class AppComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    // this.customNmDatePicker.nmPublicApiService.nmDropdownOpenEvent$.subscribe(() => console.log('open'));
+    this.customNmDatePicker.nmActionNotifierService.nmDropdownOpenEvent$.subscribe(() => console.log('open'));
+    this.customNmDatePicker.nmActionNotifierService.nmClearActionTriggered$.subscribe(() => console.log('clear'));
     // this.customNmDatePicker.nmPublicApiService.nmDropdownCloseEvent$.subscribe(() => console.log('close'));
     // this.customNmDatePicker.nmPublicApiService.nmNextActionTriggered$.subscribe(() => console.log('next'));
     // this.customNmDatePicker.nmPublicApiService.nmPrevActionTriggered$.subscribe(() => console.log('prev'));
@@ -127,7 +128,14 @@ export class AppComponent implements AfterViewInit {
   }
 
   public disabledDates: (date: Date) => boolean = (date: Date) => {
-    return date < this.minDateValue || date > this.maxDateValue;
+    return (
+      date < this.minDateValue ||
+      date > this.maxDateValue ||
+      date.getTime() === this.maxDateValue.getTime() - 86400000 * 4 ||
+      date.getTime() === this.maxDateValue.getTime() - 86400000 * 3 ||
+      date.getTime() === this.maxDateValue.getTime() - 86400000 * 2 ||
+      date.getTime() === this.minDateValue.getTime() + 86400000 * 3
+    );
   };
 
   public datesHighlightFn: (date: Date) => boolean = (date: Date) => {
@@ -165,8 +173,4 @@ export class AppComponent implements AfterViewInit {
     }
     return isHoliday;
   };
-
-  // get url(): string {
-  //   return `url(${this.image})`;
-  // }
 }

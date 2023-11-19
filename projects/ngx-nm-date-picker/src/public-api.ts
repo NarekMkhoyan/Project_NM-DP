@@ -22,4 +22,4 @@ export { NmWeekdayInterface } from "./lib/interfaces/weekdays.interface";
 
 export { NmSelectorStatusType } from "./lib/constants/valid-status.enum";
 
-export { IHeaderActions, IHeaderAction } from "./lib/interfaces/header-action.interface";
+export { NmHeaderActionsGroup, NmHeaderAction } from "./lib/interfaces/header-action.interface";
