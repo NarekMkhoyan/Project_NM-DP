@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { HeaderAction, HeaderActions } from "../../interfaces/header-action.interface";
+import { NmActionNotifierService } from "../action-notifier/action-notifier.service";
 import { NmDatePickerStateService } from "../state/nm-date-picker-state.service";
 import { NmDatePickerModeType } from "../../interfaces/picker-mode.type";
-import { NmPublicApiService } from "../public-apis/public-apis.service";
 import { isSameMonth } from "../../utils/dateCompare";
 
 @Injectable()
@@ -10,14 +10,14 @@ export class NmDatePickerHeaderService {
   private mode: NmDatePickerModeType = "date";
   constructor(
     private readonly stateService: NmDatePickerStateService,
-    private readonly publicApisService: NmPublicApiService
+    private readonly actionNotifierService: NmActionNotifierService
   ) {}
 
   public generateHeaderActionButtons(pickerMode: NmDatePickerModeType): void {
     this.mode = pickerMode;
     this.updateHeaderActionDisplayDates(this.stateService.displayDate);
-    if (this.publicApisService.nmHeaderActions === null) {
-      this.publicApisService.nmHeaderActions = new HeaderActions(
+    if (this.stateService.nmHeaderActions === null) {
+      this.stateService.nmHeaderActions = new HeaderActions(
         new HeaderAction(this.stateService.displayDate).setOnClickHandler(this.nextActionHandler),
         new HeaderAction(this.stateService.displayDate).setOnClickHandler(this.prevActionHandler),
         new HeaderAction(this.stateService.displayDate).setOnClickHandler(() => this.setPickerMode("month")),
@@ -47,7 +47,7 @@ export class NmDatePickerHeaderService {
         break;
     }
     this.updateSelectedDate(newDate);
-    this.publicApisService.nmPrevActionTriggered$.next();
+    this.actionNotifierService.nmPrevActionTriggered$.next();
   };
 
   private nextActionHandler: () => void = () => {
@@ -65,7 +65,7 @@ export class NmDatePickerHeaderService {
         break;
     }
     this.updateSelectedDate(newDate);
-    this.publicApisService.nmNextActionTriggered$.next();
+    this.actionNotifierService.nmNextActionTriggered$.next();
   };
 
   private updateSelectedDate(newValue: number): void {
@@ -75,10 +75,10 @@ export class NmDatePickerHeaderService {
   }
 
   private checkForMinMaxRange(pickerMode: NmDatePickerModeType): void {
-    if (this.publicApisService.nmHeaderActions === null) {
+    if (this.stateService.nmHeaderActions === null) {
       return;
     }
-    const { prevAction, nextAction } = this.publicApisService.nmHeaderActions;
+    const { prevAction, nextAction } = this.stateService.nmHeaderActions;
     switch (pickerMode) {
       case "date":
         if (this.stateService.nmMinDate) {
@@ -160,15 +160,15 @@ export class NmDatePickerHeaderService {
   }
 
   private updateHeaderActionDisplayDates(newDate: Date): void {
-    if (!this.publicApisService.nmHeaderActions) {
+    if (!this.stateService.nmHeaderActions) {
       return;
     }
-    const actions: HeaderActions = this.publicApisService.nmHeaderActions;
+    const actions: HeaderActions = this.stateService.nmHeaderActions;
     for (const key in actions) {
       if (Object.prototype.hasOwnProperty.call(actions, key)) {
         (actions[key as keyof HeaderActions] as HeaderAction).setDisplayDate(newDate);
       }
     }
-    this.publicApisService.nmHeaderActions = { ...actions };
+    this.stateService.nmHeaderActions = { ...actions };
   }
 }

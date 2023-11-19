@@ -11,7 +11,7 @@ import {
 const LOCALIZATION_FRENCH: NmLocalizationType = {
   fr: {
     WEEKDAY_NAMES_SHORT: ["dim", "lun", "mar", "mer", "jeu", "ven", "sam"],
-    MONTH_NAMES_DECLENSED: [
+    MONTH_NAMES: [
       "janvier",
       "février",
       "mars",
@@ -75,20 +75,6 @@ export class AppComponent implements AfterViewInit {
 
   get dateCOntrol(): AbstractControl<Date> | null {
     return this.form.get("date");
-  }
-
-  get nmHeaderActions(): IHeaderActions | null {
-    if (!this.customNmDatePicker) {
-      return null;
-    }
-    return this.customNmDatePicker.nmPublicApiService.nmHeaderActions;
-  }
-
-  get nmCalendarHeaderActions(): IHeaderActions | null {
-    if (!this.customCalendarPicker) {
-      return null;
-    }
-    return this.customCalendarPicker.nmPublicApiService.nmHeaderActions;
   }
 
   get calendarWidth(): number {

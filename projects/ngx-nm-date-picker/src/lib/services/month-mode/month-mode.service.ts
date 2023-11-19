@@ -13,7 +13,7 @@ export class NmDatePickerMonthModeService {
     const copy = new Date(this.stateService.displayDate);
     const months = this.stateService.localization[language].MONTH_NAMES_SHORT.map((month, index) => {
       const dateObject = new NmDate(new Date(copy.setMonth(index)))
-        .setDisplayName(month)
+        .setMonthName(month)
         .setDisabledMonth(this.stateService.disabledDateFunction);
       return dateObject;
     });

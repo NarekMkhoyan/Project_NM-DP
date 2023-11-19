@@ -3,6 +3,7 @@ import { BehaviorSubject, Subject, ReplaySubject } from "rxjs";
 import { NmDatePickerDisplayMethodType } from "../../interfaces/picker-display-method.type";
 import { NM_FALLBACK_LANGUAGE } from "../../constants/localization.constant";
 import { NM_SELECTOR_STATES } from "../../constants/selector-states.enum";
+import { IHeaderActions } from "../../interfaces/header-action.interface";
 import { NmDatePickerModeType } from "../../interfaces/picker-mode.type";
 import { NmLocalizationType } from "../../interfaces/localization.type";
 import { NM_LOCALIZATION } from "../../constants/localization.constant";
@@ -29,8 +30,9 @@ export class NmDatePickerStateService {
   /** The current display method of the picker. Dropdown or inline */
   public pickerDisplayMethod: NmDatePickerDisplayMethodType = "dropdown";
   /** The current state of the date picker selector(*in dropdown mode) */
-  public dropdownSelectorState$: BehaviorSubject<NM_SELECTOR_STATES> =
-    new BehaviorSubject<NM_SELECTOR_STATES>(NM_SELECTOR_STATES.INITIAL);
+  public dropdownSelectorState$: BehaviorSubject<NM_SELECTOR_STATES> = new BehaviorSubject<NM_SELECTOR_STATES>(
+    NM_SELECTOR_STATES.INITIAL
+  );
   /** The function that checks, if a day is disabled. Passed in by the user. Defaults to null */
   public disabledDateFunction: null | ((date: Date) => boolean) = null;
   /** Callback function that accepts a date and return whether it should be highlighted or not as a return argument*/
@@ -39,6 +41,20 @@ export class NmDatePickerStateService {
   public localization: NmLocalizationType = NM_LOCALIZATION;
   /** The current language subject. */
   public currentLanguage$: BehaviorSubject<NmLanguageType> = new BehaviorSubject<NmLanguageType>(NM_FALLBACK_LANGUAGE);
+  /**
+   * headerActions: IHeaderActions | null
+   *
+   * The combining object that contains the 4 action objects used inside the date picker header
+   *
+   * Includes:
+   * * The previous button action
+   * * The next button action
+   * * Switch to month mode action
+   * * Switch to year mode action
+   *
+   * \* Each separate nmDatePicker has its own instance of these actions
+   */
+  public nmHeaderActions: IHeaderActions | null = null;
 
   /** Follows the picker body width to adjust the header width accordingly */
   public pickerBodyWidth$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
@@ -62,7 +78,6 @@ export class NmDatePickerStateService {
   public selectedDatesArray: Date[] = [];
 
   public possibleRangeEnd$: BehaviorSubject<Date | null> = new BehaviorSubject<Date | null>(null);
-  // TODO: if the user selects the same day as start and end, set the time from 00 to 23
 
   // Custom templates
   public customDayCellTpl: TemplateRef<any> | undefined = undefined;

@@ -14,12 +14,9 @@ nmDatePicker is a modern and highly customizable Angular date picker library wit
 5. [Interfaces](#interfaces) 
         1. [nmDateInterface](#nmDateInterface) 
         2. [nmWeekdayInterface](#nmWeekdayInterface)
-6. [Directives](#directives) 
-        1. [Cancel action directive](#cancel-action-directive) 
-        2. [nmTrigger directive](#nmTrigger-directive)
-7. [Services](#services) 
+6. [Services](#services) 
         1. [Action notifier service](#action-notifier-service)
-8. [License](#license)
+7. [License](#license)
 
 ### Installation {#installation}
 
@@ -205,7 +202,7 @@ type NmLocalizationType = {
   [key in NmLocalizationLanguageTypes]: {
     WEEKDAY_NAMES_SHORT: string[];
     MONTH_NAMES_SHORT: string[];
-    MONTH_NAMES_DECLENSED: string[];
+    MONTH_NAMES: string[];
   };
 };
 ```
@@ -214,7 +211,45 @@ type NmLocalizationType = {
 
 - WEEKDAY_NAMES_SHORT - used for the weekday names in 'date' mode
 - MONTH_NAMES_SHORT - used for month names in 'month' mode
-- MONTH_NAMES_DECLENSED - used for displaying the selected month name in the date picker selector (display method 'dropdown')
+- MONTH_NAMES - used for displaying the selected month name in the date picker selector (display method 'dropdown')
+
+```ts
+public LOCALIZATION_FRENCH: NmLocalizationType = {
+  fr: {
+    WEEKDAY_NAMES_SHORT: ["dim", "lun", "mar", "mer", "jeu", "ven", "sam"],
+    MONTH_NAMES: [
+      "janvier",
+      "février",
+      "mars",
+      "avril",
+      "mai",
+      "juin",
+      "juillet",
+      "août",
+      "septembre",
+      "octobre",
+      "novembre",
+      "décembre",
+    ],
+    MONTH_NAMES_SHORT: ["janv", "févr", "mars", "avr", "mai", "juin", "juil", "aout", "sept", "oct", "nov", "déc"],
+  },
+};
+```
+
+```html
+<nm-date-picker
+  [nmLanguage]="'fr'"
+  [nmCustomLocalization]="LOCALIZATION_FRENCH"
+  [nmTheme]="'light'"
+  [nmDisplayMethod]="'inline'"
+  [(ngModel)]="date"
+></nm-date-picker>
+```
+
+**_Result:_**
+<img src="./../shared/assets/custom_locale.png" alt="Custom localization demo" />
+
+\* If you use a key of an existing language settings (en | ru | am), you can overwrite the default values.
 
 #### nmDisabledDates {#nmDisabledDates}
 
@@ -322,8 +357,8 @@ Any date later than nmMaxDate will be either disabled or not displayed at all (d
 #### nmRangeSelection {#nmRangeSelection}
 
 `nmRangeSelection: boolean`
-A boolean value that activates the range selection mode
-\* **The component will output an array of 2 Dates, startDate and endDate**. So you should bind to a [Date, Date] | null, if you are using nmRangeSelection
+A boolean value that activates the range selection mode.
+\* **The component will output an array of 2 Dates, startDate and endDate**. So you should bind to a [Date, Date] | null, if you are using nmRangeSelection.
 \* Available for all 3 operation modes.
 \* Not compatible with [nmMultiDateSelect](#nmMultiDateSelect).
 False - by default
@@ -334,7 +369,7 @@ False - by default
 
 `nmMultiDateSelect: boolean`
 Activates the multi day selection mode, where you will be able to select multiple dates.
-\* **The component will output an array of Dates**. So you should bind to a Date[ ] | null, if you are using nmMultiDateSelect
+\* **The component will output an array of Dates**. So you should bind to a Date[ ] | null, if you are using nmMultiDateSelect.
 \* Works with all 3 operation modes.
 \* Not compatible with [nmRangeSelection](#nmRangeSelection).
 False - by default
@@ -401,7 +436,7 @@ interface NmDateInterface {
   isSelected: boolean; // true when the date is selected
   isWeekend: boolean; // true when the date is a weekend
   isHighlighted: boolean; // true when highlighted
-  displayName?: string; 
+  monthName?: string; // the name of the month cell. Used during operation mode 'month' 
   customTextColor: string | undefined; // custom text color of the cell
   customBackgroundColor: string | undefined; // custom background color of the cell
 }
@@ -416,12 +451,6 @@ interface NmWeekdayInterface {
   isWeekend: boolean; // bolean value that indicates if a weekday is a weekend
 }
 ```
-
-### Directives {#directives}
-
-#### Cancel action directive {#cancel-action-directive}
-
-#### nmTrigger directive {#nmTrigger-directive}
 
 ### Services {#services}
 

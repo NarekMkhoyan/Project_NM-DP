@@ -10,12 +10,12 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { Observable, takeUntil } from "rxjs";
 import { boxShadowDropAnimation, fadeInDownwardsAnimation, fadeInUpwardsAnimation } from "../../utils/animations";
+import { NmActionNotifierService } from "../../services/action-notifier/action-notifier.service";
 import { NmDatePickerHeaderService } from "../../services/header/nm-date-picker-header.service";
 import { NmDatePickerStateService } from "../../services/state/nm-date-picker-state.service";
 import { NmDatePickerMonthModeService } from "../../services/month-mode/month-mode.service";
 import { NmDatePickerDisplayMethodType } from "../../interfaces/picker-display-method.type";
 import { NM_VALID_STATUS, NmSelectorStatusType } from "../../constants/valid-status.enum";
-import { NmPublicApiService } from "../../services/public-apis/public-apis.service";
 import { NmHolidaysDisplayType } from "../../interfaces/holiday-display.type";
 import { YearModeService } from "../../services/year-mode/year-mode.service";
 import { DateModeService } from "../../services/date-mode/date-mode.service";
@@ -42,7 +42,7 @@ import { NmLanguageType } from "../../interfaces/language.type";
     NmDatePickerMonthModeService,
     NmDatePickerHeaderService,
     NmDatePickerStateService,
-    NmPublicApiService,
+    NmActionNotifierService,
     YearModeService,
     DateModeService,
   ],
@@ -104,7 +104,7 @@ export class NmDatePickerComponent extends Unsubscribe implements ControlValueAc
    *
    * * WEEKDAY_NAMES_SHORT used for the weekday names in 'date' mode
    * * MONTH_NAMES_SHORT used for month names in 'month' mode
-   * * MONTH_NAMES_DECLENSED used for displaying the selected month name in the date picker selector (display method 'dropdown') \* You can pass declensed names if the language requires it (e.g. Russian)
+   * * MONTH_NAMES used for displaying the selected month name in the date picker selector (display method 'dropdown')
    */
   @Input() set nmCustomLocalization(value: NmLocalizationType) {
     this.stateService.localization = { ...this.stateService.localization, ...value };
@@ -303,7 +303,7 @@ export class NmDatePickerComponent extends Unsubscribe implements ControlValueAc
   }
 
   constructor(
-    public readonly nmPublicApiService: NmPublicApiService,
+    public readonly nmActionNotifierService: NmActionNotifierService,
     private readonly yearModeService: YearModeService,
     private readonly stateService: NmDatePickerStateService
   ) {
@@ -330,17 +330,17 @@ export class NmDatePickerComponent extends Unsubscribe implements ControlValueAc
         case NM_SELECTOR_STATES.INITIAL:
           break;
         case NM_SELECTOR_STATES.ACTIVE:
-          this.nmPublicApiService.nmDropdownOpenEvent$.next();
+          this.nmActionNotifierService.nmDropdownOpenEvent$.next();
           break;
         case NM_SELECTOR_STATES.INACTIVE:
-          this.nmPublicApiService.nmDropdownCloseEvent$.next();
+          this.nmActionNotifierService.nmDropdownCloseEvent$.next();
           this.onTouch();
           break;
       }
     });
 
     this.stateService.pickerMode$.pipe(takeUntil(this.unsubscribe$)).subscribe((currentPickerMode) => {
-      this.nmPublicApiService.nmPickerCurrentMode$.next(currentPickerMode);
+      this.nmActionNotifierService.nmPickerCurrentMode$.next(currentPickerMode);
     });
   }
 
