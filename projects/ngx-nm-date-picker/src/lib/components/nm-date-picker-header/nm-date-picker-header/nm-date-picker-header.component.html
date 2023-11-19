@@ -1,6 +1,6 @@
 <div class="nm_date-picker-header" nmTrigger [style.width.px]="pickerBodyWidth" *ngIf="headerActions">
   <ng-container *ngIf="customHeaderTpl; else defaultHeaderTpl">
-    <ng-container *ngTemplateOutlet="customHeaderTpl"></ng-container>
+    <ng-container *ngTemplateOutlet="customHeaderTpl; context: { $implicit: headerActions }"></ng-container>
   </ng-container>
   <ng-template #defaultHeaderTpl>
     <ng-container [ngSwitch]="currentPickerMode$ | async">

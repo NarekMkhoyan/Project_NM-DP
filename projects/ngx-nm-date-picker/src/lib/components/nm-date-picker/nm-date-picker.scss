@@ -23,6 +23,9 @@
 
 .dropdown-picker-wrapper {
   position: relative;
+  .selector {
+    display: inline-block;
+  }
   .dropdown {
     position: absolute;
     z-index: 1;

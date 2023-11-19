@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, Template
 import { Observable, combineLatest, takeUntil } from "rxjs";
 import { NmDatePickerHeaderService } from "../../../services/header/nm-date-picker-header.service";
 import { NmDatePickerStateService } from "../../../services/state/nm-date-picker-state.service";
-import { NmPublicApiService } from "../../../services/public-apis/public-apis.service";
 import { NM_FALLBACK_LANGUAGE } from "../../../constants/localization.constant";
 import { IHeaderActions } from "../../../interfaces/header-action.interface";
 import { NmDatePickerModeType } from "../../../interfaces/picker-mode.type";
@@ -30,7 +29,7 @@ export class NmDatePickerHeaderComponent extends Unsubscribe implements OnInit {
   }
 
   get headerActions(): IHeaderActions | null {
-    return this.publicApisService.nmHeaderActions;
+    return this.stateService.nmHeaderActions;
   }
 
   get customHeaderTpl(): TemplateRef<any> | undefined {
@@ -40,7 +39,6 @@ export class NmDatePickerHeaderComponent extends Unsubscribe implements OnInit {
   constructor(
     private readonly headerService: NmDatePickerHeaderService,
     private readonly stateService: NmDatePickerStateService,
-    private readonly publicApisService: NmPublicApiService,
     private readonly cdr: ChangeDetectorRef
   ) {
     super();

@@ -18,10 +18,11 @@
       <div class="date-mode-days_row">
         <ng-container *ngFor="let day of row; let index = index">
           <div
+            #parent
             class="date-mode-days_item nmValueSetter"
             [nmHighlighter]="{ dayValue: day, mode: 'date' }"
             nmTrigger
-            (click)="!day.disabled && setDate(day)"
+            (click)="parent.children[0]?.clientHeight && !day.disabled && setDate(day)"
             [style.gridColumnStart]="index + 1"
           >
             <ng-container *ngIf="customDayCellTpl; else defaultDayCellTpl">

@@ -3,10 +3,11 @@
     <div class="year-mode_row">
       <ng-container *ngFor="let year of yearRows; let firstItem = first; let lastItem = last">
         <div
+          #parent
           class="year-mode_row__item-wrapper nmValueSetter"
           [nmHighlighter]="{ dayValue: year, mode: 'year' }"
           nmTrigger
-          (click)="!year.disabled && setYear(year.date)"
+          (click)="parent.children[0]?.clientHeight && !year.disabled && setYear(year.date)"
         >
           <ng-container *ngIf="customYearCellTpl; else defaultYearCellTpl">
             <ng-container *ngTemplateOutlet="customYearCellTpl; context: { $implicit: year }"></ng-container>

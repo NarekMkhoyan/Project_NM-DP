@@ -24,7 +24,7 @@ export class NmDatePickerDropdownSelectorComponent extends Unsubscribe implement
   public selectedDate: Date | null = null;
   public language: NmLanguageType = NM_FALLBACK_LANGUAGE;
   public defaultSelectorLabel: string = NM_SELECTOR_LABEL_LOCALIZATION[NM_FALLBACK_LANGUAGE];
-  private monthNames = this.stateService.localization[NM_FALLBACK_LANGUAGE].MONTH_NAMES_DECLENSED;
+  private monthNames = this.stateService.localization[NM_FALLBACK_LANGUAGE].MONTH_NAMES;
 
   public get selectorState$(): Observable<NM_SELECTOR_STATES> {
     return this.stateService.dropdownSelectorState$;
@@ -85,8 +85,8 @@ export class NmDatePickerDropdownSelectorComponent extends Unsubscribe implement
         takeUntil(this.unsubscribe$),
         map(([, currentLanguage]) => {
           this.monthNames = this.stateService.localization[currentLanguage]
-            ? this.stateService.localization[currentLanguage].MONTH_NAMES_DECLENSED
-            : this.stateService.localization[NM_FALLBACK_LANGUAGE].MONTH_NAMES_DECLENSED;
+            ? this.stateService.localization[currentLanguage].MONTH_NAMES
+            : this.stateService.localization[NM_FALLBACK_LANGUAGE].MONTH_NAMES;
           this.defaultSelectorLabel = NM_SELECTOR_LABEL_LOCALIZATION.hasOwnProperty(currentLanguage)
             ? NM_SELECTOR_LABEL_LOCALIZATION[currentLanguage as NmLanguageType]
             : NM_SELECTOR_LABEL_LOCALIZATION[NM_FALLBACK_LANGUAGE as NmLanguageType];

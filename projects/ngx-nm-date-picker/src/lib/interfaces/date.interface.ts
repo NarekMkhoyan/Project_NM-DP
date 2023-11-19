@@ -9,7 +9,7 @@ export interface NmDateInterface {
   isSelected: boolean;
   isWeekend: boolean;
   isHighlighted: boolean;
-  displayName?: string;
+  monthName?: string;
   customTextColor: string | undefined;
   customBackgroundColor: string | undefined;
 }
@@ -23,7 +23,7 @@ export class NmDate implements NmDateInterface {
   isSelected = false;
   isWeekend = false;
   isHighlighted = false;
-  displayName?: string;
+  monthName?: string;
   customTextColor = undefined;
   customBackgroundColor = undefined;
 
@@ -60,8 +60,8 @@ export class NmDate implements NmDateInterface {
     return this;
   }
 
-  setDisplayName(name: string): this {
-    this.displayName = name;
+  setMonthName(name: string): this {
+    this.monthName = name;
     return this;
   }
 

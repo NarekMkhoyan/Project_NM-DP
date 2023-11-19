@@ -3,10 +3,11 @@
     <div class="month-mode_row">
       <ng-container *ngFor="let month of monthRows">
         <div
+          #parent
           class="month-mode_row__item-wrapper nmValueSetter"
           [nmHighlighter]="{ dayValue: month, mode: 'month' }"
           nmTrigger
-          (click)="!month.disabled && setSelectedMonth(month.date)"
+          (click)="parent.children[0]?.clientHeight && !month.disabled && setSelectedMonth(month.date)"
         >
           <ng-container *ngIf="customMonthCellTpl; else defaultMonthCellTpl">
             <ng-container *ngTemplateOutlet="customMonthCellTpl; context: { $implicit: month }"></ng-container>
@@ -32,7 +33,7 @@
     >
       <div class="month-mode_row__item__inner">
         <span>
-          {{ month.displayName }}
+          {{ month.monthName }}
         </span>
       </div>
     </div>

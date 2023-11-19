@@ -178,3 +178,38 @@
     }
   }
 }
+
+.demo {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 32px;
+  height: 500px;
+
+  .demo-divider {
+    height: 100%;
+    width: 1px;
+    background-color: white;
+  }
+
+  .section {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    .title {
+      color: white;
+      font-size: 24px;
+      font-weight: 600;
+    }
+  }
+}
+
+.custom-date-picker-color {
+  --nm-datepicker-primary-color: #ff37cd;
+}
+
+.custom-date-picker-color[nm-theme="dark"] {
+  --nm-datepicker-primary-color: #06b47a;
+}
