@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, Template
 import { Observable, combineLatest, takeUntil } from "rxjs";
 import { NmDatePickerHeaderService } from "../../../services/header/nm-date-picker-header.service";
 import { NmDatePickerStateService } from "../../../services/state/nm-date-picker-state.service";
+import { NmHeaderActionsGroup } from "../../../interfaces/header-action.interface";
 import { NM_FALLBACK_LANGUAGE } from "../../../constants/localization.constant";
-import { IHeaderActions } from "../../../interfaces/header-action.interface";
 import { NmDatePickerModeType } from "../../../interfaces/picker-mode.type";
 import { Unsubscribe } from "../../unsubscribe/unsubscribe.component";
 import { NmLanguageType } from "../../../interfaces/language.type";
@@ -28,7 +28,7 @@ export class NmDatePickerHeaderComponent extends Unsubscribe implements OnInit {
     return `${this.stateService.decadeMarkingYear - 11} - ${this.stateService.decadeMarkingYear}`;
   }
 
-  get headerActions(): IHeaderActions | null {
+  get headerActions(): NmHeaderActionsGroup | null {
     return this.stateService.nmHeaderActions;
   }
 

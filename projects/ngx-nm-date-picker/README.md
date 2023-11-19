@@ -12,8 +12,9 @@ nmDatePicker is a modern and highly customizable Angular date picker library wit
 2. [API docs](#api-docs)
 4. [Custom templates](#custom-templates)
 5. [Interfaces](#interfaces) 
-        1. [nmDateInterface](#nmDateInterface) 
-        2. [nmWeekdayInterface](#nmWeekdayInterface)
+        1. [NmDateInterface](#nmDateInterface) 
+        2. [NmWeekdayInterface](#nmWeekdayInterface)
+        3. [NmHeaderActionsGroup](#nmHeaderActionsGroup)
 6. [Services](#services) 
         1. [Action notifier service](#action-notifier-service)
 7. [License](#license)
@@ -271,6 +272,10 @@ disabledDates: (date: Date) => boolean = (date: Date) => {
 
 <img src="./../shared/assets/disabled_dates.png" alt="Date picker with disabled dates demo"/>
 
+\* When nmRangeSelection is active the date picker won't let you select date ranges that include disabled dates in between the range start and end dates. When selecting the start date the picker will disable all invalid options, leaving only the valid range end options. Upon selecting the end date the picker will revert back. 
+
+<img src="./../shared/assets/disabled_range.gif" />
+
 #### nmHighlightedDates {#nmHighlightedDates}
 
 `nmHighlightedDates: (date: Date, nmDateObject: NmDateInterface) => boolean`
@@ -414,17 +419,251 @@ By default is set to true
 
 ### Custom templates {#custom-templates}
 
-nmDatePicker is fully customizable. The idea is to have a date picker component that can be customized under any design, while keeping the usual and much needed date picker functionality. And the modular design lets you customize only a single section or all of it.
+nmDatePicker is fully customizable. The idea is to have a date picker component that can be customized under any design, while keeping the usual and much needed date picker functionality. With the modular design you can choose to customize only s single section of the date picker, or all of it.
 Custom templates are passed into the component using Angular’s content projection.
-nmDatePicker is made up of 6 sections. To customize any of them you should: 
-1. insert an `<ng-template>` tag between the opening(`<nm-date-picker>`) and closing(`</nm-date-picker>`) tags,
-2. Set the corresponding template reference, so that the component can recognize which section the template is meant to replace,
-3. If available, use the template’s implicit variable to access the data, that the component will forward to the template, to construct a custom template. 
+nmDatePicker is made up of 6 sections. To customize any of them you need to: 
+1. Insert an `<ng-template>` tag between the opening(`<nm-date-picker>`) and closing(`</nm-date-picker>`) tags,
+2. Set the corresponding template reference, so that the component can recognize which section of the component the template is meant to replace,
+3. Use the template’s implicit variable to access the data, that the component will forward to the template, and construct a custom template. (you can name the variable anything you like)
 
+```html
+  <nm-date-picker class="custom-date-picker" [(ngModel)]="date">
+    <ng-template #nmCustomDayCellTpl let-day>
+      {{ day.date }}
+      .... your custom layout and styles
+    </ng-template> 
+  </nm-date-picker>
+```
+
+Next examples of all customizable 6 sections will be view in detail with code examples. The **_combined_** result will be displayed at the [end of the section](#custom-section-end).
+
+#### nmCustomDayCellTpl
+
+Customizes the day cell in operation mode ‘date’. The template will be used inside of a loop, so on each step of the loop it will receive the [nmDate](#nmDateInterface) object of the cell. 
+
+\* You should take a look at the [nmDate](#nmDateInterface) interface first, to learn about the possible options to apply custom css classes appropriately.
+
+```html
+  <ng-template #nmCustomDayCellTpl let-day>
+    <div
+      class="custom-day"
+      [class.other-month]="day.isNextMarker || day.isPrevMarker"
+      [class.selected]="day.isSelected"
+      [class.today]="day.isToday"
+    >
+      <span>{{ day.date | date : "d" }}</span>
+    </div>
+  </ng-template>
+```
+```scss
+  .custom-date-picker {
+    --nm-datepicker-primary-color: #e91d62;
+  }
+   .custom-day {
+    width: 31px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+
+  .other-month {
+    display: none;
+  }
+
+  .today {
+    border: 1px solid var(--nm-datepicker-primary-color);
+  }
+
+  .selected {
+    background-color: var(--nm-datepicker-primary-color);
+    color: white;
+  }
+
+  .custom-week {
+    font-size: 12px;
+  }
+
+  .custom-month,
+  .custom-year {
+    border-radius: 4px;
+    width: 70px;
+    height: 25px;
+    margin: 13px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .custom-month__selected,
+  .custom-year__selected {
+    background-color: var(--nm-datepicker-primary-color);
+    color: white;
+  }
+
+  .custom-selector {
+    background-color: var(--nm-datepicker-primary-color);
+    border-radius: 8px;
+    color: white;
+    padding: 12px 20px;
+    width: 239px;
+    .year {
+      font-size: 16px;
+    }
+    .date {
+      margin-top: 4px;
+      font-size: 24px;
+    }
+  }
+
+  .custom-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .arrow-btn {
+      background-color: transparent;
+      border: none;
+      outline: none;
+      margin: 0;
+      padding: 0;
+      &:hover {
+        svg {
+          fill: var(--nm-datepicker-primary-color);
+        }
+      }
+      svg {
+        width: 30px;
+        height: 30px;
+      }
+    }
+
+    .text-btn {
+      font-size: 14px;
+      border: none;
+      outline: none;
+      padding: 0;
+      &:hover {
+        color: var(--nm-datepicker-primary-color);
+      }
+    }
+  }
+```
+
+#### nmCustomWeekCellTpl
+
+Customizes the weekday cell in operation mode ‘date’. The template will be used inside of a loop, so on each step of the loop it will receive the [NmWeekday](#nmWeekdayInterface) object of the cell. 
+
+\* You should take a look at the [NmWeekday](#nmWeekdayInterface) interface first, to learn about the possible options to apply custom css classes appropriately.
+
+```html
+  <ng-template #nmCustomWeekCellTpl let-week>
+    <div class="custom-week">
+      <span>{{ week.name[0] }}</span>
+    </div>
+  </ng-template>
+```
+
+#### nmCustomMonthCellTpl
+
+Customizes the month cell in operation mode ‘month’. The template will be used inside of a loop, so on each step of the loop it will receive the [nmDate](#nmDateInterface) object of the cell. 
+
+```html
+  <ng-template #nmCustomMonthCellTpl let-month>
+    <div class="custom-month" [class.custom-month__selected]="month.isSelected">
+      {{ month.monthName }}
+    </div>
+  </ng-template>
+```
+
+#### nmCustomYearCellTpl
+
+Customizes the year cell in operation mode ‘year’. The template will be used inside of a loop, so on each step of the loop it will receive the [nmDate](#nmDateInterface) object of the cell. 
+
+```html
+  <ng-template #nmCustomYearCellTpl let-year>
+    <div class="custom-year" [class.custom-year__selected]="year.isSelected">
+      {{ year.date | date : "YYYY" }}
+    </div>
+  </ng-template>
+```
+
+#### nmCustomHeaderTpl
+
+Customizes the header of the date picker. The template receives an object of [NmHeaderActionsGroup](#nmHeaderActionsGroup) interface. Includes the 4 actions used in the header. 
+
+```html
+  <ng-template #nmCustomHeaderTpl let-nmHeaderActions>
+    <div class="custom-header" *ngIf="nmHeaderActions">
+      <button
+        class="arrow-btn"
+        [disabled]="nmHeaderActions.prevAction.disabled"
+        (click)="nmHeaderActions.prevAction.onClick()"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="chevron-left-arrow">
+          <g data-name="16">
+            <rect width="24" height="24" fill="none"></rect>
+            <path
+              d="M14.16,14.72a.75.75,0,0,1,0,1.06.76.76,0,0,1-1.07,0L9.84,12.53a.75.75,0,0,1,0-1.06l3.25-3.25a.77.77,0,0,1,1.07,0,.75.75,0,0,1,0,1.06L11.44,12Z"
+            ></path>
+          </g>
+        </svg>
+      </button>
+      <div class="date">
+        <button
+          class="text-btn"
+          [disabled]="nmHeaderActions.monthAction.disabled"
+          (click)="nmHeaderActions.monthAction.onClick()"
+        >
+          {{ nmHeaderActions.monthAction.pickerDisplayDate | date : "MMMM" }}&nbsp;</button
+        >&nbsp;
+        <button
+          class="text-btn"
+          [disabled]="nmHeaderActions.yearAction.disabled"
+          (click)="nmHeaderActions.yearAction.onClick()"
+        >
+          {{ nmHeaderActions.yearAction.pickerDisplayDate | date : "YYYY" }}
+        </button>
+      </div>
+      <button
+        class="arrow-btn"
+        [disabled]="nmHeaderActions.nextAction.disabled"
+        (click)="nmHeaderActions.nextAction.onClick()"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="chevron-right-arrow">
+          <g data-name="17">
+            <rect width="24" height="24" fill="none" transform="rotate(180 12 12)"></rect>
+            <path
+              d="M9.84,14.72A.75.75,0,0,0,10.38,16a.74.74,0,0,0,.53-.22l3.25-3.25a.75.75,0,0,0,0-1.06L10.91,8.22a.77.77,0,0,0-1.07,0,.75.75,0,0,0,0,1.06L12.56,12Z"
+            ></path>
+          </g>
+        </svg>
+      </button>
+    </div>
+  </ng-template>
+```
+
+#### nmCustomSelectorTpl
+
+Customizes the selector of the date picker in 'dropdown' display mode. The template receives the selected date. Depending on the picker (default | range selector | multi-date selector) the interface of the date will vary. 
+* default: `Date | null`
+* range selector: `[Date | null, Date | null]`
+* multi-date selector: `Date[]`
+
+```html
+  <ng-template #nmCustomSelectorTpl let-selectorDate>
+    <div class="custom-selector">
+      <div class="year">{{ selectorDate | date : "YYYY" }}</div>
+      <div class="date">{{ selectorDate | date : "MMMM dd" }}</div>
+    </div>
+  </ng-template>
+```
 
 ### Interfaces {#interfaces}
 
-#### nmDateInterface {#nmDateInterface}
+#### NmDateInterface {#nmDateInterface}
 
 ```ts
 interface NmDateInterface {
@@ -442,7 +681,7 @@ interface NmDateInterface {
 }
 ```
 
-#### nmWeekdayInterface {#nmWeekdayInterface}
+#### NmWeekdayInterface {#nmWeekdayInterface}
 
 ```ts
 interface NmWeekdayInterface {
@@ -452,9 +691,48 @@ interface NmWeekdayInterface {
 }
 ```
 
+#### NmHeaderActionsGroup {#nmHeaderActionsGroup}
+
+```ts
+interface NmHeaderActionsGroup {
+  nextAction: NmHeaderAction; // arrow action right
+  prevAction: NmHeaderAction; // arrow action left
+  monthAction: NmHeaderAction; // switch to months action
+  yearAction: NmHeaderAction; // switch to years action
+}
+
+interface NmHeaderAction {
+  pickerDisplayDate: Date; // the date of the current view. Used to set the value of the current month/year
+  disabled: boolean; // disabled attribute of the action
+  onClick: () => void; // the callback function executed by the action.
+  clickObserver$: ReplaySubject<number>; // A subject that is triggered on click
+}
+```
+
 ### Services {#services}
 
 #### Action notifier service {#action-notifier-service}
+
+If you need to follow certain actions in the date picker, you can access the publicly available NmActionNotifierService.
+
+\* Each instance of the nm-date-picker has its own NmActionNotifierService. So first you need to access the date picker you need. 
+
+```html
+  <nm-date-picker #customNmDatePicker></nm-date-picker>
+```
+
+```ts
+  @ViewChild("customNmDatePicker") customNmDatePicker!: NmDatePickerComponent;
+
+  ngAfterViewInit(): void {
+    this.customNmDatePicker.nmActionNotifierService.nmDropdownOpenEvent$.subscribe(() => console.log('open'));
+    this.customNmDatePicker.nmActionNotifierService.nmDropdownCloseEvent$.subscribe(() => console.log('close'));
+    this.customNmDatePicker.nmActionNotifierService.nmNextActionTriggered$.subscribe(() => console.log('next'));
+    this.customNmDatePicker.nmActionNotifierService.nmPrevActionTriggered$.subscribe(() => console.log('prev'));
+    this.customNmDatePicker.nmActionNotifierService.nmPickerCurrentMode$.subscribe((mode) => console.log('Mode: ' + mode));
+    this.customNmDatePicker.nmActionNotifierService.nmClearActionTriggered$.subscribe(() => console.log('clear'));
+  }
+``` 
 
 ### Licence {#license}
 

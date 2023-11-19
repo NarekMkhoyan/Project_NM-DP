@@ -33,7 +33,7 @@
     <div class="section">
       <!-- <div class="title">Default highlight</div> -->
       <nm-date-picker
-        [nmTheme]="'light'"
+        [nmTheme]="'dark'"
         [nmDisplayMethod]="'inline'"
         [nmDisabledDates]="disabledDates"
         [nmRangeSelection]="true"
@@ -136,19 +136,9 @@
     (ngModelChange)="log($event)"
     [nmDisplayMethod]="'dropdown'"
   ></nm-date-picker>
+ -->
 
-  <nm-date-picker
-    #customNmDatePicker
-    class="custom-date-picker"
-    [nmMarkWeekends]="false"
-    [nmWeekendDisplayMethod]="'split'"
-    [nmLanguage]="'en'"
-    [(ngModel)]="date3"
-    [nmPickerMode]="'date'"
-    [nmTheme]="'light'"
-    [nmDisplayMethod]="'dropdown'"
-    (ngModelChange)="log($event)"
-  >
+  <nm-date-picker #customNmDatePicker>
     <ng-template #nmCustomDayCellTpl let-day>
       <div
         class="custom-day"
@@ -177,14 +167,15 @@
         {{ year.date | date : "YYYY" }}
       </div>
     </ng-template>
-    <ng-template #nmCustomSelectorTpl>
+
+    <ng-template #nmCustomSelectorTpl let-selectorDate>
       <div class="custom-selector">
-        <div class="year">{{ date3 | date : "YYYY" }}</div>
-        <div class="date">{{ date3 | date : "MMMM dd" }}</div>
+        <div class="year">{{ selectorDate | date : "YYYY" }}</div>
+        <div class="date">{{ selectorDate | date : "MMMM dd" }}</div>
       </div>
     </ng-template>
 
-   <ng-template #nmCustomHeaderTpl let-nmHeaderActions>
+    <ng-template #nmCustomHeaderTpl let-nmHeaderActions>
       <div class="custom-header" *ngIf="nmHeaderActions">
         <button
           class="arrow-btn"
@@ -233,7 +224,7 @@
       </div>
     </ng-template>
   </nm-date-picker>
-
+  <!--
   <nm-date-picker
     #customCalendarPicker
     [nmMarkWeekends]="true"
@@ -299,7 +290,5 @@
         </div>
       </div>
     </ng-template>
-  </nm-date-picker>
-</div>
- -->
+  </nm-date-picker> -->
 </div>

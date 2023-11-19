@@ -1,13 +1,13 @@
 import { ReplaySubject } from "rxjs";
 
-export interface IHeaderAction {
+export interface NmHeaderAction {
   pickerDisplayDate: Date;
   disabled: boolean;
   onClick: () => void;
   clickObserver$: ReplaySubject<number>;
 }
 
-export class HeaderAction implements IHeaderAction {
+export class HeaderAction implements NmHeaderAction {
   pickerDisplayDate: Date;
   disabled: boolean = false;
   onClick: () => void = () => {};
@@ -33,20 +33,20 @@ export class HeaderAction implements IHeaderAction {
   }
 }
 
-export interface IHeaderActions {
-  nextAction: HeaderAction;
-  prevAction: HeaderAction;
-  monthAction: HeaderAction;
-  yearAction: HeaderAction;
+export interface NmHeaderActionsGroup {
+  nextAction: NmHeaderAction;
+  prevAction: NmHeaderAction;
+  monthAction: NmHeaderAction;
+  yearAction: NmHeaderAction;
 }
 
-export class HeaderActions implements IHeaderActions {
-  nextAction: HeaderAction;
-  prevAction: HeaderAction;
-  monthAction: HeaderAction;
-  yearAction: HeaderAction;
+export class HeaderActions implements NmHeaderActionsGroup {
+  nextAction: NmHeaderAction;
+  prevAction: NmHeaderAction;
+  monthAction: NmHeaderAction;
+  yearAction: NmHeaderAction;
 
-  constructor(nextAction: HeaderAction, prevAction: HeaderAction, monthAction: HeaderAction, yearAction: HeaderAction) {
+  constructor(nextAction: NmHeaderAction, prevAction: NmHeaderAction, monthAction: NmHeaderAction, yearAction: NmHeaderAction) {
     this.nextAction = nextAction;
     this.prevAction = prevAction;
     this.monthAction = monthAction;

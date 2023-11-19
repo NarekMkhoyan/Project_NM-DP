@@ -19,12 +19,12 @@ export class NmActionNotifierService {
   public nmDropdownCloseEvent$: Subject<void> = new Subject<void>();
 
   /**
-   * A Subject that emits when the the 'Next page' button (arrow right by default) is pressed in the date picker header (Works for default/custom templates).
+   * A Subject that emits when the 'Next page' button (arrow right by default) is pressed in the date picker header (Works for default/custom templates).
    */
   public nmNextActionTriggered$: Subject<void> = new Subject<void>();
 
   /**
-   * A Subject that emits when the the 'Previous page' button (arrow left by default) is pressed in the date picker header (Works for default/custom templates).
+   * A Subject that emits when the 'Previous page' button (arrow left by default) is pressed in the date picker header (Works for default/custom templates).
    */
   public nmPrevActionTriggered$: Subject<void> = new Subject<void>();
 
@@ -34,4 +34,9 @@ export class NmActionNotifierService {
   public nmPickerCurrentMode$: BehaviorSubject<NmDatePickerModeType> = new BehaviorSubject<NmDatePickerModeType>(
     "date"
   );
+
+  /**
+   *  A Subject that emits when the user clicks the clear input button in the selector.
+   */
+  public nmClearActionTriggered$: Subject<void> = new Subject<void>();
 }

@@ -302,6 +302,10 @@ export class NmDatePickerComponent extends Unsubscribe implements ControlValueAc
     return this.stateService.pickerMode$;
   }
 
+  public get selectedDate(): Date | [Date | null, Date | null] | Date[] | null {
+    return this.stateService.selectedDate;
+  }
+
   constructor(
     public readonly nmActionNotifierService: NmActionNotifierService,
     private readonly yearModeService: YearModeService,
