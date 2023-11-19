@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { NgxNmDatePickerModule } from 'ngx-nm-date-picker';
-import { NmImageBlurModule } from 'projects/ngx-nm-image-blur/src/public-api';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
@@ -15,7 +14,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FormsModule,
     ReactiveFormsModule,
     NgxNmDatePickerModule,
-    NmImageBlurModule
   ],
   providers: [],
   bootstrap: [AppComponent]

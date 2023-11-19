@@ -173,8 +173,4 @@ export class AppComponent implements AfterViewInit {
     }
     return isHoliday;
   };
-
-  // get url(): string {
-  //   return `url(${this.image})`;
-  // }
 }

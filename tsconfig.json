@@ -14,9 +14,6 @@
     "paths": {
       "ngx-nm-date-picker": [
         "dist/ngx-nm-date-picker"
-      ],
-      "ngx-nm-image-blur": [
-        "dist/ngx-nm-image-blur"
       ]
     },
     "declaration": false,
