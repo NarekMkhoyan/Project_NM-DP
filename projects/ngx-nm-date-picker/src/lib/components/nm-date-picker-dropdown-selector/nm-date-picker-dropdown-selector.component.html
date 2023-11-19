@@ -1,0 +1,143 @@
+<div class="selector-wrapper" *ngIf="selectorState$ | async as selectorState">
+  <div class="selector">
+    <div class="selector__label" [@labelSlideUp]="!clearIconVisible && selectorState !== SELECTOR_STATES.ACTIVE">
+      {{ selectorCustomLabel ? selectorCustomLabel : defaultSelectorLabel }}
+    </div>
+    <div class="selector__value">
+      <div class="selector__value_main">
+        <ng-container *ngIf="selectorDateFormat; else defaultSelectorValueTpl">
+          <ng-container *ngIf="rangeModeActive">
+            <div class="selector__value_text" *ngIf="dateRange[0] && dateRange[1]">
+              <ng-container
+                *ngTemplateOutlet="
+                  formatedSelectorDateValue;
+                  context: { $implicit: dateRange[0], format: selectorDateFormat }
+                "
+              ></ng-container>
+              <span>—</span>
+              <ng-container
+                *ngTemplateOutlet="
+                  formatedSelectorDateValue;
+                  context: { $implicit: dateRange[1], format: selectorDateFormat }
+                "
+              ></ng-container>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="multiModeActive">
+            <div class="selector__value_text">
+              <ng-container *ngFor="let date of dateArray">
+                <ng-container
+                  *ngTemplateOutlet="
+                    formatedSelectorDateValue;
+                    context: { $implicit: date, format: selectorDateFormat }
+                  "
+                ></ng-container>
+              </ng-container>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="!rangeModeActive && !multiModeActive" #singleDateTpl>
+            <span class="selector__value_text" *ngIf="selectedDate">
+              <ng-container
+                *ngTemplateOutlet="
+                  formatedSelectorDateValue;
+                  context: { $implicit: selectedDate, format: selectorDateFormat }
+                "
+              ></ng-container>
+            </span>
+          </ng-container>
+        </ng-container>
+        <ng-template #defaultSelectorValueTpl>
+          <ng-container *ngIf="rangeModeActive">
+            <div class="selector__value_text" *ngIf="dateRange[0] && dateRange[1]">
+              <ng-container *ngTemplateOutlet="selectorDateValue; context: { $implicit: dateRange[0] }"></ng-container>
+              <span>—</span>
+              <ng-container *ngTemplateOutlet="selectorDateValue; context: { $implicit: dateRange[1] }"></ng-container>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="multiModeActive">
+            <div class="selector__value_text">
+              <ng-container *ngFor="let date of dateArray">
+                <ng-container *ngTemplateOutlet="selectorDateValue; context: { $implicit: date }"></ng-container>
+              </ng-container>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="!rangeModeActive && !multiModeActive" #singleDateTpl>
+            <div class="selector__value_text" *ngIf="selectedDate">
+              <ng-container *ngTemplateOutlet="selectorDateValue; context: { $implicit: selectedDate }"></ng-container>
+            </div>
+          </ng-container>
+        </ng-template>
+      </div>
+      <div class="selector__value_extra">
+        <span
+          class="icon"
+          nmTrigger
+          *ngIf="clearIconVisible && selectorState === SELECTOR_STATES.ACTIVE && allowClear"
+          (click)="clearPickerValue()"
+        >
+          <ng-container *ngTemplateOutlet="backspaceIcon"></ng-container>
+        </span>
+        <span
+          class="icon"
+          [class.flip-horizontal-bottom]="selectorState === SELECTOR_STATES.ACTIVE"
+          [class.flip-horizontal-reverse]="selectorState === SELECTOR_STATES.INACTIVE"
+        >
+          <ng-container *ngTemplateOutlet="arrowDownIcon"></ng-container>
+        </span>
+      </div>
+    </div>
+    <div class="selector__border">
+      <div
+        *ngIf="nmStatus$ | async as nmStatus"
+        class="selector__border_inner"
+        [class.selector__border_inner-error]="nmStatus === 'error'"
+        [class.selector__border_inner-warning]="nmStatus === 'warning'"
+        [class.selector__border_inner-activated]="selectorState === SELECTOR_STATES.ACTIVE"
+      ></div>
+    </div>
+  </div>
+</div>
+
+<ng-template #arrowDownIcon>
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M19.5 8.25L12 15.75L4.5 8.25"
+      stroke="#0F172A"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+</ng-template>
+<ng-template #backspaceIcon>
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M12 9.75L14.25 12M14.25 12L16.5 14.25M14.25 12L16.5 9.75M14.25 12L12 14.25M9.42049 19.1705L3.04549 12.7955C2.60615 12.3562 2.60615 11.6438 3.04549 11.2045L9.42049 4.82951C9.63147 4.61853 9.91762 4.5 10.216 4.5L19.5 4.5C20.7426 4.5 21.75 5.50736 21.75 6.75V17.25C21.75 18.4926 20.7426 19.5 19.5 19.5H10.216C9.91762 19.5 9.63147 19.3815 9.42049 19.1705Z"
+      stroke="#0F172A"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+</ng-template>
+
+<ng-template #selectorDateValue let-date>
+  <div *ngIf="date" [ngSwitch]="language">
+    <div *ngSwitchCase="'en'">
+      <span *ngIf="pickerModeLimitedBy === 'date'">{{ getMonthName(date) }}&nbsp;</span>
+      <span *ngIf="pickerModeLimitedBy !== 'year'">{{ date | date : "dd" }},&nbsp;</span>
+      <span>{{ date | date : "YYYY" }}</span>
+    </div>
+    <div *ngSwitchDefault>
+      <span *ngIf="pickerModeLimitedBy === 'date'">{{ date | date : "dd" }}&nbsp;</span>
+      <span *ngIf="pickerModeLimitedBy !== 'year'">{{ getMonthName(date) }},&nbsp;</span>
+      <span>{{ date | date : "YYYY" }}</span>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #formatedSelectorDateValue let-date let-format="format">
+  <span>
+    {{ date | date : format }}
+  </span>
+</ng-template>

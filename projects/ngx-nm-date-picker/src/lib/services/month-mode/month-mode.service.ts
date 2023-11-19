@@ -12,10 +12,10 @@ export class NmDatePickerMonthModeService {
   public generateMonths(language: NmLanguageType): NmDate[][] {
     const copy = new Date(this.stateService.displayDate);
     const months = this.stateService.localization[language].MONTH_NAMES_SHORT.map((month, index) => {
-      const dateObject = new NmDate(new Date(copy.setMonth(index))).setDisplayName(month);
-      if (this.stateService.disabledDateFunctionAvailable) {
-        dateObject.setDisabledMonth(this.stateService.disabledDateFunction);
-      }
+      const dateObject = new NmDate(new Date(copy.setMonth(index)))
+        .setMonthName(month)
+        .setDisabledMonth(this.stateService.disabledDateFunction)
+        .setDisabledStateInRangeMode(this.stateService);
       return dateObject;
     });
     return divideIntoChunks<NmDate>(this.updateSelectedMonth(months), 4, 3);
@@ -23,7 +23,25 @@ export class NmDatePickerMonthModeService {
 
   private updateSelectedMonth(dates: NmDate[]): NmDate[] {
     const updatedDates = dates.map((date) => {
-      if (this.stateService.selectedDate && date.date) {
+      if (this.stateService.rangeSelectionActive) {
+        if (
+          (this.stateService.selectedDateRange[0] && isSameMonth(this.stateService.selectedDateRange[0], date.date)) ||
+          (this.stateService.selectedDateRange[1] && isSameMonth(this.stateService.selectedDateRange[1], date.date))
+        ) {
+          date.setSelected(true);
+        } else {
+          date.setSelected(false);
+        }
+      } else if (this.stateService.nmMultiDateSelect) {
+        const amongSelected = this.stateService.selectedDatesArray.find((selectedDate) =>
+          isSameMonth(selectedDate, date.date)
+        );
+        if (amongSelected) {
+          date.setSelected(true);
+        } else {
+          date.setSelected(false);
+        }
+      } else if (this.stateService.selectedDate) {
         if (isSameMonth(this.stateService.selectedDate, date.date)) {
           date.setSelected(true);
         } else {

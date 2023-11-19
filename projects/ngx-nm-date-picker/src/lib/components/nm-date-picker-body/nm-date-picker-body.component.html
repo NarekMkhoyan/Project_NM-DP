@@ -1,19 +1,21 @@
-<div
-  #datePickerBody
-  [ngSwitch]="currentPickerMode$ | async"
-  [@swipeLeft]="swipeLeftTrigger$ | async"
-  [@swipeRight]="swipeRightTrigger$ | async"
->
-  <ng-container *ngSwitchCase="'date'">
-    <nm-date-picker-date-mode
-      [markWeekends]="markWeekends"
-      [weekendDisplayMethod]="weekendDisplayMethod"
-    ></nm-date-picker-date-mode>
-  </ng-container>
-  <ng-container *ngSwitchCase="'month'">
-    <nm-date-picker-month-mode></nm-date-picker-month-mode>
-  </ng-container>
-  <ng-container *ngSwitchCase="'year'">
-    <nm-date-picker-year-mode></nm-date-picker-year-mode>
-  </ng-container>
+<div class="nm-date-picker_body-wrapper">
+  <div
+    #datePickerBody
+    [ngSwitch]="currentPickerMode$ | async"
+    [@swipeLeft]="headerActions && headerActions.prevAction.clickObserver$ | async"
+    [@swipeRight]="headerActions && headerActions.nextAction.clickObserver$ | async"
+  >
+    <ng-container *ngSwitchCase="'date'">
+      <nm-date-picker-date-mode
+        [markWeekends]="markWeekends"
+        [weekendDisplayMethod]="weekendDisplayMethod"
+      ></nm-date-picker-date-mode>
+    </ng-container>
+    <ng-container *ngSwitchCase="'month'">
+      <nm-date-picker-month-mode></nm-date-picker-month-mode>
+    </ng-container>
+    <ng-container *ngSwitchCase="'year'">
+      <nm-date-picker-year-mode></nm-date-picker-year-mode>
+    </ng-container>
+  </div>
 </div>

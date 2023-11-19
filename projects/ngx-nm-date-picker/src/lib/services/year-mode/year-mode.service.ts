@@ -14,15 +14,14 @@ export class YearModeService {
     const copy = new Date(new Date(this.stateService.displayDate).setHours(0, 0, 0, 0));
     years = years
       .map((year, index, arr) => {
-        const dateObject = new NmDate(new Date(copy.setFullYear(this.stateService.decadeMarkingYear - index)));
-        if (this.stateService.disabledDateFunctionAvailable) {
-          dateObject.setDisabledYear(this.stateService.disabledDateFunction);
-        }
+        const dateObject = new NmDate(new Date(copy.setFullYear(this.stateService.decadeMarkingYear - index)))
+          .setDisabledYear(this.stateService.disabledDateFunction)
+          .setDisabledStateInRangeMode(this.stateService);
         if (index === 0) {
-          dateObject.setAsNextMarker()
+          dateObject.setAsNextMarker();
         }
         if (index === arr.length - 1) {
-          dateObject.setAsPrevMarker()
+          dateObject.setAsPrevMarker();
         }
         return dateObject;
       })
@@ -40,7 +39,25 @@ export class YearModeService {
 
   private updateSelectedYear(years: NmDate[]): NmDate[] {
     const updatedDates = years.map((date) => {
-      if (this.stateService.selectedDate && date.date) {
+      if (this.stateService.rangeSelectionActive) {
+        if (
+          (this.stateService.selectedDateRange[0] && isSameYear(this.stateService.selectedDateRange[0], date.date)) ||
+          (this.stateService.selectedDateRange[1] && isSameYear(this.stateService.selectedDateRange[1], date.date))
+        ) {
+          date.setSelected(true);
+        } else {
+          date.setSelected(false);
+        }
+      } else if (this.stateService.nmMultiDateSelect) {
+        const amongSelected = this.stateService.selectedDatesArray.find((selectedDate) =>
+          isSameYear(selectedDate, date.date)
+        );
+        if (amongSelected) {
+          date.setSelected(true);
+        } else {
+          date.setSelected(false);
+        }
+      } else if (this.stateService.selectedDate) {
         if (isSameYear(this.stateService.selectedDate, date.date)) {
           date.setSelected(true);
         } else {

@@ -24,16 +24,16 @@ export class DateModeService {
     const firstDayIndex = new Date(startOfTheMonth).getDay();
     const lastDayIndex = new Date(endOfTheMonth).getDay();
 
-    const currentMonth: NmDate[] = new Array((endOfTheMonth - startOfTheMonth) / dayInMs + 1)
+    const currentMonth: NmDate[] = new Array(Math.round((endOfTheMonth - startOfTheMonth) / dayInMs) + 1)
       .fill(startOfTheMonth)
       .map((date, index) => {
         const calculatedDate = new Date(date + index * dayInMs);
-        const dateObject = new NmDate(calculatedDate);
+        const dateObject = new NmDate(calculatedDate)
+          .setDisabledState(this.stateService.disabledDateFunction)
+          .setDisabledStateInRangeMode(this.stateService)
+          .setHighlightedDay(this.stateService.highlightedDatesFunction);
         if (isSameDay(new Date(), calculatedDate)) {
           dateObject.setAsToday();
-        }
-        if (this.stateService.disabledDateFunctionAvailable) {
-          dateObject.setDisabledState(this.stateService.disabledDateFunction);
         }
         return dateObject;
       });
@@ -61,23 +61,23 @@ export class DateModeService {
       .map((date, index) => {
         const dateObject = new NmDate(
           new Date(new Date(startOfTheMonth).setDate(new Date(startOfTheMonth).getDate() - (index + 1)))
-        ).setAsPrevMarker();
-        if (this.stateService.disabledDateFunctionAvailable) {
-          dateObject.setDisabledState(this.stateService.disabledDateFunction);
-        }
+        )
+          .setAsPrevMarker()
+          .setDisabledState(this.stateService.disabledDateFunction)
+          .setHighlightedDay(this.stateService.highlightedDatesFunction);
         return dateObject;
       })
       .reverse();
 
-    const roundedOffset = [...prevMonthDays, ...currentMonth].length <= 35 ? 7 + 7 - lastDayOffset : 7 - lastDayOffset;
+    const roundedOffset = 42 - [...prevMonthDays, ...currentMonth].length;
 
     const nextMonth = new Array(roundedOffset).fill(new Date()).map((date, index) => {
       const dateObject = new NmDate(
         new Date(new Date(endOfTheMonth).setDate(new Date(endOfTheMonth).getDate() + (index + 1)))
-      ).setAsNextMarker();
-      if (this.stateService.disabledDateFunctionAvailable) {
-        dateObject.setDisabledState(this.stateService.disabledDateFunction);
-      }
+      )
+        .setAsNextMarker()
+        .setDisabledState(this.stateService.disabledDateFunction)
+        .setHighlightedDay(this.stateService.highlightedDatesFunction);
       return dateObject;
     });
 
@@ -108,7 +108,25 @@ export class DateModeService {
 
   public updateSelected(dates: NmDate[]): NmDate[] {
     const updatedDates = dates.map((date) => {
-      if (this.stateService.selectedDate && date.date) {
+      if (this.stateService.rangeSelectionActive) {
+        if (
+          (this.stateService.selectedDateRange[0] && isSameDay(this.stateService.selectedDateRange[0], date.date)) ||
+          (this.stateService.selectedDateRange[1] && isSameDay(this.stateService.selectedDateRange[1], date.date))
+        ) {
+          date.setSelected(true);
+        } else {
+          date.setSelected(false);
+        }
+      } else if (this.stateService.nmMultiDateSelect) {
+        const amongSelected = this.stateService.selectedDatesArray.find((selectedDate) =>
+          isSameDay(selectedDate, date.date)
+        );
+        if (amongSelected) {
+          date.setSelected(true);
+        } else {
+          date.setSelected(false);
+        }
+      } else if (this.stateService.selectedDate) {
         if (isSameDay(this.stateService.selectedDate, date.date)) {
           date.setSelected(true);
         } else {

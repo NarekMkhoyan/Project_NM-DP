@@ -1,21 +1,7 @@
 # Project DP
 
-## To Do list / Brainstorming
+## To Do list
 
-1. Layout with custom templates
-2. highlight days (holidays)
-3. select a week
-4. range selection mode
-5. Limited date range (min, max)
-
-6. time select
-
-## In Development
-
-1. animations ✔
-
-## Bugs
-
-1. clear icon doesn't work ✔
-2. picker doesn't update when selecting a date from prev or next month (datemode.service line 27 currentMonth invalid array length)
-2-1. is random. main problem the currentMonth is being created (new Array) with negative(-) value
+1. styles/assets import | custom fonts (set to inbuild default font-family | apply from the class a custom one)
+2. Update to newer angular version
+3. Not compatible with Angular SSR

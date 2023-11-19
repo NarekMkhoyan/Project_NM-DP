@@ -1,6 +1,7 @@
 export interface NmWeekdayInterface {
   name: string;
   index: number;
+  isWeekend: boolean;
 }
 
 export class NmWeekday implements NmWeekdayInterface {

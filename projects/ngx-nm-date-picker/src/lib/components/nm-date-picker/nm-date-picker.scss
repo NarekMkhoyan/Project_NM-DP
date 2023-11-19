@@ -2,7 +2,6 @@
 @import "./../../assets/styles/variables";
 
 .nm_date-picker {
-  width: 100%;
   display: inline-block;
   &__disabled {
     cursor: not-allowed;
@@ -13,21 +12,36 @@
   }
 }
 
-.nm_date-picker__body_wrapper {
-  background-color: var(--nm-datepicker-background-color);
-  -webkit-perspective: 100px;
+.nm_date-picker.width-100 {
+  width: 100%;
 }
 
-nm-date-picker {
-  display: inline-block;
+.nm_date-picker__body_wrapper {
+  background-color: var(--nm-datepicker-background-color);
+  border-radius: 4px;
 }
 
 .dropdown-picker-wrapper {
   position: relative;
+  .selector {
+    display: inline-block;
+  }
   .dropdown {
     position: absolute;
     z-index: 1;
   }
+}
+
+.inRange-cell-default {
+  background-color: var(--nm-datepicker-inrange-cell-default-color);
+}
+
+.inRange-cell-warning {
+  background-color: var(--nm-datepicker-inrange-cell-warning-color);
+}
+
+.inRange-cell-error {
+  background-color: var(--nm-datepicker-inrange-cell-error-color);
 }
 
 * {

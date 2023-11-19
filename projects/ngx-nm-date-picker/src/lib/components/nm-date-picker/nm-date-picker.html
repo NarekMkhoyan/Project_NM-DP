@@ -1,4 +1,9 @@
-<div *ngIf="nmPickerMode$ | async as nmPickerMode" class="nm_date-picker" [class.nm_date-picker__disabled]="nmDisabled">
+<div
+  *ngIf="nmPickerMode$ | async as nmPickerMode"
+  class="nm_date-picker"
+  [class.width-100]="nmDisplayMethod === 'dropdown'"
+  [class.nm_date-picker__disabled]="nmDisabled"
+>
   <div class="nm_date-picker__wrapper">
     <ng-container [ngSwitch]="nmDisplayMethod">
       <ng-container *ngSwitchCase="'inline'">
@@ -8,7 +13,7 @@
         <div class="dropdown-picker-wrapper">
           <div class="selector" nmDatePickerSelectorState [dropdownPicker]="dropDownPicker">
             <ng-container *ngIf="nmCustomSelectorTpl; else defaultSelectorTpl">
-              <ng-container *ngTemplateOutlet="nmCustomSelectorTpl"></ng-container>
+              <ng-container *ngTemplateOutlet="nmCustomSelectorTpl; context: { $implicit: selectedDate }"></ng-container>
             </ng-container>
             <ng-template #defaultSelectorTpl>
               <nm-date-picker-dropdown-selector
@@ -33,13 +38,11 @@
 
     <ng-template #nmDatePickerTpl>
       <div class="nm_date-picker__body_wrapper">
-        <div [@modeChange]="nmPickerMode">
-          <nm-date-picker-header></nm-date-picker-header>
-          <nm-date-picker-body
-            [markWeekends]="nmMarkWeekends"
-            [weekendDisplayMethod]="nmWeekendDisplayMethod"
-          ></nm-date-picker-body>
-        </div>
+        <nm-date-picker-header></nm-date-picker-header>
+        <nm-date-picker-body
+          [markWeekends]="nmMarkWeekends"
+          [weekendDisplayMethod]="nmWeekendDisplayMethod"
+        ></nm-date-picker-body>
       </div>
     </ng-template>
   </div>

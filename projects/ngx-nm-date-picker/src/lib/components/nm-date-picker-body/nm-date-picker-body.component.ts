@@ -10,6 +10,7 @@ import {
 import { Observable } from "rxjs";
 import { NmDatePickerStateService } from "../../services/state/nm-date-picker-state.service";
 import { swipeLeftAnimation, swipeRightAnimation } from "../../utils/animations";
+import { NmHeaderActionsGroup } from "../../interfaces/header-action.interface";
 import { NmHolidaysDisplayType } from "../../interfaces/holiday-display.type";
 import { NmDatePickerModeType } from "../../interfaces/picker-mode.type";
 
@@ -31,12 +32,8 @@ export class NmDatePickerBodyComponent implements AfterViewInit, OnDestroy {
     return this.stateService.pickerMode$;
   }
 
-  get swipeLeftTrigger$(): Observable<boolean> {
-    return this.stateService.swipeLeftTrigger$;
-  }
-
-  get swipeRightTrigger$(): Observable<boolean> {
-    return this.stateService.swipeRightTrigger$;
+  get headerActions(): NmHeaderActionsGroup | null {
+    return this.stateService.nmHeaderActions;
   }
 
   constructor(private readonly stateService: NmDatePickerStateService) {}

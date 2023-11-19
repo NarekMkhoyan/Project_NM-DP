@@ -3,7 +3,7 @@
 }
 
 .year-mode {
-  padding: 7px 12px;
+  padding: 6px 12px;
   display: flex;
   flex-direction: column;
 
@@ -17,7 +17,7 @@
       .year-mode_row__item {
         font-family: "Lato";
         font-size: 14px;
-        margin: 14px 0px;
+        margin: 13px 0px;
         color: var(--nm-datepicker-text-color);
         width: 70px;
         display: flex;
@@ -51,14 +51,33 @@
         }
       }
 
+      .selected_warning:not(.disabled) {
+        .year-mode_row__item_inner {
+          background-color: var(--nm-datepicker-warning-color) !important;
+          color: var(--nm-datepicker-white) !important;
+        }
+      }
+
+      .selected_error:not(.disabled) {
+        .year-mode_row__item_inner {
+          background-color: var(--nm-datepicker-error-color) !important;
+          color: var(--nm-datepicker-white) !important;
+        }
+      }
+
       .other-decade {
         color: var(--nm-datepicker-text-color-secondary);
       }
 
       .disabled {
-        background-color: var(--nm-datepicker-hover-background-color);
-        color: var(--nm-datepicker-text-color-secondary);
+        color: var(--nm-datepicker-text-color-disabled);
       }
     }
+  }
+}
+
+.year-mode_row__item-wrapper {
+  div:first-child {
+    border: 0.5px solid transparent;
   }
 }

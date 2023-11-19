@@ -5,7 +5,7 @@ export const NM_LOCALIZATION: NmLocalizationType = {
   en: {
     WEEKDAY_NAMES_SHORT: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
     MONTH_NAMES_SHORT: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-    MONTH_NAMES_DECLENSED: [
+    MONTH_NAMES: [
       "January",
       "February",
       "March",
@@ -23,7 +23,7 @@ export const NM_LOCALIZATION: NmLocalizationType = {
   ru: {
     WEEKDAY_NAMES_SHORT: ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"],
     MONTH_NAMES_SHORT: ["Янв", "Фев", "Мар", "Апр", "Май", "Июн", "Июл", "Авг", "Сен", "Окт", "Ноя", "Дек"],
-    MONTH_NAMES_DECLENSED: [
+    MONTH_NAMES: [
       "Января",
       "Февраля",
       "Марта",
@@ -41,7 +41,7 @@ export const NM_LOCALIZATION: NmLocalizationType = {
   am: {
     WEEKDAY_NAMES_SHORT: ["Կիր", "Երկ", "Երք", "Չոր", "Հնգ", "Ուր", "Շաբ"],
     MONTH_NAMES_SHORT: ["Հնվ", "Փետ", "Մրտ", "Ապր", "Մայ", "Հնս", "Հուլ", "Օգոս", "Սեպ", "Հոկ", "Նոյ", "Դեկ"],
-    MONTH_NAMES_DECLENSED: [
+    MONTH_NAMES: [
       "Հունվարի",
       "Փետրվարի",
       "Մարտի",

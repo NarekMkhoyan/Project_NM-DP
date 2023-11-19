@@ -2,8 +2,19 @@
   <ng-container *ngFor="let monthRows of months">
     <div class="month-mode_row">
       <ng-container *ngFor="let month of monthRows">
-        <div class="month-mode_row__item-wrapper" nmTrigger (click)="!month.disabled && setSelectedMonth(month.date)">
-          <ng-container *ngTemplateOutlet="defaultMonthCell; context: { $implicit: month }"></ng-container>
+        <div
+          #parent
+          class="month-mode_row__item-wrapper nmValueSetter"
+          [nmHighlighter]="{ dayValue: month, mode: 'month' }"
+          nmTrigger
+          (click)="parent.children[0]?.clientHeight && !month.disabled && setSelectedMonth(month.date)"
+        >
+          <ng-container *ngIf="customMonthCellTpl; else defaultMonthCellTpl">
+            <ng-container *ngTemplateOutlet="customMonthCellTpl; context: { $implicit: month }"></ng-container>
+          </ng-container>
+          <ng-template #defaultMonthCellTpl>
+            <ng-container *ngTemplateOutlet="defaultMonthCell; context: { $implicit: month }"></ng-container>
+          </ng-template>
         </div>
       </ng-container>
     </div>
@@ -11,15 +22,18 @@
 
   <ng-template #defaultMonthCell let-month>
     <div
+      *ngIf="nmStatus$ | async as nmStatus"
       class="month-mode_row__item"
       [class.selected-item]="month.isSelected"
       [class.disabled]="month.disabled"
       [class.selected]="month.isSelected"
+      [class.selected_warning]="month.isSelected && nmStatus === 'warning'"
+      [class.selected_error]="month.isSelected && nmStatus === 'error'"
       [class.pointer]="!month.disabled"
     >
       <div class="month-mode_row__item__inner">
         <span>
-          {{ month?.displayName }}
+          {{ month.monthName }}
         </span>
       </div>
     </div>

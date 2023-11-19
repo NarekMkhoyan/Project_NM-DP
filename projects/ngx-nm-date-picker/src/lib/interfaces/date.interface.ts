@@ -1,3 +1,4 @@
+import { NmDatePickerStateService } from "../services/state/nm-date-picker-state.service";
 import { checkForDisabledMonth, checkForDisabledYear } from "../utils/checkDisabled";
 
 export interface NmDateInterface {
@@ -8,7 +9,10 @@ export interface NmDateInterface {
   isToday: boolean;
   isSelected: boolean;
   isWeekend: boolean;
-  displayName?: string;
+  isHighlighted: boolean;
+  monthName?: string;
+  customTextColor: string | undefined;
+  customBackgroundColor: string | undefined;
 }
 
 export class NmDate implements NmDateInterface {
@@ -19,7 +23,10 @@ export class NmDate implements NmDateInterface {
   isToday = false;
   isSelected = false;
   isWeekend = false;
-  displayName?: string;
+  isHighlighted = false;
+  monthName?: string;
+  customTextColor = undefined;
+  customBackgroundColor = undefined;
 
   constructor(value: Date) {
     this.date = value;
@@ -54,23 +61,64 @@ export class NmDate implements NmDateInterface {
     return this;
   }
 
-  setDisplayName(name: string): this {
-    this.displayName = name;
+  setMonthName(name: string): this {
+    this.monthName = name;
     return this;
   }
 
-  setDisabledState(checker: (date: Date) => boolean): this {
-    this.disabled = checker(this.date);
+  setDisabledState(checker: null | ((date: Date) => boolean)): this {
+    if (checker) {
+      this.disabled = checker(this.date);
+    }
     return this;
   }
 
-  setDisabledYear(checker: (date: Date) => boolean): this {
-    this.disabled = checkForDisabledYear(checker, this.date.getFullYear());
+  setDisabledYear(checker: null | ((date: Date) => boolean)): this {
+    if (checker) {
+      this.disabled = checkForDisabledYear(checker, this.date.getFullYear());
+    }
     return this;
   }
 
-  setDisabledMonth(checker: (date: Date) => boolean): this {
-    this.disabled = checkForDisabledMonth(checker, this.date.getMonth(), this.date.getFullYear());
+  setDisabledMonth(checker: null | ((date: Date) => boolean)): this {
+    if (checker) {
+      this.disabled = checkForDisabledMonth(checker, this.date.getMonth(), this.date.getFullYear());
+    }
+    return this;
+  }
+
+  setDisabledStateInRangeMode(stateService: NmDatePickerStateService): this {
+    if (stateService.rangeSelectionActive) {
+      const [start, end] = stateService.selectedDateRange;
+      if (end) {
+        return this;
+      }
+      if (start) {
+        if (this.date < start && this.disabled && !stateService.rangeLimits[0]) {
+          stateService.rangeLimits[0] = this.date;
+        } else if (
+          this.date < start &&
+          this.disabled &&
+          stateService.rangeLimits[0] &&
+          this.date > stateService.rangeLimits[0]
+        ) {
+          stateService.rangeLimits[0] = this.date;
+        }
+        if (this.date > start && this.disabled && !stateService.rangeLimits[1]) {
+          stateService.rangeLimits[1] = this.date;
+        }
+        this.disabled =
+          !!(stateService.rangeLimits[0] && this.date <= stateService.rangeLimits[0]) ||
+          !!(stateService.rangeLimits[1] && this.date >= stateService.rangeLimits[1]);
+      }
+    }
+    return this;
+  }
+
+  setHighlightedDay(highlighterFn: null | ((date: Date, nmDateObject: NmDateInterface) => boolean)): this {
+    if (highlighterFn) {
+      this.isHighlighted = highlighterFn(this.date, this);
+    }
     return this;
   }
 }
