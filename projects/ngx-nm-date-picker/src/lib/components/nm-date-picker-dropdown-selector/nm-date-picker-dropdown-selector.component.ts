@@ -101,6 +101,7 @@ export class NmDatePickerDropdownSelectorComponent extends Unsubscribe implement
   public clearPickerValue(): void {
     this.stateService.selectedDate = null;
     this.stateService.selectedDateRange = [null, null];
+    this.stateService.rangeLimits = [null, null];
     this.stateService.selectedDatesArray = [];
     this.stateService.updatePicker$.next();
     this.stateService.emitSelectedDate$.next();

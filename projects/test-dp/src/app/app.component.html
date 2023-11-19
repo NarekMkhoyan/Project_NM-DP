@@ -1,5 +1,5 @@
 <div class="wrap" #wrap>
-<!-- <div class="small">
+  <!-- <div class="small">
     <nm-date-picker
       [(ngModel)]="date3"
       [nmPickerMode]="'date'"
@@ -10,9 +10,9 @@
       (ngModelChange)="log($event)"
     ></nm-date-picker>
   </div> -->
-<!-- <button (click)="clear()">Clear</button> -->
-<!-- <div class="test" style="width: 100%"> -->
-<!-- <nm-date-picker
+  <!-- <button (click)="clear()">Clear</button> -->
+  <!-- <div class="test" style="width: 100%"> -->
+  <!-- <nm-date-picker
       [nmMarkWeekends]="true"
       [nmWeekendDisplayMethod]="'end'"
       [nmLanguage]="'fr'"
@@ -26,20 +26,21 @@
       [nmAllowClear]="false"
       (ngModelChange)="log($event)"
     ></nm-date-picker> -->
-<!-- </div> -->
-<!-- <button hidden (click)="theme === 'light' ? theme = 'dark' : theme = 'light'">switch</button> -->
+  <!-- </div> -->
+  <!-- <button hidden (click)="theme === 'light' ? theme = 'dark' : theme = 'light'">switch</button> -->
 
-<div class="demo">
-  <div class="section">
-    <!-- <div class="title">Default highlight</div> -->
-    <nm-date-picker
-      [nmLanguage]="'ru'"
-      [nmCustomLocalization]="LOCALIZATION_FRENCH"
-      [nmTheme]="'light'"
-      [nmDisplayMethod]="'inline'"
-      [(ngModel)]="date"
-    ></nm-date-picker>
-    <!-- <form [formGroup]="form">
+  <div class="demo">
+    <div class="section">
+      <!-- <div class="title">Default highlight</div> -->
+      <nm-date-picker
+        [nmTheme]="'light'"
+        [nmDisplayMethod]="'inline'"
+        [nmDisabledDates]="disabledDates"
+        [nmRangeSelection]="true"
+        [(ngModel)]="date"
+        (ngModelChange)="log($event)"
+      ></nm-date-picker>
+      <!-- <form [formGroup]="form">
       <nm-date-picker
         [nmMarkWeekends]="true"
         [formControlName]="'date'"
@@ -49,8 +50,8 @@
         (ngModelChange)="log($event)"
       ></nm-date-picker>
     </form> -->
-  </div>
-  <!-- <div class="demo-divider"></div>
+    </div>
+    <!-- <div class="demo-divider"></div>
   <div class="section">
     <div class="title">Custom highlight</div>
     <nm-date-picker
@@ -61,7 +62,7 @@
       [(ngModel)]="date"
     ></nm-date-picker>
   </div> -->
-  <!-- <div class="demo-divider"></div>
+    <!-- <div class="demo-divider"></div>
   <div class="section">
     <div class="title">End</div>
     <nm-date-picker
@@ -72,8 +73,8 @@
       [(ngModel)]="date"
     ></nm-date-picker>
   </div> -->
-</div>
-<!--
+  </div>
+  <!--
   <nm-date-picker
     [nmMarkWeekends]="true"
     [nmWeekendDisplayMethod]="'end'"
@@ -135,7 +136,7 @@
     (ngModelChange)="log($event)"
     [nmDisplayMethod]="'dropdown'"
   ></nm-date-picker>
--->
+
   <nm-date-picker
     #customNmDatePicker
     class="custom-date-picker"
@@ -148,7 +149,6 @@
     [nmDisplayMethod]="'dropdown'"
     (ngModelChange)="log($event)"
   >
-   <!--
     <ng-template #nmCustomDayCellTpl let-day>
       <div
         class="custom-day"
@@ -176,8 +176,7 @@
       <div class="custom-year" [class.custom-year__selected]="year.isSelected">
         {{ year.date | date : "YYYY" }}
       </div>
-    </ng-template> -->
-
+    </ng-template>
     <ng-template #nmCustomSelectorTpl>
       <div class="custom-selector">
         <div class="year">{{ date3 | date : "YYYY" }}</div>
@@ -185,7 +184,7 @@
       </div>
     </ng-template>
 
-    <!-- <ng-template #nmCustomHeaderTpl let-nmHeaderActions>
+   <ng-template #nmCustomHeaderTpl let-nmHeaderActions>
       <div class="custom-header" *ngIf="nmHeaderActions">
         <button
           class="arrow-btn"
@@ -232,7 +231,7 @@
           </svg>
         </button>
       </div>
-    </ng-template> -->
+    </ng-template>
   </nm-date-picker>
 
   <nm-date-picker
@@ -302,5 +301,5 @@
     </ng-template>
   </nm-date-picker>
 </div>
-
-
+ -->
+</div>

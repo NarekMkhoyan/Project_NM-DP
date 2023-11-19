@@ -342,6 +342,7 @@ export class NmDatePickerComponent extends Unsubscribe implements ControlValueAc
     this.stateService.pickerMode$.pipe(takeUntil(this.unsubscribe$)).subscribe((currentPickerMode) => {
       this.nmActionNotifierService.nmPickerCurrentMode$.next(currentPickerMode);
     });
+    this.stateService.updatePicker$.next();
   }
 
   // ControlValueAccessor functions

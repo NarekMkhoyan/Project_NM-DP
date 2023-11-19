@@ -127,7 +127,15 @@ export class AppComponent implements AfterViewInit {
   }
 
   public disabledDates: (date: Date) => boolean = (date: Date) => {
-    return date < this.minDateValue || date > this.maxDateValue;
+    return (
+      date < this.minDateValue ||
+      date > this.maxDateValue ||
+      date.getTime() === this.maxDateValue.getTime() - 86400000 * 4 ||
+      date.getTime() === this.maxDateValue.getTime() - 86400000 * 3 ||
+      date.getTime() === this.maxDateValue.getTime() - 86400000 * 2 ||
+      date.getTime() === this.minDateValue.getTime() + 86400000 * 2 ||
+      date.getTime() === this.minDateValue.getTime() + 86400000 * 3
+    );
   };
 
   public datesHighlightFn: (date: Date) => boolean = (date: Date) => {

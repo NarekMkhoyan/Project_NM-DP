@@ -14,7 +14,8 @@ export class NmDatePickerMonthModeService {
     const months = this.stateService.localization[language].MONTH_NAMES_SHORT.map((month, index) => {
       const dateObject = new NmDate(new Date(copy.setMonth(index)))
         .setMonthName(month)
-        .setDisabledMonth(this.stateService.disabledDateFunction);
+        .setDisabledMonth(this.stateService.disabledDateFunction)
+        .setDisabledStateInRangeMode(this.stateService);
       return dateObject;
     });
     return divideIntoChunks<NmDate>(this.updateSelectedMonth(months), 4, 3);

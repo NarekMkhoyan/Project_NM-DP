@@ -79,6 +79,8 @@ export class NmDatePickerStateService {
 
   public possibleRangeEnd$: BehaviorSubject<Date | null> = new BehaviorSubject<Date | null>(null);
 
+  public rangeLimits: [Date | null, Date | null] = [null, null];
+
   // Custom templates
   public customDayCellTpl: TemplateRef<any> | undefined = undefined;
   public customHeaderTpl: TemplateRef<any> | undefined = undefined;

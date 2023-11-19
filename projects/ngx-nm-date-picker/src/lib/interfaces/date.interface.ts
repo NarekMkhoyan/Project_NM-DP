@@ -1,3 +1,4 @@
+import { NmDatePickerStateService } from "../services/state/nm-date-picker-state.service";
 import { checkForDisabledMonth, checkForDisabledYear } from "../utils/checkDisabled";
 
 export interface NmDateInterface {
@@ -82,6 +83,34 @@ export class NmDate implements NmDateInterface {
   setDisabledMonth(checker: null | ((date: Date) => boolean)): this {
     if (checker) {
       this.disabled = checkForDisabledMonth(checker, this.date.getMonth(), this.date.getFullYear());
+    }
+    return this;
+  }
+
+  setDisabledStateInRangeMode(stateService: NmDatePickerStateService): this {
+    if (stateService.rangeSelectionActive) {
+      const [start, end] = stateService.selectedDateRange;
+      if (end) {
+        return this;
+      }
+      if (start) {
+        if (this.date < start && this.disabled && !stateService.rangeLimits[0]) {
+          stateService.rangeLimits[0] = this.date;
+        } else if (
+          this.date < start &&
+          this.disabled &&
+          stateService.rangeLimits[0] &&
+          this.date > stateService.rangeLimits[0]
+        ) {
+          stateService.rangeLimits[0] = this.date;
+        }
+        if (this.date > start && this.disabled && !stateService.rangeLimits[1]) {
+          stateService.rangeLimits[1] = this.date;
+        }
+        this.disabled =
+          !!(stateService.rangeLimits[0] && this.date <= stateService.rangeLimits[0]) ||
+          !!(stateService.rangeLimits[1] && this.date >= stateService.rangeLimits[1]);
+      }
     }
     return this;
   }

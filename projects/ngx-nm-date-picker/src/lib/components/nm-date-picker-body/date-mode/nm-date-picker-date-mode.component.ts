@@ -61,7 +61,10 @@ export class NmDatePickerDateModeComponent extends Unsubscribe implements OnInit
       this.stateService.selectedDateRange = dateRangeSetter(this.stateService.selectedDateRange, day.date);
       const [start, end] = this.stateService.selectedDateRange;
       this.stateService.updatePicker$.next();
-      if (start && end) this.stateService.dropdownSelectorState$.next(this.SELECTOR_STATES.INACTIVE);
+      if (start && end) {
+        this.stateService.rangeLimits = [null, null];
+        this.stateService.dropdownSelectorState$.next(this.SELECTOR_STATES.INACTIVE);
+      }
     } else if (this.stateService.nmMultiDateSelect) {
       const amongSelected = this.stateService.selectedDatesArray.findIndex((selectedDate) =>
         isSameDay(selectedDate, day.date)
