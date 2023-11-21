@@ -1,5 +1,3 @@
-@import "./../../../assets/styles/variables";
-
 .nm_date-picker-header {
   display: flex;
   align-items: center;
@@ -17,7 +15,6 @@
     &_year {
       color: var(--nm-datepicker-primary-color);
       font-size: 18px;
-      font-family: "Lato";
       cursor: pointer;
       transition: all 0.1s;
       &:hover {
@@ -65,7 +62,6 @@
     &__year-value {
       color: var(--nm-datepicker-primary-color);
       font-size: 18px;
-      font-family: "Lato";
       cursor: pointer;
       transition: all 0.1s;
       &:hover {
@@ -98,7 +94,6 @@
     &__year-value {
       color: var(--nm-datepicker-primary-color);
       font-size: 18px;
-      font-family: "Lato";
       cursor: pointer;
       transition: all 0.1s;
       &:hover {
