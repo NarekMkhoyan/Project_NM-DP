@@ -2,6 +2,5 @@
 
 ## To Do list
 
-1. styles/assets import | custom fonts (set to inbuild default font-family | apply from the class a custom one)
-2. Update to newer angular version
-3. Not compatible with Angular SSR
+1. Update to newer angular version
+2. Not compatible with Angular SSR
