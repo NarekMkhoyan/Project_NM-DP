@@ -3,10 +3,13 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  Inject,
   Input,
   OnDestroy,
+  PLATFORM_ID,
   ViewChild,
 } from "@angular/core";
+import { isPlatformServer } from "@angular/common";
 import { Observable } from "rxjs";
 import { NmDatePickerStateService } from "../../services/state/nm-date-picker-state.service";
 import { swipeLeftAnimation, swipeRightAnimation } from "../../utils/animations";
@@ -36,14 +39,21 @@ export class NmDatePickerBodyComponent implements AfterViewInit, OnDestroy {
     return this.stateService.nmHeaderActions;
   }
 
-  constructor(private readonly stateService: NmDatePickerStateService) {}
+  constructor(
+    @Inject(PLATFORM_ID) private readonly platformId: string,
+    private readonly stateService: NmDatePickerStateService
+  ) {}
 
   ngAfterViewInit(): void {
-    this.setPickerBodyWidth();
+    if (!isPlatformServer(this.platformId)) {
+      this.setPickerBodyWidth();
+    }
   }
 
   ngOnDestroy(): void {
-    this.bodyResizeObserver.unobserve(this.datePickerBody.nativeElement);
+    if (!isPlatformServer(this.platformId)) {
+      this.bodyResizeObserver.unobserve(this.datePickerBody.nativeElement);
+    }
   }
 
   private setPickerBodyWidth(): void {

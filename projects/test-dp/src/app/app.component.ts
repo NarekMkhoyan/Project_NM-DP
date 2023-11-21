@@ -78,7 +78,7 @@ export class AppComponent implements AfterViewInit {
   }
 
   get calendarWidth(): number {
-    return (document.body.clientWidth - 30) / 7;
+    return 600
   }
 
   constructor(private readonly fb: FormBuilder) {
