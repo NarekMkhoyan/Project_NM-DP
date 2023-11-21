@@ -29,7 +29,7 @@ import { NmLanguageType } from "../../interfaces/language.type";
 @Component({
   selector: "nm-date-picker",
   templateUrl: "./nm-date-picker.html",
-  styleUrls: ["./nm-date-picker.scss"],
+  styleUrls: ["./nm-date-picker.scss", "./_variables.scss"],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [fadeInDownwardsAnimation, fadeInUpwardsAnimation, boxShadowDropAnimation],
