@@ -1,4 +1,5 @@
-import { Directive, ElementRef, Input, NgZone, OnDestroy, Renderer2 } from "@angular/core";
+import { Directive, ElementRef, Inject, Input, NgZone, OnDestroy, PLATFORM_ID, Renderer2 } from "@angular/core";
+import { isPlatformServer } from "@angular/common";
 import { NmDatePickerStateService } from "../../services/state/nm-date-picker-state.service";
 import { NM_SELECTOR_STATES } from "../../constants/selector-states.enum";
 import { isClassDescendant } from "../../utils/checkParentNode";
@@ -13,23 +14,31 @@ export class NmDatePickerSelectorStateDirective implements OnDestroy {
   @Input() dropdownPicker!: HTMLDivElement;
 
   constructor(
+    @Inject(PLATFORM_ID) private platformId: string,
     private el: ElementRef<HTMLDivElement>,
     private readonly stateService: NmDatePickerStateService,
     private readonly renderer: Renderer2,
     private readonly ngZone: NgZone
   ) {
-    this.createActionInstances();
+    if (!isPlatformServer(this.platformId)) {
+      this.createActionInstances();
+    }
   }
 
   ngOnDestroy(): void {
-    this.unlistenDocumentClick();
-    this.unlistenElementClick();
+    if (!isPlatformServer(this.platformId)) {
+      this.unlistenDocumentClick();
+      this.unlistenElementClick();
+    }
   }
 
   private createActionInstances(): void {
     this.unlistenDocumentClick = this.renderer.listen(document, "click", (event: PointerEvent) => {
       this.ngZone.runOutsideAngular(() => {
-        if ((this.dropdownPicker && this.dropdownPicker.contains(event.target as Node)) || isClassDescendant(event.target as HTMLElement, 'nmTrigger')) {
+        if (
+          (this.dropdownPicker && this.dropdownPicker.contains(event.target as Node)) ||
+          isClassDescendant(event.target as HTMLElement, "nmTrigger")
+        ) {
           return;
         }
         if (this.el.nativeElement.contains(event.target as Node)) {
