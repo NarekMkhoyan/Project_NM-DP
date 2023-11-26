@@ -1,5 +1,5 @@
 <div>
-  <img style="display: block; margin: auto" src="./../shared/assets/nmDP-v2.png"/>
+  <img style="display: block; margin: auto" src="./projects/shared/assets/nmDP-v2.png"/>
   <h2 style="text-align: center; margin: 0; margin-top: 14px;">nmDatePicker</h2>
 </div>
 
@@ -85,7 +85,7 @@ And in the template:
 `nmDisplayMethod: "inline" | "dropdown"`
 Used to select one of the 2 supported display methods.
 By default it is set to 'dropdown'
-<img src="./../shared/assets/dropdown_inline.png" alt="Display methods demo"/>
+<img src="./projects/shared/assets/dropdown_inline.png" alt="Display methods demo"/>
 
 #### nmPickerMode {#nmPickerMode} 
 
@@ -101,7 +101,7 @@ This means that by passing an operation mode, the date picker will originally di
 **_\*Example:_** If you pass in ‘month’, the date picker will display in ‘month’ mode, but you will still be able to switch to the ‘year’ mode. (\* in default layout you will have no options to switch to the ‘date’ mode.
 More about [custom layouts](#custom-templates))
 
-<img src="./../shared/assets/operation_modes.png" alt="Operation modes demo"/>
+<img src="./projects/shared/assets/operation_modes.png" alt="Operation modes demo"/>
 
 Controls in the date picker header panel are used to switch between modes.
 
@@ -117,8 +117,8 @@ A boolean value that sets the disabled state of the whole picker
 `nmTheme: ‘light’ | ‘dark’`
 Used to switch between light and dark themes.
 By default the date picker uses the light theme variation.
-<img src="./../shared/assets/light_mode.png" alt="Light mode demo"/>
-<img src="./../shared/assets/dark_mode.png" alt="Dark mode demo"/>
+<img src="./projects/shared/assets/light_mode.png" alt="Light mode demo"/>
+<img src="./projects/shared/assets/dark_mode.png" alt="Dark mode demo"/>
 
 \* Here are the default color variables used in the library
 
@@ -192,20 +192,20 @@ nm-date-picker {
 ```
 
 **_Result:_**
-<img src="./../shared/assets/light_custom_color.png" alt="Light mode with custom color"/> <img src="./../shared/assets/dark_custom_color.png" alt="Dark mode with custom color"/>
+<img src="./projects/shared/assets/light_custom_color.png" alt="Light mode with custom color"/> <img src="./projects/shared/assets/dark_custom_color.png" alt="Dark mode with custom color"/>
 
 #### nmMarkWeekends {#nmMarkWeekends}
 
 `nmMarkWeekends: boolean`
 Used to enable the highlight of the weekends (the default highlight color is red)
-<img src="./../shared/assets/weekend_highlight.png" alt="Highlighted weekends demo"/>
+<img src="./projects/shared/assets/weekend_highlight.png" alt="Highlighted weekends demo"/>
 
 #### nmWeekendDisplayMethod {#nmWeekendDisplayMethod}
 
 `nmWeekendDisplayMethod: 'start' | 'end' | 'split'`
 Used to set the display method of weekend days (Saturday and Sunday).
 By default the date picker uses the ‘end’ variation.
-<img src="./../shared/assets/weekend_position.png" alt="Weekend display method demo" />
+<img src="./projects/shared/assets/weekend_position.png" alt="Weekend display method demo" />
 
 #### nmLanguage {#nmLanguage}
 
@@ -280,7 +280,7 @@ public LOCALIZATION_FRENCH: NmLocalizationType = {
 ```
 
 **_Result:_**
-<img src="./../shared/assets/custom_locale.png" alt="Custom localization demo" />
+<img src="./projects/shared/assets/custom_locale.png" alt="Custom localization demo" />
 
 \* If you use a key of an existing language settings (en | ru | am), you can overwrite the default values.
 
@@ -302,11 +302,11 @@ disabledDates: (date: Date) => boolean = (date: Date) => {
 
 **_Output_**
 
-<img src="./../shared/assets/disabled_dates.png" alt="Date picker with disabled dates demo"/>
+<img src="./projects/shared/assets/disabled_dates.png" alt="Date picker with disabled dates demo"/>
 
 \* When nmRangeSelection is active the date picker won't let you select date ranges that include disabled dates in between the range start and end dates. When selecting the start date the picker will disable all invalid options, leaving only the valid range end options. Upon selecting the end date the picker will revert back. 
 
-<img src="./../shared/assets/disabled_range.gif" />
+<img src="./projects/shared/assets/disabled_range.gif" />
 
 #### nmHighlightedDates {#nmHighlightedDates}
 
@@ -375,7 +375,7 @@ public datesHighlightCustomFn: (date: Date, nmDateObject: NmDateInterface) => bo
 ```
 
 **_Result:_**
-<img src="./../shared/assets/highlighted_dates.png" alt="Date highlighter demo"/>
+<img src="./projects/shared/assets/highlighted_dates.png" alt="Date highlighter demo"/>
 
 
 #### nmMinDate {#nmMinDate}
@@ -400,7 +400,7 @@ A boolean value that activates the range selection mode.
 \* Not compatible with [nmMultiDateSelect](#nmMultiDateSelect).
 False - by default
 
-<img src="./../shared/assets/range_mode.png" alt="Range selection mode demo." />
+<img src="./projects/shared/assets/range_mode.png" alt="Range selection mode demo." />
 
 #### nmMultiDateSelect {#nmMultiDateSelect}
 
@@ -411,7 +411,7 @@ Activates the multi day selection mode, where you will be able to select multipl
 \* Not compatible with [nmRangeSelection](#nmRangeSelection).
 False - by default
 
-<img src="./../shared/assets/multi_mode.png" alt="Multi-date selection mode demo." />
+<img src="./projects/shared/assets/multi_mode.png" alt="Multi-date selection mode demo." />
 
 
 #### nmStatus {#nmStatus}
@@ -420,10 +420,10 @@ False - by default
 Used to pass in the date picker status.
 \* Works for all 3 operation modes and 2 display methods + in range and multi-date selection modes.
 
-<img src="./../shared/assets/dropdown_warning.png" alt="Date picker valid status demo"/>
-<img src="./../shared/assets/dropdown_warning_1.png" alt="Date picker valid status demo"/>
-<img src="./../shared/assets/dropdown_error.png" alt="Date picker valid status demo"/>
-<img src="./../shared/assets/dropdown_error_1.png" alt="Date picker valid status demo"/>
+<img src="./projects/shared/assets/dropdown_warning.png" alt="Date picker valid status demo"/>
+<img src="./projects/shared/assets/dropdown_warning_1.png" alt="Date picker valid status demo"/>
+<img src="./projects/shared/assets/dropdown_error.png" alt="Date picker valid status demo"/>
+<img src="./projects/shared/assets/dropdown_error_1.png" alt="Date picker valid status demo"/>
 
 
 #### nmSelectorCustomLabel {#nmSelectorCustomLabel}
@@ -431,7 +431,7 @@ Used to pass in the date picker status.
 `nmSelectorCustomLabel: string | null`
 Used to set a custom label for the picker selector in the 'dropdown' display mode.
 By default the value is null, and the word 'Date' (in the specified locale) will be displayed.
-<img src="./../shared/assets/custom_label.png" alt="Selector custom label demo"/>
+<img src="./projects/shared/assets/custom_label.png" alt="Selector custom label demo"/>
 
 
 #### nmSelectorDateFormat {#nmSelectorDateFormat}
@@ -702,7 +702,7 @@ Customizes the selector of the date picker in 'dropdown' display mode. The templ
 
 #### Result: {#custom-section-end} 
 
-<img src="./../shared/assets/custom_demo.png" alt="Custom templates demo"/>
+<img src="./projects/shared/assets/custom_demo.png" alt="Custom templates demo"/>
 
 ### Interfaces {#interfaces}
 
