@@ -11,9 +11,17 @@
       </ng-container>
       <ng-container *ngSwitchCase="'dropdown'">
         <div class="dropdown-picker-wrapper">
-          <div class="selector" nmDatePickerSelectorState [dropdownPicker]="dropDownPicker">
+          <div
+            class="selector"
+            nmDropdownPosition
+            [dropdown]="dropDownPicker"
+            nmDatePickerSelectorState
+            [dropdownPicker]="dropDownPicker"
+          >
             <ng-container *ngIf="nmCustomSelectorTpl; else defaultSelectorTpl">
-              <ng-container *ngTemplateOutlet="nmCustomSelectorTpl; context: { $implicit: selectedDate }"></ng-container>
+              <ng-container
+                *ngTemplateOutlet="nmCustomSelectorTpl; context: { $implicit: selectedDate }"
+              ></ng-container>
             </ng-container>
             <ng-template #defaultSelectorTpl>
               <nm-date-picker-dropdown-selector

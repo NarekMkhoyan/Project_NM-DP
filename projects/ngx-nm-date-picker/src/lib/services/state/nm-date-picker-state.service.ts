@@ -81,6 +81,8 @@ export class NmDatePickerStateService {
 
   public rangeLimits: [Date | null, Date | null] = [null, null];
 
+  public dropdownPosition: 'top' | 'bottom' | undefined = undefined;
+
   // Custom templates
   public customDayCellTpl: TemplateRef<any> | undefined = undefined;
   public customHeaderTpl: TemplateRef<any> | undefined = undefined;
