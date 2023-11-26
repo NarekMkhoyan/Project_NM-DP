@@ -33,14 +33,18 @@ $ npm install ngx-nm-date-picker
 
 To use the component in the template you should import the module first.
 
+\* **IMPORTANT** You should also import Angular's BrowserAnimationsModule in you applications root module, to ensure that the component works correctly.
+
 ```ts
 import { NgxNmDatePickerModule } from 'ngx-nm-date-picker';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
  ...
   imports: [
     ...
     NgxNmDatePickerModule,
+    BrowserAnimationsModule // needed for angular animations used inside of the package
   ],
   ...
 })
