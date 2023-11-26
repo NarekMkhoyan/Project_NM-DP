@@ -45,6 +45,7 @@ nmDatePicker is a modern and highly customizable Angular date picker library wit
 | [`[nmSelectorCustomLabel]`](#nmSelectorCustomLabel) | sets a custom label for the dropdown selector | `string \| null` | `null` |
 | [`[nmSelectorDateFormat]`](#nmSelectorDateFormat) | sets the picker selector date format | `string \| null` | `null` |
 | [`[nmAllowClear]`](#nmAllowClear) | enables the clear button on the dropdown selector | `boolean` | `true` |
+| [`[nmDropdownPosition]`](#nmDropdownPosition) | sets the dropdown position | `'top' \| 'bottom' \| undefined` | `undefined` |
 
 ### API docs {#api-docs}
 
@@ -417,6 +418,11 @@ Disable if the picker needs to be non-nulluble.
 By default is set to true
 
 
+#### nmDropdownPosition {#nmDropdownPosition}
+`nmDropdownPosition: 'top' | 'bottom' | undefined`
+Explicitly sets the dropdown position of the picker in display mode 'dropdown'.
+By default the value is undefined, and the picker determines the position automatically.
+
 ### Custom templates {#custom-templates}
 
 nmDatePicker is fully customizable. The idea is to have a date picker component that can be customized under any design, while keeping the usual and much needed date picker functionality. With the modular design you can choose to customize only s single section of the date picker, or all of it.
@@ -435,13 +441,15 @@ nmDatePicker is made up of 6 sections. To customize any of them you need to:
   </nm-date-picker>
 ```
 
-Next examples of all customizable 6 sections will be view in detail with code examples. The **_combined_** result will be displayed at the [end of the section](#custom-section-end).
+Examples of all customizable 6 sections will be viewed in detail with code examples. The **_combined_** result will be displayed at the [end of the section](#custom-section-end).
 
 #### nmCustomDayCellTpl
 
 Customizes the day cell in operation mode ‘date’. The template will be used inside of a loop, so on each step of the loop it will receive the [nmDate](#nmDateInterface) object of the cell. 
 
 \* You should take a look at the [nmDate](#nmDateInterface) interface first, to learn about the possible options to apply custom css classes appropriately.
+
+\* If the hight of the cell = 0, (applying 'display:none' in the example with 'other-month' class) the component will assume that the section is hidden and will remove the click event listener from the parent, to prevent action handling when the user clicks the empty cell.  
 
 ```html
   <ng-template #nmCustomDayCellTpl let-day>
@@ -660,6 +668,10 @@ Customizes the selector of the date picker in 'dropdown' display mode. The templ
     </div>
   </ng-template>
 ```
+
+#### Result: {#custom-section-end} 
+
+<img src="./../shared/assets/custom_demo.png" alt="Custom templates demo"/>
 
 ### Interfaces {#interfaces}
 

@@ -268,6 +268,17 @@ export class NmDatePickerComponent extends Unsubscribe implements ControlValueAc
     this.stateService.rangeSelectionActive = false;
   }
 
+  /**
+   * nmDropdownPosition: 'top' | 'bottom'
+   *
+   * Explicitly set the dropdown position of the picker in display mode 'dropdown'.
+   *
+   * By default the value is undefined, and the picker determines the position automatically.
+   */
+  @Input() set nmDropdownPosition(value: "top" | "bottom" | undefined) {
+    this.stateService.dropdownPosition = value;
+  }
+
   @ContentChild("nmCustomDayCellTpl") set customDayCellTpl(value: TemplateRef<any> | undefined) {
     this.stateService.customDayCellTpl = value;
   }
@@ -303,7 +314,13 @@ export class NmDatePickerComponent extends Unsubscribe implements ControlValueAc
   }
 
   public get selectedDate(): Date | [Date | null, Date | null] | Date[] | null {
-    return this.stateService.selectedDate;
+    if (this.stateService.nmMultiDateSelect) {
+      return this.stateService.selectedDatesArray;
+    } else if (this.stateService.rangeSelectionActive) {
+      return this.stateService.selectedDateRange;
+    } else {
+      return this.stateService.selectedDate;
+    }
   }
 
   constructor(
