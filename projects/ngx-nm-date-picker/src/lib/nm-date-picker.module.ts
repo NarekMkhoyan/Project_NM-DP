@@ -9,6 +9,7 @@ import { NmDatePickerDateModeComponent } from "./components/nm-date-picker-body/
 import { NmDatePickerYearModeComponent } from "./components/nm-date-picker-body/year-mode/nm-date-picker-year-mode.component";
 import { NmDatePickerSelectorStateDirective } from "./directives/selector-state/nm-date-picker-selector-state.directive";
 import { NmDatePickerHighlighterDirective } from "./directives/highlighter/nm-date-picker-highlighter.directive";
+import { NmDropdownPositionDirective } from "./directives/nmDropdownPosition/nm-dropdown-position.directive";
 import { NmDatePickerBodyComponent } from "./components/nm-date-picker-body/nm-date-picker-body.component";
 import { NmDatePickerThemeDirective } from "./directives/theme-change/nm-date-picker-theme.directive";
 import { NmDatePickerComponent } from "./components/nm-date-picker/nm-date-picker.component";
@@ -29,6 +30,7 @@ import { Unsubscribe } from "./components/unsubscribe/unsubscribe.component";
     NmDatePickerSelectorStateDirective,
     NmDatePickerDropdownSelectorComponent,
     NmDatePickerHighlighterDirective,
+    NmDropdownPositionDirective,
   ],
   imports: [CommonModule, BrowserAnimationsModule],
   exports: [NmDatePickerComponent, NmDatePickerThemeDirective],

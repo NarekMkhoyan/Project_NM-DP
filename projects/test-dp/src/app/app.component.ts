@@ -90,8 +90,8 @@ export class AppComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.customNmDatePicker.nmActionNotifierService.nmDropdownOpenEvent$.subscribe(() => console.log('open'));
-    this.customNmDatePicker.nmActionNotifierService.nmClearActionTriggered$.subscribe(() => console.log('clear'));
+    // this.customNmDatePicker.nmActionNotifierService.nmDropdownOpenEvent$.subscribe(() => console.log('open'));
+    // this.customNmDatePicker.nmActionNotifierService.nmClearActionTriggered$.subscribe(() => console.log('clear'));
     // this.customNmDatePicker.nmPublicApiService.nmDropdownCloseEvent$.subscribe(() => console.log('close'));
     // this.customNmDatePicker.nmPublicApiService.nmNextActionTriggered$.subscribe(() => console.log('next'));
     // this.customNmDatePicker.nmPublicApiService.nmPrevActionTriggered$.subscribe(() => console.log('prev'));
