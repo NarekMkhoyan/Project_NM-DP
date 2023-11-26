@@ -5,6 +5,9 @@
 
 nmDatePicker is a modern and highly customizable Angular date picker library with inclusive functionality.
 
+Supported by Angular versions 15+
+
+
 ### Table of content
 
 1. [Installation](#installation)
@@ -20,6 +23,34 @@ nmDatePicker is a modern and highly customizable Angular date picker library wit
 7. [License](#license)
 
 ### Installation {#installation}
+
+
+To install the library run the command in you angular application directory.
+
+```
+$ npm install ngx-nm-date-picker
+```
+
+To use the component in the template you should import the module first.
+
+```ts
+import { NgxNmDatePickerModule } from 'ngx-nm-date-picker';
+
+@NgModule({
+ ...
+  imports: [
+    ...
+    NgxNmDatePickerModule,
+  ],
+  ...
+})
+```
+And in the template:
+
+```html
+ <nm-date-picker></nm-date-picker>
+```
+
 
 ### API quick guide table {#api-quick-guide}
 
