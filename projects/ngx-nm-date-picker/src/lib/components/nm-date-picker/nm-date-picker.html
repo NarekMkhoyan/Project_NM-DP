@@ -3,6 +3,7 @@
   class="nm_date-picker"
   [class.width-100]="nmDisplayMethod === 'dropdown'"
   [class.nm_date-picker__disabled]="nmDisabled"
+  [dir]="'ltr'"
 >
   <div class="nm_date-picker__wrapper">
     <ng-container [ngSwitch]="nmDisplayMethod">
