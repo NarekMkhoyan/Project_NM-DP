@@ -31,6 +31,16 @@ To install the library run the command in you angular application directory.
 $ npm install ngx-nm-date-picker
 ```
 
+\* **IMPORTANT** Please install the version that is compatible with you application's angular version. Consult the table bellow.
+
+| Angular | nmDatePicker |
+| ----------- | ----------- |
+| v15 | 1.15.x |
+| v16 | 1.16.x |
+| v17 | 1.17.x |
+
+
+
 To use the component in the template you should import the module first.
 
 \* **IMPORTANT** You should also import Angular's BrowserAnimationsModule in you applications root module, to ensure that the component works correctly.
