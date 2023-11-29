@@ -126,12 +126,12 @@
     <div *ngSwitchCase="'en'">
       <span *ngIf="pickerModeLimitedBy === 'date'">{{ getMonthName(date) }}&nbsp;</span>
       <span *ngIf="pickerModeLimitedBy !== 'year'">{{ date | date : "dd" }},&nbsp;</span>
-      <span>{{ date | date : "YYYY" }}</span>
+      <span>{{ date | date : "yyyy" }}</span>
     </div>
     <div *ngSwitchDefault>
       <span *ngIf="pickerModeLimitedBy === 'date'">{{ date | date : "dd" }}&nbsp;</span>
       <span *ngIf="pickerModeLimitedBy !== 'year'">{{ getMonthName(date) }},&nbsp;</span>
-      <span>{{ date | date : "YYYY" }}</span>
+      <span>{{ date | date : "yyyy" }}</span>
     </div>
   </div>
 </ng-template>
