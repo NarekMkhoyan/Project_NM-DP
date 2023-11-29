@@ -50,7 +50,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/test-dp/browser",
+            "outputPath": "dist/test-dp",
             "index": "projects/test-dp/src/index.html",
             "main": "projects/test-dp/src/main.ts",
             "polyfills": [
@@ -130,61 +130,6 @@
             ],
             "scripts": []
           }
-        },
-        "server": {
-          "builder": "@angular-devkit/build-angular:server",
-          "options": {
-            "outputPath": "dist/test-dp/server",
-            "main": "projects/test-dp/server.ts",
-            "tsConfig": "projects/test-dp/tsconfig.server.json",
-            "inlineStyleLanguage": "scss"
-          },
-          "configurations": {
-            "production": {
-              "outputHashing": "media"
-            },
-            "development": {
-              "buildOptimizer": false,
-              "optimization": false,
-              "sourceMap": true,
-              "extractLicenses": false,
-              "vendorChunk": true
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "serve-ssr": {
-          "builder": "@angular-devkit/build-angular:ssr-dev-server",
-          "configurations": {
-            "development": {
-              "browserTarget": "test-dp:build:development",
-              "serverTarget": "test-dp:server:development"
-            },
-            "production": {
-              "browserTarget": "test-dp:build:production",
-              "serverTarget": "test-dp:server:production"
-            }
-          },
-          "defaultConfiguration": "development"
-        },
-        "prerender": {
-          "builder": "@angular-devkit/build-angular:prerender",
-          "options": {
-            "routes": [
-              "/"
-            ]
-          },
-          "configurations": {
-            "production": {
-              "browserTarget": "test-dp:build:production",
-              "serverTarget": "test-dp:server:production"
-            },
-            "development": {
-              "browserTarget": "test-dp:build:development",
-              "serverTarget": "test-dp:server:development"
-            }
-          },
-          "defaultConfiguration": "production"
         }
       }
     }

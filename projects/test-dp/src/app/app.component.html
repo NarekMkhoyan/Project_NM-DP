@@ -1,15 +1,13 @@
 <div class="wrap" #wrap>
-  <!-- <div class="small">
+  <!-- <div class="small"> -->
     <nm-date-picker
       [(ngModel)]="date3"
       [nmPickerMode]="'date'"
       [nmTheme]="'dark'"
-      [nmMultiDateSelect]="true"
       [nmDisplayMethod]="'dropdown'"
-      [nmSelectorDateFormat]="'dd'"
       (ngModelChange)="log($event)"
     ></nm-date-picker>
-  </div>
+ <!--  </div>
   <button (click)="clear()">Clear</button>
   <div class="test" style="width: 100%">
   <nm-date-picker
@@ -58,13 +56,13 @@
 
         <ng-template #nmCustomYearCellTpl let-year>
           <div class="custom-year" [class.custom-year__selected]="year.isSelected">
-            {{ year.date | date : "YYYY" }}
+            {{ year.date | date : "yyyy" }}
           </div>
         </ng-template>
 
         <ng-template #nmCustomSelectorTpl let-selectorDate>
           <div class="custom-selector">
-            <div class="year">{{ selectorDate | date : "YYYY" }}</div>
+            <div class="year">{{ selectorDate | date : "yyyy" }}</div>
             <div class="date">{{ selectorDate | date : "MMMM dd" }}</div>
           </div>
         </ng-template>
@@ -98,7 +96,7 @@
                 [disabled]="nmHeaderActions.yearAction.disabled"
                 (click)="nmHeaderActions.yearAction.onClick()"
               >
-                {{ nmHeaderActions.yearAction.pickerDisplayDate | date : "YYYY" }}
+                {{ nmHeaderActions.yearAction.pickerDisplayDate | date : "yyyy" }}
               </button>
             </div>
             <button
@@ -148,13 +146,13 @@
 
         <ng-template #nmCustomYearCellTpl let-year>
           <div class="custom-year" [class.custom-year__selected]="year.isSelected">
-            {{ year.date | date : "YYYY" }}
+            {{ year.date | date : "yyyy" }}
           </div>
         </ng-template>
 
         <ng-template #nmCustomSelectorTpl let-selectorDate>
           <div class="custom-selector">
-            <div class="year">{{ selectorDate | date : "YYYY" }}</div>
+            <div class="year">{{ selectorDate | date : "yyyy" }}</div>
             <div class="date">{{ selectorDate | date : "MMMM dd" }}</div>
           </div>
         </ng-template>
@@ -188,7 +186,7 @@
                 [disabled]="nmHeaderActions.yearAction.disabled"
                 (click)="nmHeaderActions.yearAction.onClick()"
               >
-                {{ nmHeaderActions.yearAction.pickerDisplayDate | date : "YYYY" }}
+                {{ nmHeaderActions.yearAction.pickerDisplayDate | date : "yyyy" }}
               </button>
             </div>
             <button
@@ -238,13 +236,13 @@
 
         <ng-template #nmCustomYearCellTpl let-year>
           <div class="custom-year" [class.custom-year__selected]="year.isSelected">
-            {{ year.date | date : "YYYY" }}
+            {{ year.date | date : "yyyy" }}
           </div>
         </ng-template>
 
         <ng-template #nmCustomSelectorTpl let-selectorDate>
           <div class="custom-selector">
-            <div class="year">{{ selectorDate | date : "YYYY" }}</div>
+            <div class="year">{{ selectorDate | date : "yyyy" }}</div>
             <div class="date">{{ selectorDate | date : "MMMM dd" }}</div>
           </div>
         </ng-template>
@@ -278,7 +276,7 @@
                 [disabled]="nmHeaderActions.yearAction.disabled"
                 (click)="nmHeaderActions.yearAction.onClick()"
               >
-                {{ nmHeaderActions.yearAction.pickerDisplayDate | date : "YYYY" }}
+                {{ nmHeaderActions.yearAction.pickerDisplayDate | date : "yyyy" }}
               </button>
             </div>
             <button
@@ -328,13 +326,13 @@
 
         <ng-template #nmCustomYearCellTpl let-year>
           <div class="custom-year" [class.custom-year__selected]="year.isSelected">
-            {{ year.date | date : "YYYY" }}
+            {{ year.date | date : "yyyy" }}
           </div>
         </ng-template>
 
         <ng-template #nmCustomSelectorTpl let-selectorDate>
           <div class="custom-selector">
-            <div class="year">{{ selectorDate | date : "YYYY" }}</div>
+            <div class="year">{{ selectorDate | date : "yyyy" }}</div>
             <div class="date">{{ selectorDate | date : "MMMM dd" }}</div>
           </div>
         </ng-template>
@@ -368,7 +366,7 @@
                 [disabled]="nmHeaderActions.yearAction.disabled"
                 (click)="nmHeaderActions.yearAction.onClick()"
               >
-                {{ nmHeaderActions.yearAction.pickerDisplayDate | date : "YYYY" }}
+                {{ nmHeaderActions.yearAction.pickerDisplayDate | date : "yyyy" }}
               </button>
             </div>
             <button
@@ -480,13 +478,13 @@
 
     <ng-template #nmCustomYearCellTpl let-year>
       <div class="custom-year" [class.custom-year__selected]="year.isSelected">
-        {{ year.date | date : "YYYY" }}
+        {{ year.date | date : "yyyy" }}
       </div>
     </ng-template>
 
     <ng-template #nmCustomSelectorTpl let-selectorDate>
       <div class="custom-selector">
-        <div class="year">{{ selectorDate | date : "YYYY" }}</div>
+        <div class="year">{{ selectorDate | date : "yyyy" }}</div>
         <div class="date">{{ selectorDate | date : "MMMM dd" }}</div>
       </div>
     </ng-template>
@@ -520,7 +518,7 @@
             [disabled]="nmHeaderActions.yearAction.disabled"
             (click)="nmHeaderActions.yearAction.onClick()"
           >
-            {{ nmHeaderActions.yearAction.pickerDisplayDate | date : "YYYY" }}
+            {{ nmHeaderActions.yearAction.pickerDisplayDate | date : "yyyy" }}
           </button>
         </div>
         <button
@@ -601,7 +599,7 @@
         <div class="date">
           <button class="calendar-text-btn">
             {{ nmCalendarHeaderActions.monthAction.pickerDisplayDate | date : "MMMM" }}&nbsp;
-            {{ nmCalendarHeaderActions.yearAction.pickerDisplayDate | date : "YYYY" }}
+            {{ nmCalendarHeaderActions.yearAction.pickerDisplayDate | date : "yyyy" }}
           </button>
         </div>
       </div>
