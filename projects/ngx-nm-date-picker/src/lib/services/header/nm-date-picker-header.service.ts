@@ -34,43 +34,41 @@ export class NmDatePickerHeaderService {
 
   private prevActionHandler: () => void = () => {
     const copy = new Date(this.stateService.displayDate);
-    let newDate: number;
     switch (this.mode) {
       case "date":
-        newDate = copy.setMonth(copy.getMonth() - 1);
+        copy.setMonth(copy.getMonth() - 1, 1);
         break;
       case "month":
-        newDate = copy.setFullYear(copy.getFullYear() - 1);
+        copy.setFullYear(copy.getFullYear() - 1, 0, 1);
         break;
       case "year":
-        newDate = copy.setFullYear(copy.getFullYear() - 10);
+        copy.setFullYear(copy.getFullYear() - 10, 0, 1);
         break;
     }
-    this.updateSelectedDate(newDate);
+    this.updateSelectedDate(copy);
     this.actionNotifierService.nmPrevActionTriggered$.next();
   };
 
   private nextActionHandler: () => void = () => {
     const copy = new Date(this.stateService.displayDate);
-    let newDate: number;
     switch (this.mode) {
       case "date":
-        newDate = copy.setMonth(copy.getMonth() + 1);
+        copy.setMonth(copy.getMonth() + 1, 1);
         break;
       case "month":
-        newDate = copy.setFullYear(copy.getFullYear() + 1);
+        copy.setFullYear(copy.getFullYear() + 1, 0, 1);
         break;
       case "year":
-        newDate = copy.setFullYear(copy.getFullYear() + 10);
+        copy.setFullYear(copy.getFullYear() + 10, 0, 1);
         break;
     }
-    this.updateSelectedDate(newDate);
+    this.updateSelectedDate(copy);
     this.actionNotifierService.nmNextActionTriggered$.next();
   };
 
-  private updateSelectedDate(newValue: number): void {
-    this.updateHeaderActionDisplayDates(new Date(newValue));
-    this.stateService.displayDate = new Date(newValue);
+  private updateSelectedDate(newValue: Date): void {
+    this.updateHeaderActionDisplayDates(newValue);
+    this.stateService.displayDate = newValue;
     this.stateService.updatePicker$.next();
   }
 

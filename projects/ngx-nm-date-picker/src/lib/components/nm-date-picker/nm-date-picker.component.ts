@@ -390,6 +390,15 @@ export class NmDatePickerComponent extends Unsubscribe implements ControlValueAc
   private onTouch: any = () => {};
 
   private processWriteValueDate(date: Date | [Date | null, Date | null] | Date[] | null): void {
+    if (!Array.isArray(date) && !(date instanceof Date) && date !== null) {
+      throw new Error(`
+        nmDatePicker doesn't support [(ngModel)] binding to type: ${typeof date}.
+        Supported types are:
+          * Default mode: Date | null,
+          * Range mode: [Date | null, Date | null],
+          * Multi-select mode: Date[]
+      `);
+    }
     let newDateValue: Date | [Date | null, Date | null] | Date[] | null = date;
     let displayDate: Date = new Date();
     if (Array.isArray(date)) {

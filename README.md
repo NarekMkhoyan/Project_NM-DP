@@ -634,7 +634,7 @@ Customizes the year cell in operation mode ‘year’. The template will be used
 ```html
   <ng-template #nmCustomYearCellTpl let-year>
     <div class="custom-year" [class.custom-year__selected]="year.isSelected">
-      {{ year.date | date : "YYYY" }}
+      {{ year.date | date : "yyyy" }}
     </div>
   </ng-template>
 ```
@@ -673,7 +673,7 @@ Customizes the header of the date picker. The template receives an object of [Nm
           [disabled]="nmHeaderActions.yearAction.disabled"
           (click)="nmHeaderActions.yearAction.onClick()"
         >
-          {{ nmHeaderActions.yearAction.pickerDisplayDate | date : "YYYY" }}
+          {{ nmHeaderActions.yearAction.pickerDisplayDate | date : "yyyy" }}
         </button>
       </div>
       <button
@@ -704,7 +704,7 @@ Customizes the selector of the date picker in 'dropdown' display mode. The templ
 ```html
   <ng-template #nmCustomSelectorTpl let-selectorDate>
     <div class="custom-selector">
-      <div class="year">{{ selectorDate | date : "YYYY" }}</div>
+      <div class="year">{{ selectorDate | date : "yyyy" }}</div>
       <div class="date">{{ selectorDate | date : "MMMM dd" }}</div>
     </div>
   </ng-template>
@@ -790,3 +790,7 @@ If you need to follow certain actions in the date picker, you can access the pub
 ### Licence {#license}
 
 <a href="https://github.com/NarekMkhoyan/Project_NM-DP/blob/main/LICENSE" target="_blank">MIT</a>
+
+### Special thanks to:
+
+🌟 **Angela Orujyan** for helping with manual testing
