@@ -1,6 +1,6 @@
 {
   "name": "ngx-nm-date-picker",
-  "version": "1.16.3",
+  "version": "1.16.4",
   "description": "nmDatePicker is a modern, customizable and complete date picker component library for Angular",
   "keywords": ["date", "picker", "datepicker", "angular", "custom"],
   "author": {
