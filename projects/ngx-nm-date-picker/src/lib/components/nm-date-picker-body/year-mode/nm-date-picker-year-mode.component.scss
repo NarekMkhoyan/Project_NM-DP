@@ -14,6 +14,10 @@
     justify-content: space-around;
 
     .year-mode_row__item-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
       .year-mode_row__item {
         font-size: 14px;
         margin: 13px 0px;
