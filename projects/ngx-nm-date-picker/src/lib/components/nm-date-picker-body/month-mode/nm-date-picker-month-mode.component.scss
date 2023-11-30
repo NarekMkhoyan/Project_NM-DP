@@ -11,6 +11,9 @@
     display: grid;
     grid-template-columns: calc(100% / 3) calc(100% / 3) calc(100% / 3);
     .month-mode_row__item-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       .month-mode_row__item {
         font-size: 14px;
         width: 70px;

@@ -6,9 +6,10 @@
     margin-bottom: 12px;
     &_row {
       width: 100%;
-      display: flex;
-      flex-direction: row;
-      justify-content: space-around;
+      display: grid;
+      grid-template-columns: calc(100% / 7) calc(100% / 7) calc(100% / 7) calc(100% / 7) calc(100% / 7) calc(100% / 7) calc(
+          100% / 7
+        );
       .date-mode-weekday {
         height: 24px;
         width: 24px;
@@ -113,6 +114,10 @@
 
 .date-mode-days_item,
 .date-mode-weekdays_item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   div:first-child {
     border: 0.5px solid transparent;
   }

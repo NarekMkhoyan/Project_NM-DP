@@ -1,5 +1,6 @@
 <div class="nm-date-picker_body-wrapper">
   <div
+    class="nm-date-picker_body-element"
     #datePickerBody
     [ngSwitch]="currentPickerMode$ | async"
     [@swipeLeft]="headerActions && headerActions.prevAction.clickObserver$ | async"
