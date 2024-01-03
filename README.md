@@ -34,8 +34,8 @@ $ npm install ngx-nm-date-picker
 | Angular | nmDatePicker |
 | ----------- | ----------- |
 | v15 | 1.15.x |
-| v16 | 1.16.x |
-| v17 | 1.17.x |
+| v16 | 2.16.x |
+| v17 | 3.17.x |
 
 
 To use the component in the template you should import the module first.
